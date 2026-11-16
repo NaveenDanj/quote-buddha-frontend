@@ -54,7 +54,7 @@ Stacks: reading `"IBM Plex Serif", "Noto Serif Sinhala", Georgia, serif`; UI `"I
 `--reading-scale`: 0.9 (small), 1 (medium), 1.15 (large), 1.3 (extra large). Applies to chat reading text and the Reader.
 
 ## Space and shape
-Space (4px base): `--space-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `-7` 48, `-8` 72. Radius `--radius` 2px (one value). Borders are 1px hairlines; selected and focus use 2px. Side gutters are at least 16px and respect safe-area insets.
+Space (4px base): `--spacing-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `-7` 48, `-8` 72 (named `--spacing-*` so Tailwind builds `p-4`, `gap-5` from them). Radius `--radius` 2px (one value). Borders are 1px hairlines; selected and focus use 2px. Side gutters are at least 16px and respect safe-area insets.
 
 ## Z-index scale
 `--z-rail` 20 · `--z-topbar` 30 · `--z-panel` 50 · `--z-dialog` 70 · `--z-menu` 80 · `--z-toast` 90.
@@ -69,7 +69,7 @@ Space (4px base): `--space-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `-7
 `--motion-fast` 120ms, `--motion-base` 180ms, ease. Drawers and panel slides use base. `prefers-reduced-motion` removes transitions and the streaming blink.
 
 ## Icons
-Line icons, stroke 1.6, round caps and joins, `currentColor`. Sizes `--icon-sm` 16, `--icon-md` 18, `--icon-lg` 20. Implemented with `lucide-react` behind the `Icon` atom. Mapping from the prototype:
+Line icons, stroke 1.6, round caps and joins, `currentColor`. Sizes `--icon-small` 16, `--icon-medium` 18, `--icon-large` 20. Implemented with `lucide-react` behind the `Icon` atom. Mapping from the prototype:
 close→`X`, copy→`Copy`, cite→`Quote`, regenerate→`RefreshCw`, save to notebook→`Bookmark`, notes→`NotebookPen`/`StickyNote`, evidence matrix→`Grid3x3`, source graph→`Network`, reader→`BookOpen`, search→`Search`, share→`Share2`, download→`Download`, link→`Link`, settings→`SlidersHorizontal`, menu→`Menu`, new→`Plus`, send→`ArrowUp`, stop→`Square`, attach→`Paperclip`, edit→`Pencil`, chevrons→`ChevronLeft/Right/Down`, helpful→`ThumbsUp`/`ThumbsDown`, report→`Flag`, more→`Ellipsis`, research panel→`PanelRight`, sections list→`PanelLeft`, compare→`Columns2`, terms→`Type`, verify→`ShieldCheck`, check document→`FileCheck`, AI→`Sparkles`, ask→`MessageSquare`, delete→`Trash2`, done→`Check`.
 Icon-only buttons need an `aria-label`. There are no tooltips.
 

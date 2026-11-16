@@ -10,9 +10,5 @@
 @import '@fontsource/ibm-plex-mono/400.css';
 @import '@fontsource/ibm-plex-mono/500.css';
 
-/*
-  Placeholder. Plan 02 (docs/plans/02-tokens-and-foundations.md) moves everything below into
-  src/design-system/tokens: primitives, semantic tokens, dark theme and the @theme mapping.
-*/
-@theme {
-}
+/* Design tokens: primitives, semantic tokens, dark theme, Tailwind theme mapping, global rules. */
+@import './design-system/tokens/tokens.css';

@@ -1,4 +1,4 @@
-// Fails when raw design values appear outside the token folder.
+// Fails when raw design values appear outside the token CSS files.
 // Colors, sizes and z-index numbers must come from tokens (see .claude/skills/design-tokens).
 // To allow one line on purpose, add the text "token-check-ignore" on that line.
 
@@ -6,7 +6,11 @@ import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 
 const sourceFolder = 'src'
-const tokenFolder = join('src', 'design-system', 'tokens')
+// Only the two token CSS files may hold raw values. The docs pages next to them are checked too.
+const tokenFiles = [
+  join('src', 'design-system', 'tokens', 'primitives.css'),
+  join('src', 'design-system', 'tokens', 'tokens.css'),
+]
 const checkedEndings = ['.ts', '.tsx', '.css', '.mdx']
 const skippedEndings = ['.test.ts', '.test.tsx', '.d.ts']
 
@@ -31,7 +35,7 @@ function listFiles(folder) {
 }
 
 function shouldCheck(path) {
-  if (path.startsWith(tokenFolder)) return false
+  if (tokenFiles.includes(path)) return false
   if (skippedEndings.some((ending) => path.endsWith(ending))) return false
   return checkedEndings.some((ending) => path.endsWith(ending))
 }
@@ -53,10 +57,12 @@ function findProblems(path) {
 const problems = listFiles(sourceFolder).filter(shouldCheck).flatMap(findProblems)
 
 if (problems.length > 0) {
-  console.error('Raw design values found outside src/design-system/tokens:\n')
+  console.error('Raw design values found outside the two token CSS files:\n')
   console.error(problems.join('\n'))
   console.error('\nUse a token instead (docs/references/brand.md).')
   process.exit(1)
 }
 
-console.log('Token check passed: no raw colors, sizes or z-index numbers outside the token folder.')
+console.log(
+  'Token check passed: no raw colors, sizes or z-index numbers outside the token CSS files.',
+)

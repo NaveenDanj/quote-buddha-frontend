@@ -1,0 +1,217 @@
+/*
+  Semantic tokens. Components use these names only (see docs/references/brand.md).
+  Tailwind's default palette, sizes, shadows and radii are switched off, so a class that
+  is not a token does not compile.
+  `static` keeps every variable in the output even when no class uses it (Storybook reads them).
+*/
+@import './primitives.css';
+
+@theme static {
+  /* Color */
+  --color-*: initial;
+  --color-page: var(--palette-white);
+  --color-surface-subtle: var(--palette-gray-050);
+  --color-text: var(--palette-gray-900);
+  --color-text-muted: var(--palette-gray-600);
+  --color-border: var(--palette-gray-200);
+  --color-accent: var(--palette-orange-700);
+  --color-danger: var(--palette-red-700);
+  --color-focus: var(--palette-blue-700);
+  --color-scrim: var(--palette-scrim);
+  --color-inverse-bg: var(--color-text);
+  --color-inverse-text: var(--color-page);
+
+  /* Font families */
+  --font-*: initial;
+  --font-reading: 'IBM Plex Serif', 'Noto Serif Sinhala', Georgia, serif;
+  --font-ui: 'IBM Plex Sans', 'Noto Sans Sinhala', system-ui, sans-serif;
+  --font-code: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+
+  /* Type sizes, each with its line height */
+  --text-*: initial;
+  --text-display: clamp(32px, 5.5vw, 46px);
+  --text-display--line-height: 1.15;
+  --text-heading-1: 34px;
+  --text-heading-1--line-height: 1.2;
+  --text-heading-2: 26px;
+  --text-heading-2--line-height: 1.2;
+  --text-heading-3: 21px;
+  --text-heading-3--line-height: 1.2;
+  --text-reading: calc(17px * var(--reading-scale));
+  --text-reading--line-height: 1.65;
+  --text-reading-large: calc(19px * var(--reading-scale));
+  --text-reading-large--line-height: 1.6;
+  --text-pali: calc(20px * var(--reading-scale));
+  --text-pali--line-height: 1.75;
+  --text-ui: 15px;
+  --text-ui--line-height: 1.6;
+  --text-label: 13px;
+  --text-label--line-height: 1.3;
+  --text-caption: 13px;
+  --text-caption--line-height: 1.5;
+  --text-code: 13px;
+  --text-code--line-height: 1.5;
+
+  /* Space: 4px base, named steps (not a multiplier) */
+  --spacing-*: initial;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 72px;
+
+  /* Shape: one radius, no shadows */
+  --radius-*: initial;
+  --radius: 2px;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+
+  /* Switch off the rest of Tailwind's defaults. Only these weights exist. */
+  --leading-*: initial;
+  --tracking-*: initial;
+  --container-*: initial;
+  --blur-*: initial;
+  --perspective-*: initial;
+  --aspect-*: initial;
+  --animate-*: initial;
+  --font-weight-*: initial;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Breakpoints (media queries cannot read variables, so these are literal) */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 760px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1100px;
+
+  /* Motion */
+  --ease-*: initial;
+  --ease-standard: ease;
+  --default-transition-duration: var(--motion-base);
+  --default-transition-timing-function: ease;
+}
+
+/*
+  Tokens that Tailwind has no theme key for. Plain variables on :root.
+*/
+:root {
+  color-scheme: light;
+
+  /* Reading size: set to 0.9, 1, 1.15 or 1.3 by the reading-size setting */
+  --reading-scale: 1;
+
+  /* Border widths */
+  --border-hairline: 1px;
+  --border-strong: 2px;
+
+  /* Layering */
+  --z-rail: 20;
+  --z-topbar: 30;
+  --z-panel: 50;
+  --z-dialog: 70;
+  --z-menu: 80;
+  --z-toast: 90;
+
+  /* Layout sizes */
+  --layout-rail: 252px;
+  --layout-topbar: 52px;
+  --layout-panel: 380px;
+  --layout-reader-side: 440px;
+  --layout-reader-outline: 220px;
+  --layout-chat-column: 920px;
+  --layout-dialog-small: 560px;
+  --layout-dialog-palette: 620px;
+  --layout-dialog-graph: 1280px;
+  --measure-reading: 62ch;
+  --measure-wide: 110ch;
+
+  /* Control heights */
+  --control-small: 28px;
+  --control-medium: 34px;
+  --control-send: 42px;
+
+  /* Icons */
+  --icon-small: 16px;
+  --icon-medium: 18px;
+  --icon-large: 20px;
+  --icon-stroke: 1.6;
+
+  /* Motion */
+  --motion-fast: 120ms;
+  --motion-base: 180ms;
+
+  /* Focus ring */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* Evidence glyph square */
+  --glyph-size: 10px;
+  --glyph-outline: 1.5px;
+
+  /* Evidence "not verified" hatch: 45 degree lines, 2px wide. Draws in the current text color. */
+  --pattern-hatch: repeating-linear-gradient(45deg, currentColor 0 2px, transparent 2px 4px);
+
+  /* Side gutter, never below 16px, grows with phone safe areas */
+  --gutter: max(16px, env(safe-area-inset-left));
+}
+
+/* Dark theme, following the system unless the page says light */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --color-page: var(--palette-black-100);
+    --color-surface-subtle: var(--palette-black-200);
+    --color-text: var(--palette-gray-100);
+    --color-text-muted: var(--palette-gray-400);
+    --color-border: var(--palette-black-300);
+    --color-accent: var(--palette-orange-300);
+    --color-danger: var(--palette-red-300);
+    --color-focus: var(--palette-blue-300);
+  }
+}
+
+/* Dark theme chosen by the person */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-page: var(--palette-black-100);
+  --color-surface-subtle: var(--palette-black-200);
+  --color-text: var(--palette-gray-100);
+  --color-text-muted: var(--palette-gray-400);
+  --color-border: var(--palette-black-300);
+  --color-accent: var(--palette-orange-300);
+  --color-danger: var(--palette-red-300);
+  --color-focus: var(--palette-blue-300);
+}
+
+/* Global rules */
+body {
+  background: var(--color-page);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,34 +1,66 @@
 import js from '@eslint/js'
-import {
-  defineConfig,
-  globalIgnores
-} from 'eslint/config'
+import { defineConfig, globalIgnores } from 'eslint/config'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-const layerRules = [{
+const layerRules = [
+  {
     files: ['src/design-system/**/*.{ts,tsx}'],
-    forbidden: ['@components/*', '@templates/*', '@pages/*', '@api/*', '@wording/*', '@domain/*'],
+    forbidden: [
+      '@components/*',
+      '@templates/*',
+      '@pages/*',
+      '@api/*',
+      '@wording/*',
+      '@domain/*',
+      '**/components/**',
+      '**/templates/**',
+      '**/pages/**',
+      '**/api/**',
+      '**/wording/**',
+      '**/domain/**',
+      'react-router*',
+      '@tanstack/*',
+      'msw*',
+    ],
     allowTypeImports: false,
-    reason: 'Design-system atoms may import tokens only. If it knows about passages or claims, move it to components/.',
+    reason:
+      'Design-system atoms may import tokens only. If it knows about passages or claims, move it to components/.',
   },
   {
     files: ['src/components/molecules/**/*.{ts,tsx}'],
-    forbidden: ['@components/organisms/*', '@templates/*', '@pages/*', '@api/*'],
+    forbidden: [
+      '@components/organisms/*',
+      '@templates/*',
+      '@pages/*',
+      '@api/*',
+      '**/organisms/**',
+      '**/templates/**',
+      '**/pages/**',
+      '**/api/**',
+    ],
     allowTypeImports: false,
     reason: 'Molecules may import atoms only. Types come from @domain, data from pages.',
   },
   {
     files: ['src/components/organisms/**/*.{ts,tsx}'],
-    forbidden: ['@templates/*', '@pages/*', '@api/*'],
+    forbidden: [
+      '@templates/*',
+      '@pages/*',
+      '@api/*',
+      '**/templates/**',
+      '**/pages/**',
+      '**/api/**',
+    ],
     allowTypeImports: false,
-    reason: 'Organisms may import molecules and atoms only. Types come from @domain, data from pages.',
+    reason:
+      'Organisms may import molecules and atoms only. Types come from @domain, data from pages.',
   },
   {
     files: ['src/templates/**/*.{ts,tsx}'],
-    forbidden: ['@pages/*', '@api/*'],
+    forbidden: ['@pages/*', '@api/*', '**/pages/**', '**/api/**'],
     allowTypeImports: false,
     reason: 'Templates may import organisms, molecules, and atoms only. Types come from @domain.',
   },
@@ -41,18 +73,35 @@ function makeLayerConfig(rule) {
       '@typescript-eslint/no-restricted-imports': [
         'error',
         {
-          patterns: [{
-            group: rule.forbidden,
-            message: rule.reason,
-            allowTypeImports: rule.allowTypeImports
-          }, ],
+          patterns: [
+            {
+              group: rule.forbidden,
+              message: rule.reason,
+              allowTypeImports: rule.allowTypeImports,
+            },
+          ],
         },
       ],
     },
   }
 }
 
-const crypticNames = ['e', 'evt', 'btn', 'el', 'ctx', 'cb', 'tmp', 'val', 'obj', 'arr', 'res', 'sec', 'i', 'j']
+const crypticNames = [
+  'e',
+  'evt',
+  'btn',
+  'el',
+  'ctx',
+  'cb',
+  'tmp',
+  'val',
+  'obj',
+  'arr',
+  'res',
+  'sec',
+  'i',
+  'j',
+]
 
 export default defineConfig([
   globalIgnores(['dist', 'storybook-static', 'coverage', 'node_modules', 'docs']),
@@ -63,24 +112,29 @@ export default defineConfig([
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      globals: globals.browser
+      globals: globals.browser,
     },
     rules: {
       'no-nested-ternary': 'error',
       'max-depth': ['error', 3],
       complexity: ['warn', 8],
-      'max-lines-per-function': ['warn', {
-        max: 60,
-        skipBlankLines: true,
-        skipComments: true
-      }],
+      'max-lines-per-function': [
+        'warn',
+        {
+          max: 60,
+          skipBlankLines: true,
+          skipComments: true,
+        },
+      ],
       'id-denylist': ['error', ...crypticNames],
+      // A scrollable region (a wide table) must be focusable so keyboard users can scroll it.
+      'jsx-a11y/no-noninteractive-tabindex': ['error', { roles: ['tabpanel', 'region'] }],
     },
   },
   {
     files: ['*.config.{js,ts}', 'scripts/**/*.mjs', '.storybook/**/*.{ts,tsx}'],
     languageOptions: {
-      globals: globals.node
+      globals: globals.node,
     },
   },
   ...layerRules.map(makeLayerConfig),

@@ -2,7 +2,7 @@
 
 The web app for Quote Buddha: a chat-first research workspace for the early Buddhist texts. The backend lives in a separate repo (`../quote-buddha`).
 
-Status: planning and setup are done; the project is not scaffolded yet. Next: `docs/plans/01-scaffold-and-storybook.md`.
+Status: scaffold (plan 01) and tokens with Foundations docs (plan 02) are done. Next: design-system atoms (plan 03).
 
 ## Install
 `npm install` (all packages are listed in `package.json`). Pinned on purpose: TypeScript 5 (`typescript-eslint` does not support 7 yet) and ESLint 9 (`eslint-plugin-jsx-a11y` does not support 10 yet).

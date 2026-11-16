@@ -1,0 +1,25 @@
+/*
+  Primitive palette: raw values only. Nothing outside tokens.css may use these.
+  Components use the semantic tokens (--color-text, --color-page, ...), never these.
+*/
+:root {
+  --palette-white: #ffffff;
+  --palette-gray-050: #f4f4f4;
+  --palette-gray-200: #dedede;
+  --palette-gray-600: #5e5e5e;
+  --palette-gray-900: #111111;
+  --palette-orange-700: #a8480a;
+  --palette-red-700: #b3261e;
+  --palette-blue-700: #1f5fd1;
+
+  --palette-black-100: #101010;
+  --palette-black-200: #1a1a1a;
+  --palette-black-300: #2e2e2e;
+  --palette-gray-400: #9c9c9c;
+  --palette-gray-100: #ececec;
+  --palette-orange-300: #e8964a;
+  --palette-red-300: #f2877e;
+  --palette-blue-300: #7fa8f5;
+
+  --palette-scrim: rgb(0 0 0 / 0.5);
+}

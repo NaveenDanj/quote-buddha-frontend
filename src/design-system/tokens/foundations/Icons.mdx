@@ -1,0 +1,20 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { IconMap } from './IconMap'
+import { TokenValueTable } from './TokenValueTable'
+
+<Meta title="Design System/Foundations/Icons" />
+
+# Icons
+
+Line icons from `lucide-react`, stroke 1.6, round caps, drawn in the current text color. Repeated actions use icons. An icon-only button needs an `aria-label`. There are no tooltips.
+
+<TokenValueTable
+  rows={[
+    { name: '--icon-small', use: 'Inside chips and tags' },
+    { name: '--icon-medium', use: 'Default' },
+    { name: '--icon-large', use: 'Toolbars' },
+    { name: '--icon-stroke', use: 'Line thickness' },
+  ]}
+/>
+
+<IconMap />

@@ -1,0 +1,12 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { ColorTable } from './ColorTable'
+
+<Meta title="Design System/Foundations/Colors" />
+
+# Colors
+
+Semantic tokens only. Components use these names, never the raw palette. Switch the Theme toolbar between System, Light and Dark: the values and contrast ratios below are read from the live CSS variables.
+
+Text pairs must reach 4.5:1 (WCAG AA). The border color is decorative, so it is not held to that. Controls use `--color-text-muted` for their boundary.
+
+<ColorTable />

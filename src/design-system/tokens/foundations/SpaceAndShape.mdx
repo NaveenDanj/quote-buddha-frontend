@@ -1,0 +1,25 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { TokenValueTable } from './TokenValueTable'
+
+<Meta title="Design System/Foundations/Space and shape" />
+
+# Space and shape
+
+A four-pixel base with named steps. One radius. Borders are one-pixel hairlines; selected and focus borders are two pixels. No shadows.
+
+<TokenValueTable
+  rows={[
+    { name: '--spacing-1', use: 'Tight gaps', preview: 'space' },
+    { name: '--spacing-2', use: 'Inside small controls', preview: 'space' },
+    { name: '--spacing-3', use: 'Between related items', preview: 'space' },
+    { name: '--spacing-4', use: 'Default gap, side gutters', preview: 'space' },
+    { name: '--spacing-5', use: 'Between sections', preview: 'space' },
+    { name: '--spacing-6', use: 'Large sections', preview: 'space' },
+    { name: '--spacing-7', use: 'Page blocks', preview: 'space' },
+    { name: '--spacing-8', use: 'Hero spacing', preview: 'space' },
+    { name: '--radius', use: 'The only corner radius', preview: 'radius' },
+    { name: '--border-hairline', use: 'Rules and dividers' },
+    { name: '--border-strong', use: 'Selected and focused' },
+    { name: '--gutter', use: 'Side padding, at least 16 pixels, grows with phone safe areas' },
+  ]}
+/>

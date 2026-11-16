@@ -1,0 +1,59 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { TokenValueTable } from './TokenValueTable'
+
+<Meta title="Design System/Foundations/Layout, layers and motion" />
+
+# Layout, layers and motion
+
+## Layering
+
+Named layers replace ad-hoc z-index numbers.
+
+<TokenValueTable
+  rows={[
+    { name: '--z-rail', use: 'Left rail' },
+    { name: '--z-topbar', use: 'Top bar' },
+    { name: '--z-panel', use: 'Research panel and drawers' },
+    { name: '--z-dialog', use: 'Dialogs' },
+    { name: '--z-menu', use: 'Menus and popovers' },
+    { name: '--z-toast', use: 'Toasts' },
+  ]}
+/>
+
+## Layout sizes
+
+<TokenValueTable
+  rows={[
+    { name: '--layout-rail', use: 'Left rail width' },
+    { name: '--layout-topbar', use: 'Top bar height' },
+    { name: '--layout-panel', use: 'Research panel width' },
+    { name: '--layout-reader-side', use: 'Reader side pane width' },
+    { name: '--layout-reader-outline', use: 'Reader outline width' },
+    { name: '--layout-chat-column', use: 'Chat column maximum width' },
+    { name: '--layout-dialog-small', use: 'Share, report and settings dialogs' },
+    { name: '--layout-dialog-palette', use: 'Command palette' },
+    { name: '--layout-dialog-graph', use: 'Source graph dialog' },
+    { name: '--measure-reading', use: 'Quote line length' },
+    { name: '--measure-wide', use: 'Reader row line length' },
+    { name: '--control-small', use: 'Small control height' },
+    { name: '--control-medium', use: 'Medium control height' },
+    { name: '--control-send', use: 'Composer send button' },
+  ]}
+/>
+
+## Breakpoints
+
+`sm` 760 pixels: stack everything. `md` 900 pixels: hide the Reader outline. `lg` 1100 pixels: side panes become drawers below this. Media queries cannot read variables, so these are written out in `tokens.css`.
+
+## Motion
+
+`prefers-reduced-motion` removes all transitions and the streaming blink.
+
+<TokenValueTable
+  rows={[
+    { name: '--motion-fast', use: 'Hover and press' },
+    { name: '--motion-base', use: 'Drawers and panel slides' },
+    { name: '--focus-ring-width', use: 'Focus ring thickness' },
+    { name: '--focus-ring-offset', use: 'Gap between element and ring' },
+  ]}
+/>
