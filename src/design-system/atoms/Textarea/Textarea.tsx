@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import { useId, type ComponentProps } from 'react'
-import { Field, getDescribedBy } from '../Field'
+import { Field, getDescribedBy } from '@ds/atoms/Field'
 
 type TextareaProps = Omit<ComponentProps<'textarea'>, 'id'> & {
   label: string

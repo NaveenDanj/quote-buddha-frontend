@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import type { ReactNode } from 'react'
-import { VisuallyHidden } from '../VisuallyHidden'
+import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
 
 type FieldProps = {
   // The id of the control inside. The label points at it.

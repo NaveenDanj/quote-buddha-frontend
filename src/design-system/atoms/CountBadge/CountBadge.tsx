@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { VisuallyHidden } from '../VisuallyHidden'
+import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
 
 type CountBadgeProps = {
   count: number

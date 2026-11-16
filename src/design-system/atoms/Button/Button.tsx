@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 import type { ButtonHTMLAttributes } from 'react'
-import { Icon, type IconName } from '../Icon'
+import { Icon, type IconName } from '@ds/atoms/Icon'
 
 type ButtonVariant = 'primary' | 'secondary' | 'text'
 type ButtonSize = 'medium' | 'small'

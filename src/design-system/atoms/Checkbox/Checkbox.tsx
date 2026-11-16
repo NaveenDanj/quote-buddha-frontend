@@ -1,7 +1,7 @@
 import * as RadixCheckbox from '@radix-ui/react-checkbox'
 import clsx from 'clsx'
 import { useId } from 'react'
-import { Icon } from '../Icon'
+import { Icon } from '@ds/atoms/Icon'
 
 type CheckboxProps = {
   label: string

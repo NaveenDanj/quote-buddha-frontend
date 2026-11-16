@@ -1,8 +1,8 @@
 import * as RadixSelect from '@radix-ui/react-select'
 import clsx from 'clsx'
 import { useId } from 'react'
-import { Field, getDescribedBy } from '../Field'
-import { Icon } from '../Icon'
+import { Field, getDescribedBy } from '@ds/atoms/Field'
+import { Icon } from '@ds/atoms/Icon'
 
 export type SelectOption = {
   value: string

@@ -1,4 +1,4 @@
-import { Icon, iconNames } from '../../atoms/Icon'
+import { Icon, iconNames } from '@ds/atoms/Icon'
 
 // Reads the list from the Icon atom, so this page cannot drift from the real icons.
 export function IconMap() {

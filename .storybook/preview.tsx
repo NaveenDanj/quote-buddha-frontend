@@ -1,7 +1,7 @@
 import type { Preview } from '@storybook/react-vite'
 import '../src/index.css'
 import { useEffect } from 'react'
-import { applyTheme, toThemeChoice } from '../src/design-system/tokens/theme'
+import { applyTheme, toThemeChoice } from '@ds/tokens/theme'
 
 const preview: Preview = {
   globalTypes: {

@@ -163,6 +163,9 @@
   /* Button side padding (the prototype uses 20, which is not a spacing step) */
   --button-padding-x: 20px;
 
+  /* A data table never gets narrower than this; below it the table scrolls sideways */
+  --table-min-width: 460px;
+
   /* Count badge size */
   --badge-size: 16px;
 

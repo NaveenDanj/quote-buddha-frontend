@@ -1,4 +1,4 @@
-import { Tag } from '../../atoms/Tag'
+import { Tag } from '@ds/atoms/Tag'
 
 // The three shapes from the Tag atom, with what each one means. The real evidence molecule comes later.
 export function EvidenceGlyphSamples() {

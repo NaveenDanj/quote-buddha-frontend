@@ -1,16 +1,12 @@
 import clsx from 'clsx'
 import type { ButtonHTMLAttributes } from 'react'
-import { Icon, type IconName } from '../Icon'
+import { Icon, type IconName } from '@ds/atoms/Icon'
 
 type ChipProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon?: IconName
-  // For a chip that turns something on or off. Leave out for a chip that just does something.
   isPressed?: boolean
 }
 
-// The boundary uses the muted text color (not the hairline color) so the chip meets 3:1 against the page.
-// In Windows high contrast mode colors are replaced, so a pressed chip gets a thicker border.
-// A disabled chip has a dashed outline: it means "not available" (for example, not yet in the corpus).
 export function Chip({
   icon,
   isPressed,
