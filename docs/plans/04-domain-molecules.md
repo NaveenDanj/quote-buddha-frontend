@@ -12,7 +12,7 @@ Build the 25 domain molecules in `src/components/molecules/`, plus the two thing
 - **Quote style belongs to one component.** Only `PassageQuote` uses the accent rule and reading serif. `SystemExplanation` and `SuggestionBlock` are visibly labelled system text and never look like a quotation.
 - **Gaps are written out.** A passage with no translator shows `translatorMissing`, never blank.
 - **Constants.** States and codes are `const` objects in `src/domain` (`EvidenceState`, `EvidenceShape`, `AnswerStatus`, `EvidenceLabel`, `AbstentionReason`, `AnswerDepth`, `MatchedBy`); molecules never compare against loose strings. Numbers have names with their unit. Skill: `simple-code-conventions`, "Constants".
-- Every molecule has a story (every evidence state, light and dark, phone width) and a test (behaviour by role; the state shows glyph and text; system text shows its label), plus `vitest-axe`. Each runs through `wording-auditor` at the review gates.
+- Every molecule has a story (every evidence state, light and dark, phone width) and no new test file (decision from the user after batch B). Behaviour is shown with a `play` function in the story where it matters, and the Storybook a11y addon checks accessibility. Each runs through `wording-auditor` at the review gates.
 
 ## 3. Reuse
 Atoms: `Tag`, `Chip`, `Link`, `Text`, `IconButton`, `Icon`, `FactList`, `Disclosure`, `Divider`, `Stamp`, `Meter`, `Menu`, `HoverCard`, `Popover`, `Select`, `SegmentedControl`, `Textarea`. Existing `Chip` aria-disabled work lands here (see 4, batch B).
@@ -50,3 +50,13 @@ Open items carried forward:
 - `FootnoteMarker` name "Source 2" vs visible "[2]": brackets are ignored by voice control, so it passes; recheck with a real screen reader.
 - Check the forced-colors look of `PassageQuote` and `GlyphSquare` once in Edge (code reading only so far).
 - Batch B done: SourceChip, ContextChip, FileChip, GlossChip, TermLink, Legend, CoverageStrip. New atom `RemovableChip` (label with a remove button, shared by ContextChip and FileChip). `Chip` can now be unavailable (`unavailableReason`): it uses `aria-disabled`, stays focusable and says the reason in words (closes the plan 03 open item). `SourceChip` and `CoverageStrip` are its first users. Reviewers run at the batch D gate.
+- Batch C done (stories only, no test files, by decision): ActionBar, FeedbackActions, VersionSwitcher, SectionStepper, SuggestionChips, StreamingSteps. New domain types `FeedbackChoice`, `StreamStepKind`, `StreamStep`; new wording keys for the button names (helpful, previous and next version and section, steps).
+- Batch D done (stories only): SelectionToolbar, NoteCard, SuggestionBlock, ChatRow, CommandItem. All 25 molecules are built. Reviewed by the three agents for batches B to D and fixed. Added: `--color-inverse-focus`, `--focus-ring-inset-offset` (inside focus rings are set through this variable because the global focus rule is unlayered and utility classes cannot override it), `IconButton` `look` prop (plain, solid, onInverse), `Chip` `canWrap`.
+
+Open items after the molecules:
+- **Small controls** are 28px (WCAG 2.2 allows 24px; the auditor's own rule says 32px). Decide: raise `--control-small` to 32px, or add `pointer-coarse:size-(--control-medium)` for touch.
+- **Safari and `list-none`:** removing bullets can drop list semantics in Safari. `eslint` forbids a redundant `role="list"`. Check with VoiceOver once, then decide on a fix.
+- **SelectionToolbar keyboard route:** the organism must make the toolbar reachable from a text selection (next in tab order or a shortcut).
+- **ChatRow and ListRow** repeat the row button classes. Share them if a third row appears.
+- **Batch B molecule tests** (SourceChip, ContextChip, FileChip, GlossChip, TermLink, Legend, CoverageStrip) exist from before the no-tests decision. Keep or delete.
+- **verifyDisclaimer** still hard-codes "(DN 1)".

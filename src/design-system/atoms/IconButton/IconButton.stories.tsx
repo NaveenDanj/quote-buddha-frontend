@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { iconNames } from '@ds/atoms/Icon'
-import { IconButton } from './IconButton'
+import { IconButton, IconButtonLook } from './IconButton'
 
 const meta = {
   title: 'Design System/Atoms/IconButton',
@@ -24,6 +24,17 @@ export const Pressed: Story = {
   args: { icon: 'evidenceMatrix', label: 'Evidence matrix', isPressed: true },
 }
 
-export const Solid: Story = { args: { icon: 'send', label: 'Send', isSolid: true } }
+export const Solid: Story = { args: { icon: 'send', label: 'Send', look: IconButtonLook.solid } }
+
+export const OnInverseSurface: Story = {
+  args: { look: IconButtonLook.onInverse },
+  decorators: [
+    (Story) => (
+      <div className="inline-block rounded bg-inverse-bg p-1">
+        <Story />
+      </div>
+    ),
+  ],
+}
 
 export const Disabled: Story = { args: { disabled: true } }

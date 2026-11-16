@@ -30,7 +30,7 @@ export function Menu({ trigger, items }: MenuProps) {
             <RadixMenu.Item
               key={item.label}
               onSelect={item.onSelect}
-              className="flex cursor-pointer items-center gap-3 px-3 py-2 font-ui text-ui text-text -outline-offset-2 data-[highlighted]:bg-surface-subtle"
+              className="flex cursor-pointer items-center gap-3 px-3 py-2 font-ui text-ui text-text [--focus-ring-offset:var(--focus-ring-inset-offset)] data-[highlighted]:bg-surface-subtle"
             >
               {item.icon ? <Icon name={item.icon} size="small" /> : null}
               {item.label}

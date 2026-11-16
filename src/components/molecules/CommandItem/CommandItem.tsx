@@ -1,0 +1,36 @@
+import clsx from 'clsx'
+import { Stamp } from '@ds/atoms/Stamp'
+
+type CommandItemProps = {
+  // The palette points at the highlighted item by this id (aria-activedescendant).
+  id: string
+  label: string
+  shortcut?: string
+  isHighlighted: boolean
+  onSelect: () => void
+}
+
+export function CommandItem({ id, label, shortcut, isHighlighted, onSelect }: CommandItemProps) {
+  return (
+    <li role="presentation" className="border-b border-border">
+      <button
+        id={id}
+        type="button"
+        role="option"
+        aria-selected={isHighlighted}
+        tabIndex={-1}
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={onSelect}
+        className={clsx(
+          'flex w-full cursor-pointer items-center justify-between gap-4 border-y-0 border-r-0 border-l-2 px-4 py-3 text-left font-ui text-ui text-text',
+          isHighlighted
+            ? 'border-l-text bg-surface-subtle forced-colors:outline'
+            : 'border-l-transparent bg-transparent',
+        )}
+      >
+        <span>{label}</span>
+        {shortcut ? <Stamp isKey>{shortcut}</Stamp> : null}
+      </button>
+    </li>
+  )
+}

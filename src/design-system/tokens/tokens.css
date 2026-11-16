@@ -14,6 +14,7 @@
   --color-scrim: var(--palette-scrim);
   --color-inverse-bg: var(--color-text);
   --color-inverse-text: var(--color-page);
+  --color-inverse-focus: var(--palette-blue-300);
 
   /* Font families */
   --font-*: initial;
@@ -166,6 +167,7 @@
   /* Focus ring */
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
+  --focus-ring-inset-offset: -2px;
 
   /* Button side padding (the prototype uses 20, which is not a spacing step) */
   --button-padding-x: 20px;
@@ -206,6 +208,7 @@
     --color-accent: var(--palette-orange-300);
     --color-danger: var(--palette-red-300);
     --color-focus: var(--palette-blue-300);
+    --color-inverse-focus: var(--palette-blue-700);
   }
 }
 
@@ -220,6 +223,7 @@
   --color-accent: var(--palette-orange-300);
   --color-danger: var(--palette-red-300);
   --color-focus: var(--palette-blue-300);
+  --color-inverse-focus: var(--palette-blue-700);
 }
 
 /* Global rules */

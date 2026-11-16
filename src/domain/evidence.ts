@@ -22,10 +22,12 @@ export type EvidenceShape = (typeof EvidenceShape)[keyof typeof EvidenceShape]
 export const evidenceStates: EvidenceState[] = Object.values(EvidenceState)
 
 export function getEvidenceStateFromLabel(label: EvidenceLabel): EvidenceState {
-  if (label === EvidenceLabel.direct) {
-    return EvidenceState.directQuote
+  switch (label) {
+    case EvidenceLabel.direct:
+      return EvidenceState.directQuote
+    case EvidenceLabel.unverified:
+      return EvidenceState.notVerified
   }
-  return EvidenceState.notVerified
 }
 
 export function getEvidenceShape(state: EvidenceState): EvidenceShape {

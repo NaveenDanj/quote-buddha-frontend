@@ -5,6 +5,9 @@ description: How to test components, hooks and pages in this project with Vitest
 
 # Component testing
 
+## Scope: what gets a test file
+Atoms, hooks and plain logic (domain, wording, api) get test files. Molecules, organisms, templates and pages get a story and no test file; where behaviour matters, a `play` function in the story proves it, and the Storybook a11y addon checks accessibility. Existing molecule tests may stay; do not write new ones for the layers above.
+
 Stack: Vitest, `@testing-library/react`, `@testing-library/user-event`, `jest-dom` matchers, MSW for the network, `vitest-axe` for accessibility smoke checks.
 
 ## Layout

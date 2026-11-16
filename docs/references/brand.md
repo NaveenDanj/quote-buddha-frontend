@@ -18,6 +18,7 @@ Source of truth for token values. Visual reference: `docs/prototypes/design-syst
 | `--color-scrim` | `rgb(0 0 0 / .5)` | same | behind dialogs |
 | `--color-inverse-bg` | = text | = text | toast, selection toolbar |
 | `--color-inverse-text` | = page | = page | text on inverse surfaces |
+| `--color-inverse-focus` | `#7FA8F5` | `#1F5FD1` | focus ring on inverse surfaces (about 7.6:1 light, 4.9:1 dark) |
 
 ### Measured contrast (WCAG)
 | Pair | Light | Dark |
@@ -65,7 +66,7 @@ Space (4px base): `--spacing-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `
 ## Breakpoints
 `sm` 760 (stack everything) · `md` 900 (hide Reader outline) · `lg` 1100 (side panes become drawers below this).
 
-Other sizes: `--button-padding-x` 20 (button side padding), `--badge-size` 16, `--dot-size` 7 (streaming dot), `--meter-height` 6, `--glyph-size` 10 with `--glyph-outline` 1.5, `--text-stamp` 12.
+Other sizes: `--button-padding-x` 20 (button side padding), `--badge-size` 16, `--dot-size` 7 (streaming dot), `--meter-height` 6, `--glyph-size` 10 with `--glyph-outline` 1.5, `--text-stamp` 12, `--coverage-square-size` 12, `--control-field` 42, `--menu-min-width` 220, `--opacity-disabled` 0.35, `--focus-ring-inset-offset` -2 (a focus ring drawn inside the element; set as a variable because utility classes cannot override the global focus rule).
 
 ## Motion
 `--motion-fast` 120ms, `--motion-base` 180ms, ease. Drawers and panel slides use base. `prefers-reduced-motion` removes transitions and the streaming blink.

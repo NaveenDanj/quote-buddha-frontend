@@ -27,7 +27,7 @@ Component inventory and status: `docs/references/components.md`.
 ## Rules
 - Imports go one way. ESLint `no-restricted-imports` enforces it. Never import a page from an organism, or an organism from an atom.
 - Organisms receive data and callbacks through props. They do not call `fetch` or query hooks. Pages (or page-level hooks in `src/pages/<page>/`) call `src/api` and pass data down.
-- One component per folder: `Button/Button.tsx`, `Button.stories.tsx`, `Button.test.tsx`, `index.ts`. Export from the layer's `index.ts`.
+- One component per folder: `Button/Button.tsx`, `Button.stories.tsx`, `index.ts`, and `Button.test.tsx` for atoms only (molecules, organisms, templates and pages have no test file). Export from the layer's `index.ts`.
 - Variants are props (`variant`, `size`), not copies. Before adding a variant, check the prototype actually uses it.
 - Compose before you create. Search `src/` for something that already does the job.
 - Simple plain-English names, no abbreviations, no vague words like `Wrapper`, `Container`, `Item`, `Manager`: `SectionStepper`, `VersionSwitcher`, `StreamingSteps`. Rules and examples: `simple-code-conventions`.

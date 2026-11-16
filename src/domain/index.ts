@@ -16,3 +16,6 @@ export {
   getEvidenceStateFromLabel,
 } from './evidence'
 export { TextLanguage } from './language'
+export { FeedbackChoice } from './feedback'
+export { StreamStepKind } from './stream'
+export type { StreamStep } from './stream'

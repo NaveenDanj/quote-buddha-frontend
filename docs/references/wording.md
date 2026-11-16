@@ -32,9 +32,21 @@ All fixed copy about answers, evidence and abstention comes from `src/wording` (
 | `notYetIncluded` | not yet included |
 | `notYetIncludedTag` | Not yet included |
 | `sourceLabel` | Source |
+| `helpfulLabel` / `notHelpfulLabel` | Helpful / Not helpful |
+| `previousVersionLabel` / `nextVersionLabel` | Previous version / Next version |
+| `previousSectionLabel` / `nextSectionLabel` | Previous section / Next section |
+| `stepsLabel` | Steps so far |
+| `feedbackLabel` | Rate this answer |
+| `versionsLabel` / `sectionsLabel` | Question versions / Section |
+| `copyAnswerLabel`, `askAgainLabel`, `saveToNotebookLabel`, `shareLabel` | Copy answer, Ask again, Save to notebook, Share |
+| `addNoteLabel`, `clarifyLabel`, `askAboutThisLabel`, `copyCitationLabel` | Add a note, Clarify the meaning, Ask about this, Copy citation |
+| `removeContextLabel`, `evidenceKeyLabel`, `answerActionsLabel`, `selectedTextLabel`, `exampleQuestionsLabel` | Remove context, Evidence key, Answer actions, Selected text, Example questions |
+
+System-written text (notes, suggestions, clarifications) uses the hatched square, the same shape as "Not verified". This is deliberate: both mean "not checked against the texts".
+| `useSuggestionLabel` / `discardSuggestionLabel` | Use suggestion / Discard |
 | `translatorMissing` | Translator: not recorded in source |
 | `parallelsNotChecked` | Parallel text: not checked yet |
-| `systemLabel` | Written by the system. Check it against the passage. |
+| `systemLabel` | Written by the system, not a quotation. Check it against the passage. |
 | `suggestionLabel` | Suggested by the system |
 | `aiEnhancedTag` | AI-enhanced |
 | `originalNote` | Your original |

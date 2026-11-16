@@ -12,7 +12,7 @@ Read `CLAUDE.md`, the plan, the skill `simple-code-conventions` (always), and th
 ## Rules
 1. Follow the layer order: tokens, atoms, molecules, organisms, templates, pages. Never import against that direction.
 2. Tokens only. No hex colors, raw `px`/`rem`, or `z-index` numbers outside `src/design-system/tokens`. Add a token first if one is missing, and record it in `docs/references/brand.md`.
-3. Every component gets a story (all states, light and dark) and a test. Port interaction behaviour with Testing Library; use MSW for network.
+3. Every component gets a story (all states, light and dark). Only atoms, hooks and plain logic get a test file (Testing Library; MSW for network); molecules, organisms, templates and pages get none. When behaviour matters in those layers, prove it with a `play` function in the story.
 4. Icon actions use `IconButton` with an `aria-label`. No tooltips. Never carry state by color alone.
 5. Anything system-written is labelled as such. Copy for answers, evidence and abstention comes from `src/wording`, never inline.
 6. **KISS over clever.** Write plain, explicit code: early returns, small named functions, a simple loop or one simple `map`. No nested ternaries, no long chains, no one-line tricks. If a line makes you pause to decode it, split it.

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { EvidenceState, evidenceStates } from '@domain'
+import { wording } from '@wording'
 import { Legend } from './Legend'
 
 const meta = {
@@ -7,7 +8,7 @@ const meta = {
   component: Legend,
   tags: ['autodocs'],
   args: {
-    label: 'Evidence key',
+    label: wording.evidenceKeyLabel,
     states: [EvidenceState.directQuote, EvidenceState.notVerified, EvidenceState.notUsed],
   },
 } satisfies Meta<typeof Legend>

@@ -1,11 +1,5 @@
 import { EvidenceState } from '@domain'
 
-// All fixed copy about answers, evidence and abstention. Reference: docs/references/wording.md.
-// Rules: never "the Buddha said" for unverified or system-written text. "Not found" always says
-// "in the included corpus (or texts)". Abstention is never red and never an apology.
-
-// This group is copied from the backend (../quote-buddha/src/quote_buddha/answering/wording.py).
-// A test checks it against that file, so do not edit it here without changing the backend first.
 const fromBackend = {
   abstentionText: 'The early texts included in this database do not establish this.',
   abstentionScope:
@@ -29,7 +23,6 @@ const fromBackend = {
     'Buddha did not teach it)',
 }
 
-// Added by the frontend, as shown in the approved prototype.
 const fromFrontend = {
   foundTag: 'Found in the included texts',
   notEstablishedTag: 'Not established',
@@ -43,9 +36,34 @@ const fromFrontend = {
   notYetIncluded: 'not yet included',
   notYetIncludedTag: 'Not yet included',
   sourceLabel: 'Source',
+  helpfulLabel: 'Helpful',
+  notHelpfulLabel: 'Not helpful',
+  previousVersionLabel: 'Previous version',
+  nextVersionLabel: 'Next version',
+  previousSectionLabel: 'Previous section',
+  nextSectionLabel: 'Next section',
+  stepsLabel: 'Steps so far',
+  feedbackLabel: 'Rate this answer',
+  versionsLabel: 'Question versions',
+  sectionsLabel: 'Section',
+  copyAnswerLabel: 'Copy answer',
+  askAgainLabel: 'Ask again',
+  saveToNotebookLabel: 'Save to notebook',
+  shareLabel: 'Share',
+  addNoteLabel: 'Add a note',
+  clarifyLabel: 'Clarify the meaning',
+  askAboutThisLabel: 'Ask about this',
+  copyCitationLabel: 'Copy citation',
+  removeContextLabel: 'Remove context',
+  evidenceKeyLabel: 'Evidence key',
+  answerActionsLabel: 'Answer actions',
+  selectedTextLabel: 'Selected text',
+  exampleQuestionsLabel: 'Example questions',
+  useSuggestionLabel: 'Use suggestion',
+  discardSuggestionLabel: 'Discard',
   translatorMissing: 'Translator: not recorded in source',
   parallelsNotChecked: 'Parallel text: not checked yet',
-  systemLabel: 'Written by the system. Check it against the passage.',
+  systemLabel: 'Written by the system, not a quotation. Check it against the passage.',
   suggestionLabel: 'Suggested by the system',
   aiEnhancedTag: 'AI-enhanced',
   originalNote: 'Your original',
@@ -65,6 +83,14 @@ const fromFrontend = {
 export const wording = { ...fromBackend, ...fromFrontend }
 
 export type Wording = typeof wording
+
+export function versionPositionText(currentVersion: number, versionCount: number): string {
+  return `Version ${currentVersion} of ${versionCount}`
+}
+
+export function sectionPositionText(sectionNumber: number, sectionCount: number): string {
+  return `Section ${sectionNumber} of ${sectionCount}`
+}
 
 export function attributedToBuddhaIn(workRef: string): string {
   return `attributed to the Buddha in ${workRef}`

@@ -11,7 +11,7 @@ describe('TermLink', () => {
         views
       </TermLink>,
     )
-    expect(screen.getByRole('link', { name: 'views' })).toHaveAttribute('href', '/terms/ditthi')
+    expect(screen.getByRole('link', { name: /views/ })).toHaveAttribute('href', '/terms/ditthi')
   })
 
   it('shows the Pali word and its gloss when it gets keyboard focus', async () => {

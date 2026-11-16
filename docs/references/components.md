@@ -1,6 +1,6 @@
 # Component inventory
 
-Every component has a story and a test. Status: `planned` until built. Visual reference for each: `docs/prototypes/workspace.html` (or `design-system.html`). Layer rules: skill `atomic-design-conventions`.
+Every component has a story. Only atoms (and hooks and plain logic) have a test file. Status: `planned` until built. Visual reference for each: `docs/prototypes/workspace.html` (or `design-system.html`). Layer rules: skill `atomic-design-conventions`.
 
 ## Design system atoms (`src/design-system/atoms/`, domain-neutral, 32)
 | Component | Responsibility |

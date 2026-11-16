@@ -1,5 +1,6 @@
 import type { MouseEvent, ReactNode } from 'react'
 import { HoverCard } from '@ds/atoms/HoverCard'
+import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
 import { TextLanguage } from '@domain'
 
 type TermLinkProps = {
@@ -30,6 +31,7 @@ export function TermLink({ pali, gloss, href, onOpen, children }: TermLinkProps)
           className="border-b border-dotted border-text-muted text-inherit no-underline hover:border-accent hover:text-accent"
         >
           {children}
+          <VisuallyHidden>{`, ${gloss}`}</VisuallyHidden>
         </a>
       }
     >
