@@ -65,6 +65,15 @@ System-written text (notes, suggestions, clarifications) uses the hatched square
 | Key | Text |
 |---|---|
 | `productName` | Quote Buddha |
+| `researchPanelLabel`, `researchTabsLabel`, `closePanelLabel`, `graphDetailsLabel` | Research panel, Research tabs, Close research panel, Details |
+| `graphShowingText(name)` | Showing: Passage: Sample work · 44.5 |
+| `evidenceTabLabel`, `termsTabLabel`, `notesTabLabel`, `noTermsText` | Evidence, Terms, Notes, No terms in this answer. |
+| `graphClaimLabel`, `graphPassageLabel`, `graphTextLabel` | Claim, Passage, Text |
+| `graphHintText`, `graphListLabel` | Choose a box in the graph to see its details., Source graph as a list |
+| `editionLabel`, `translatorLabel`, `checksumLabel`, `locationLabel`, `matchLabel` | Edition, Translator, Checksum, Location, Match |
+| `notRecordedInSource` | Not recorded in source |
+| `matchedByText` | Exact words / Similar meaning |
+| `removedClaimsText(n)`, `graphRelationText(a, b, state)` | 1 claim removed because the quote could not be found in the texts. / Claim to DN 1 · 44.5: Direct quote |
 | `youLabel` | You |
 | `sourceUnavailableText` | This source could not be loaded. |
 | `browseIncludedLabel` | Browse included texts |

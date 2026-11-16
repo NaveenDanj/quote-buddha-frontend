@@ -68,3 +68,12 @@ Open after step B:
 - **Control size** 28px vs the 32px rule is still undecided.
 - **Inline edit** of a user message is not built (the button calls `onEdit`; the page decides).
 - **Hero and `SourceChip` names** (a tool card's name runs title and description together; give the description `aria-describedby`).
+- Step C done and reviewed (a11y, design-system): SourceDetails, EvidenceMatrix, StarGraph, SourceGraphDialog, ResearchPanel. Domain: `layoutSourceGraph` (four columns, tested), `GraphNode` as a union by kind, `getMatrixCellState` (written by the author, tests pin it). `DataTable` has a `rowHeaderKey`. New tokens: `--layout-graph-height`, `--border-selected`.
+- Deliberate differences from the prototype: no column headers above the graph (each box carries its kind label and its evidence state in words and shape); the legend shows evidence tags, not line samples.
+
+Open after step C:
+- **Matrix first column** is not sticky and has no minimum width; on a phone the claim text scrolls away with the table.
+- **Sources tab numbers:** the list shows no numbers, while the matrix headers say "1 · DN 1".
+- **Dialog fixed height** (`--layout-graph-height`) can nest a scroll with the overlay on short landscape screens.
+- **Line legend:** the graph's line styles (solid, dashed, dotted) are not shown in the key.
+- **Control size 28px vs 32px** is still undecided (close buttons, chips).

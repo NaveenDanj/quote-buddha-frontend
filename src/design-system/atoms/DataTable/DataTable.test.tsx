@@ -36,6 +36,19 @@ describe('DataTable', () => {
     ).toEqual(['Sample claim two', 'Not verified'])
   })
 
+  it('names each row when a row header column is given', () => {
+    render(
+      <DataTable
+        caption="Evidence"
+        columns={sampleColumns}
+        rows={sampleRows}
+        rowHeaderKey="claim"
+      />,
+    )
+    expect(screen.getByRole('rowheader', { name: 'Sample claim one' })).toBeInTheDocument()
+    expect(screen.getByRole('rowheader', { name: 'Sample claim two' })).toBeInTheDocument()
+  })
+
   it('has a scroll area that the keyboard can reach', () => {
     render(<DataTable caption="Evidence" columns={sampleColumns} rows={sampleRows} />)
     expect(screen.getByRole('region', { name: 'Evidence' })).toHaveAttribute('tabindex', '0')

@@ -1,4 +1,4 @@
-import { AbstentionReason, EvidenceState } from '@domain'
+import { AbstentionReason, EvidenceState, MatchedBy } from '@domain'
 
 const fromBackend = {
   abstentionText: 'The early texts included in this database do not establish this.',
@@ -45,6 +45,25 @@ const fromFrontend = {
   stepsLabel: 'Steps so far',
   askFailedText: 'Something went wrong while answering. Please try again.',
   productName: 'Quote Buddha',
+  researchPanelLabel: 'Research panel',
+  researchTabsLabel: 'Research tabs',
+  graphDetailsLabel: 'Details',
+  closePanelLabel: 'Close research panel',
+  evidenceTabLabel: 'Evidence',
+  termsTabLabel: 'Terms',
+  notesTabLabel: 'Notes',
+  noTermsText: 'No terms in this answer.',
+  graphClaimLabel: 'Claim',
+  graphPassageLabel: 'Passage',
+  graphTextLabel: 'Text',
+  graphHintText: 'Choose a box in the graph to see its details.',
+  graphListLabel: 'Source graph as a list',
+  editionLabel: 'Edition',
+  translatorLabel: 'Translator',
+  checksumLabel: 'Checksum',
+  locationLabel: 'Location',
+  matchLabel: 'Match',
+  notRecordedInSource: 'Not recorded in source',
   youLabel: 'You',
   sourceUnavailableText: 'This source could not be loaded.',
   browseIncludedLabel: 'Browse included texts',
@@ -149,6 +168,23 @@ export const abstentionReasonText: Record<AbstentionReason, string> = {
   [AbstentionReason.weakEvidence]: 'No passage matched closely enough.',
   [AbstentionReason.notEnoughVerifiedClaims]:
     'Claims were drafted, but too few passed the check against the texts.',
+}
+
+export const matchedByText: Record<MatchedBy, string> = {
+  [MatchedBy.words]: 'Exact words',
+  [MatchedBy.similarText]: 'Similar meaning',
+}
+
+export function removedClaimsText(removedCount: number): string {
+  return `${pluralize(removedCount, 'claim', 'claims')} removed because the quote could not be found in the included texts.`
+}
+
+export function graphShowingText(nodeName: string): string {
+  return `Showing: ${nodeName}`
+}
+
+export function graphRelationText(fromLabel: string, toLabel: string, stateText: string): string {
+  return `${fromLabel} to ${toLabel}: ${stateText}`
 }
 
 export function answerToText(question: string): string {

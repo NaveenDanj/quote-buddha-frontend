@@ -14,9 +14,13 @@ type DataTableProps = {
   caption: string
   columns: DataTableColumn[]
   rows: DataTableRow[]
+  // The column that names each row. Its cells become row headers, so a screen reader can say which row a cell is in.
+  rowHeaderKey?: string
 }
 
-export function DataTable({ caption, columns, rows }: DataTableProps) {
+const cellClass = 'border-b border-border py-2 pr-3 align-top text-text'
+
+export function DataTable({ caption, columns, rows, rowHeaderKey }: DataTableProps) {
   return (
     <div className="overflow-x-auto" role="region" aria-label={caption} tabIndex={0}>
       <table className="w-full min-w-(--table-min-width) border-collapse text-left font-ui text-caption tabular-nums">
@@ -37,14 +41,17 @@ export function DataTable({ caption, columns, rows }: DataTableProps) {
         <tbody>
           {rows.map((row) => (
             <tr key={row.id}>
-              {columns.map((column) => (
-                <td
-                  key={column.key}
-                  className="border-b border-border py-2 pr-3 align-top text-text"
-                >
-                  {row.cells[column.key]}
-                </td>
-              ))}
+              {columns.map((column) =>
+                column.key === rowHeaderKey ? (
+                  <th key={column.key} scope="row" className={`${cellClass} text-left font-normal`}>
+                    {row.cells[column.key]}
+                  </th>
+                ) : (
+                  <td key={column.key} className={cellClass}>
+                    {row.cells[column.key]}
+                  </td>
+                ),
+              )}
             </tr>
           ))}
         </tbody>

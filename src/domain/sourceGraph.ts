@@ -11,12 +11,18 @@ export const GraphNodeKind = {
 } as const
 export type GraphNodeKind = (typeof GraphNodeKind)[keyof typeof GraphNodeKind]
 
-export type GraphNode = {
+type GraphNodeBase = {
   id: string
-  kind: GraphNodeKind
   label: string
-  count?: number
 }
+
+// Each kind of box carries what it points at, so nothing has to be guessed later.
+export type GraphNode =
+  | (GraphNodeBase & { kind: typeof GraphNodeKind.answer })
+  | (GraphNodeBase & { kind: typeof GraphNodeKind.claim; claimPosition: number })
+  | (GraphNodeBase & { kind: typeof GraphNodeKind.citation; citationId: string })
+  | (GraphNodeBase & { kind: typeof GraphNodeKind.text })
+  | (GraphNodeBase & { kind: typeof GraphNodeKind.removed; count: number })
 
 export type GraphEdge = {
   from: string
@@ -53,7 +59,12 @@ function getStrongerState(first: EvidenceState, second: EvidenceState): Evidence
 
 function addClaims(answer: Answer, graph: SourceGraph) {
   for (const [position, claim] of answer.claims.entries()) {
-    graph.nodes.push({ id: getClaimNodeId(position), kind: GraphNodeKind.claim, label: claim.text })
+    graph.nodes.push({
+      id: getClaimNodeId(position),
+      kind: GraphNodeKind.claim,
+      label: claim.text,
+      claimPosition: position,
+    })
     graph.edges.push({
       from: answerNodeId,
       to: getClaimNodeId(position),
@@ -93,6 +104,7 @@ function addPassagesAndTexts(answer: Answer, graph: SourceGraph) {
       id: getCitationNodeId(source),
       kind: GraphNodeKind.citation,
       label: source.citationId,
+      citationId: source.citationId,
     })
     graph.edges.push({
       from: getCitationNodeId(source),

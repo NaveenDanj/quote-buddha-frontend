@@ -55,7 +55,7 @@ Stacks: reading `"IBM Plex Serif", "Noto Serif Sinhala", Georgia, serif`; UI `"I
 `--reading-scale`: 0.9 (small), 1 (medium), 1.15 (large), 1.3 (extra large). Applies to chat reading text and the Reader.
 
 ## Space and shape
-Space (4px base): `--spacing-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `-7` 48, `-8` 72 (named `--spacing-*` so Tailwind builds `p-4`, `gap-5` from them). Radius `--radius` 2px (one value). Borders are 1px hairlines; selected and focus use 2px. Side gutters are at least 16px and respect safe-area insets.
+Space (4px base): `--spacing-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `-7` 48, `-8` 72 (named `--spacing-*` so Tailwind builds `p-4`, `gap-5` from them). Radius `--radius` 2px (one value). Borders are 1px hairlines; strong borders are 2px; a selected graph box is 3px (`--border-selected`). Side gutters are at least 16px and respect safe-area insets.
 
 ## Z-index scale
 `--z-rail` 20 · `--z-topbar` 30 · `--z-panel` 50 · `--z-dialog` 70 · `--z-menu` 80 · `--z-toast` 90.
@@ -66,7 +66,7 @@ Space (4px base): `--spacing-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `
 ## Breakpoints
 `sm` 760 (stack everything) · `md` 900 (hide Reader outline) · `lg` 1100 (side panes become drawers below this).
 
-Other sizes: `--button-padding-x` 20 (button side padding), `--badge-size` 16, `--dot-size` 7 (streaming dot), `--meter-height` 6, `--glyph-size` 10 with `--glyph-outline` 1.5, `--text-stamp` 12, `--coverage-square-size` 12, `--control-field` 42, `--layout-tool-card` 160 (smallest tool card on the new chat page), `--layout-hero-column` 860, `--layout-composer` 760, `--layout-message-user` min(560, 88%), `--menu-min-width` 220, `--opacity-disabled` 0.35, `--focus-ring-inset-offset` -2 (a focus ring drawn inside the element; set as a variable because utility classes cannot override the global focus rule).
+Other sizes: `--button-padding-x` 20 (button side padding), `--badge-size` 16, `--dot-size` 7 (streaming dot), `--meter-height` 6, `--glyph-size` 10 with `--glyph-outline` 1.5, `--text-stamp` 12, `--coverage-square-size` 12, `--control-field` 42, `--layout-tool-card` 160 (smallest tool card on the new chat page), `--layout-hero-column` 860, `--layout-graph-height` 520 (source graph dialog body), `--layout-composer` 760, `--layout-message-user` min(560, 88%), `--menu-min-width` 220, `--opacity-disabled` 0.35, `--focus-ring-inset-offset` -2 (a focus ring drawn inside the element; set as a variable because utility classes cannot override the global focus rule).
 
 ## Motion
 `--motion-fast` 120ms, `--motion-base` 180ms, ease. Drawers and panel slides use base. `prefers-reduced-motion` removes transitions and the streaming blink.

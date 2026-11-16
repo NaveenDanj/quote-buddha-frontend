@@ -30,7 +30,7 @@ describe('deriveSourceGraph', () => {
   it('shows a removed claim as one dashed node, never as an answer', () => {
     const { nodes, edges } = deriveSourceGraph(answeredQuickAnswer)
     const removedNode = nodes.find((node) => node.id === removedNodeId)
-    expect(removedNode?.count).toBe(1)
+    expect(removedNode?.kind === GraphNodeKind.removed && removedNode.count).toBe(1)
     expect(edges.find((edge) => edge.to === removedNodeId)?.state).toBe(EvidenceState.removed)
   })
 

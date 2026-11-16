@@ -7,7 +7,7 @@ export type EvidenceMatrixRow = {
   states: EvidenceState[]
 }
 
-export type EvidenceMatrix = {
+export type EvidenceMatrixTable = {
   columns: AnswerSource[]
   rows: EvidenceMatrixRow[]
   removedCount: number
@@ -26,7 +26,7 @@ export function getMatrixCellState(claim: VerifiedClaim, source: AnswerSource): 
   return EvidenceState.notVerified
 }
 
-export function deriveEvidenceMatrix(answer: Answer): EvidenceMatrix {
+export function deriveEvidenceMatrix(answer: Answer): EvidenceMatrixTable {
   const rows = answer.claims.map((claim) => ({
     claim,
     states: answer.sources.map((source) => getMatrixCellState(claim, source)),

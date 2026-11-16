@@ -120,6 +120,7 @@
   /* Border widths */
   --border-hairline: 1px;
   --border-strong: 2px;
+  --border-selected: 3px;
 
   /* Layering */
   --z-rail: 20;
@@ -138,6 +139,7 @@
   --layout-chat-column: 920px;
   --layout-tool-card: 160px;
   --layout-hero-column: 860px;
+  --layout-graph-height: 520px;
   --layout-composer: 760px;
   --layout-message-user: min(var(--layout-dialog-small), 88%);
   --layout-dialog-small: 560px;
