@@ -11,7 +11,7 @@ Both live in the session scratchpad and will be copied into the new repo as the 
 
 ## Decisions already made
 - **Repo:** new, separate: `C:\projects\side projects\quote-buddha-project\quote-buddha-frontend` (own `git init`; sibling of the backend repo).
-- **Stack:** React 19 + Vite + TypeScript (strict), Tailwind v4 `@theme` over CSS variables, Storybook 9, Vitest + Testing Library + MSW, TanStack Query, React Router. **Radix primitives** (unstyled) for Dialog, Menu, Popover, HoverCard, Tabs, Select, Toast so focus-trapping and keyboard handling aren't hand-rolled. **lucide-react** wrapped by one `Icon` atom (replaces the prototype's hand-drawn sprite; same line style, stroke 1.6).
+- **Stack:** React 19 + Vite + TypeScript (strict), Tailwind v4 `@theme` over CSS variables, Storybook 10, Vitest + Testing Library + MSW, TanStack Query, React Router. **Radix primitives** (unstyled) for Dialog, Menu, Popover, HoverCard, Tabs, Select, Toast so focus-trapping and keyboard handling aren't hand-rolled. **lucide-react** wrapped by one `Icon` atom (replaces the prototype's hand-drawn sprite; same line style, stroke 1.6).
 - **Atomic rule:** `design-system/` holds domain-neutral atoms and tokens. Anything that knows about passages, claims or citations lives outside it in `components/`.
 - **Look:** near-monochrome, IBM Plex (Serif reading, Sans UI, Mono for citation IDs), one accent (burnt orange, used only for quotes, the verified evidence path and focus), 2px corners, no shadows, hairline rules. State is never carried by color alone (filled / hatched / dashed glyphs plus text). **No tooltips**; icon buttons keep an `aria-label`.
 - **Language:** English first. Font stacks already end in Noto Sinhala fallbacks.

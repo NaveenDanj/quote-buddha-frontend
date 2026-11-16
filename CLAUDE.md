@@ -10,7 +10,7 @@ The backend is a separate repo at `../quote-buddha` (FastAPI, Postgres + pgvecto
 `docs/prototypes/design-system.html` (tokens and basic components) and `docs/prototypes/workspace.html` (the approved app: chat, research panel, source graph, Reader, tools). Open them in a browser. Match them. Do not redesign. If the prototype and the code disagree, the prototype wins unless the user says otherwise.
 
 ## Stack
-React 19, Vite, TypeScript (strict), Tailwind v4 `@theme` over CSS variables, Storybook 9, Vitest + Testing Library + MSW, TanStack Query, React Router. Radix primitives (unstyled) for Dialog, Menu, Popover, HoverCard, Tabs, Select, Toast. `lucide-react` behind one `Icon` atom. Plan: `docs/plans/00-overall-plan.md`.
+React 19, Vite, TypeScript (strict), Tailwind v4 `@theme` over CSS variables, Storybook 10, Vitest + Testing Library + MSW, TanStack Query, React Router. Radix primitives (unstyled) for Dialog, Menu, Popover, HoverCard, Tabs, Select, Toast. `lucide-react` behind one `Icon` atom. Plan: `docs/plans/00-overall-plan.md`.
 
 ## Atomic design (strict)
 ```

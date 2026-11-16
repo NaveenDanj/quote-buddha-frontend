@@ -4,6 +4,11 @@ The web app for Quote Buddha: a chat-first research workspace for the early Budd
 
 Status: planning and setup are done; the project is not scaffolded yet. Next: `docs/plans/01-scaffold-and-storybook.md`.
 
+## Install
+`npm install` (all packages are listed in `package.json`). Pinned on purpose: TypeScript 5 (`typescript-eslint` does not support 7 yet) and ESLint 9 (`eslint-plugin-jsx-a11y` does not support 10 yet).
+
+If downloads are very slow, force IPv4: PowerShell `$env:NODE_OPTIONS="--dns-result-order=ipv4first --no-network-family-autoselection"`, then `npm install`.
+
 ## Start here
 - `CLAUDE.md`: rules for people and agents working in this repo.
 - `docs/plans/00-overall-plan.md`: the approved plan and build order.

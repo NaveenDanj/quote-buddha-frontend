@@ -21,6 +21,7 @@
       "@pages/*": ["./src/pages/*"],
       "@api/*": ["./src/api/*"],
       "@wording/*": ["./src/wording/*"],
+      "@domain/*": ["./src/domain/*"],
       "@test/*": ["./src/test/*"]
     }
   },

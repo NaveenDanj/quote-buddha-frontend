@@ -1,12 +1,12 @@
 # 01 Scaffold and Storybook
 
 ## 1. Goal
-Create the runnable project: Vite + React 19 + TypeScript (strict), Tailwind v4, Storybook 9, Vitest + Testing Library + MSW, linting with the layer rules and token checks. No product components yet. Covers build-order step 1 of `00-overall-plan.md`.
+Create the runnable project: Vite + React 19 + TypeScript (strict), Tailwind v4, Storybook 10, Vitest + Testing Library + MSW, linting with the layer rules and token checks. No product components yet. Covers build-order step 1 of `00-overall-plan.md`.
 
 ## 2. Design
 - `package.json` scripts: `dev`, `build`, `typecheck`, `lint`, `test`, `storybook`, `build-storybook`, `check:tokens`.
 - Folders created empty with an `index.ts` each: `src/design-system/{tokens,atoms}`, `src/components/{molecules,organisms}`, `src/templates`, `src/pages`, `src/api/{mocks,fixtures}`, `src/wording`, `src/test`.
-- Path aliases: `@ds`, `@components`, `@templates`, `@pages`, `@api`, `@wording`, `@test`.
+- Path aliases: `@ds`, `@components`, `@templates`, `@pages`, `@api`, `@wording`, `@domain`, `@test`, plus `@domain` (shared types such as Answer and Claim, importable by components; `@api` is not).
 - ESLint (flat config): `no-restricted-imports` zones for the layer direction; `jsx-a11y`; `react-hooks`; `@typescript-eslint` strict. KISS and naming rules from `simple-code-conventions` are enforced where a rule exists: `no-nested-ternary`, `max-depth` 3, `max-lines-per-function` (warn at 60), `complexity` (warn at 8), `id-denylist` for `e`, `evt`, `btn`, `el`, `ctx`, `cb`, `tmp`, `val`, `obj`, `arr`, `res`, `sec`, `src`, `data`, `info`, `item`, and `unicorn/prevent-abbreviations` (with `id`, `url` allowed) if the plugin is added. Zones: `design-system/atoms` may not import from `components`, `templates`, `pages`, `api`, `wording`; `components/molecules` may import only `@ds`; `components/organisms` may import `@ds` and molecules; `templates` may not import `pages` or `api`; only `pages` may import `@api`.
 - `scripts/check-tokens.mjs`: fails on hex colors, `rgb(`, raw `px`/`rem`, or numeric `z-index` in `src/**` outside `src/design-system/tokens`.
 - Storybook: `@storybook/react-vite`, addons `a11y`, `docs`, `vitest`; a Theme toolbar (system, light, dark) that sets `data-theme`; viewport presets 400 / 900 / 1280; global decorator loads the token CSS and the IBM Plex fonts (self-hosted via `@fontsource`).

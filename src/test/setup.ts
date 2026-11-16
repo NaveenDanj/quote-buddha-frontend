@@ -6,7 +6,7 @@ import { server } from '@api/mocks/server'
 
 expect.extend(axeMatchers)
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+beforeAll(() => server.listen({ onUnhandledFrame: 'error' }))
 
 afterEach(() => {
   cleanup()
