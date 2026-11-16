@@ -1,0 +1,419 @@
+<title>Quote Buddha Brand Preview</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* Layout concept: plain document. One column, hairline rules, no cards, no shadows.
+   Color is near-monochrome; the single accent marks quoted words and focus only. */
+:root {
+  --bg: #FFFFFF; --bg-subtle: #F4F4F4;
+  --ink: #111111; --ink-muted: #5E5E5E;
+  --line: #DEDEDE; --line-strong: #111111;
+  --accent: #A8480A;
+  --danger: #B3261E;
+  --focus: #1F5FD1;
+  --font-reading: "IBM Plex Serif", "Noto Serif Sinhala", Georgia, serif;
+  --font-ui: "IBM Plex Sans", "Noto Sans Sinhala", system-ui, sans-serif;
+  --font-code: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
+  --r: 2px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101010; --bg-subtle: #1A1A1A; --ink: #ECECEC; --ink-muted: #9C9C9C;
+    --line: #2E2E2E; --line-strong: #ECECEC; --accent: #E8964A; --danger: #F2877E; --focus: #7FA8F5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101010; --bg-subtle: #1A1A1A; --ink: #ECECEC; --ink-muted: #9C9C9C;
+  --line: #2E2E2E; --line-strong: #ECECEC; --accent: #E8964A; --danger: #F2877E; --focus: #7FA8F5;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 16px/1.6 var(--font-ui);
+  padding-block: 0 var(--s8);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 880px; margin: 0 auto; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--font-reading); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.2; }
+p { margin: 0; }
+a { color: var(--ink); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent); }
+
+.top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--s3) var(--s5); padding-block: var(--s5); }
+.wordmark { font: 500 18px var(--font-reading); }
+.top nav { display: flex; flex-wrap: wrap; gap: var(--s4); font-size: 14px; }
+.top nav a { color: var(--ink-muted); text-decoration: none; }
+.top nav a:hover { color: var(--ink); }
+.intro { padding-block: var(--s7) var(--s7); max-width: 60ch; display: grid; gap: var(--s4); }
+.intro h1 { font-size: clamp(32px, 5.5vw, 46px); font-weight: 400; }
+.intro p { color: var(--ink-muted); }
+section { padding-block: var(--s7); border-top: 1px solid var(--line); display: grid; gap: var(--s5); }
+section > h2 { font-size: 26px; }
+.note { color: var(--ink-muted); max-width: 62ch; font-size: 15px; }
+h3.sub { font: 500 14px var(--font-ui); color: var(--ink-muted); margin-top: var(--s3); }
+
+/* swatches: flat chips, no card */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: var(--s4) var(--s3); }
+.sw i { display: block; height: 56px; border: 1px solid var(--line); border-radius: var(--r); }
+.sw b { display: block; font-size: 14px; font-weight: 500; margin-top: var(--s2); }
+.sw code { font: 400 12px var(--font-code); color: var(--ink-muted); overflow-wrap: anywhere; }
+
+.spec { display: grid; grid-template-columns: 110px 1fr; gap: var(--s4); align-items: baseline; padding-block: var(--s3); border-bottom: 1px solid var(--line); }
+.spec span { font: 400 12px var(--font-code); color: var(--ink-muted); }
+.spec > :last-child { min-width: 0; }
+@media (max-width: 560px) { .spec { grid-template-columns: 1fr; gap: var(--s1); } }
+.scale, .radii { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--s5); }
+.scale div { display: grid; gap: var(--s2); font: 400 12px var(--font-code); color: var(--ink-muted); }
+.scale i { display: block; background: var(--ink); height: 12px; }
+
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
+
+/* atoms */
+.btn { font: 500 15px/1 var(--font-ui); padding: 12px 20px; border-radius: var(--r); border: 1px solid var(--ink); cursor: pointer; transition: background .12s, color .12s; }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+.btn-secondary { background: transparent; color: var(--ink); }
+.btn-secondary:hover { background: var(--ink); color: var(--bg); }
+.btn-text { background: transparent; border-color: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; padding-inline: 0; }
+.btn-text:hover { color: var(--accent); }
+.btn[disabled] { opacity: .35; cursor: not-allowed; }
+.btn-sm { padding: 8px 12px; font-size: 13px; }
+
+/* evidence label: text and glyph shape, not color */
+.tag { display: inline-flex; align-items: center; gap: 8px; font: 500 13px/1 var(--font-ui); }
+.tag::before { content: ""; width: 9px; height: 9px; border: 1.5px solid var(--ink); flex: none; }
+.tag-direct::before { background: var(--ink); }
+.tag-unverified::before { background: repeating-linear-gradient(45deg, var(--ink) 0 2px, transparent 2px 4px); }
+.tag-abstain::before { border-style: dashed; }
+.tag-error { color: var(--danger); }
+.tag-error::before { border-color: var(--danger); background: var(--danger); }
+
+.field { display: grid; gap: var(--s2); max-width: 400px; }
+.field label { font-size: 14px; font-weight: 500; }
+.input { font: 400 16px var(--font-ui); color: var(--ink); background: var(--bg); border: 1px solid var(--ink-muted); border-radius: var(--r); padding: 11px 12px; width: 100%; }
+.input:focus { border-color: var(--ink); }
+.input::placeholder { color: var(--ink-muted); }
+.hint { font-size: 13px; color: var(--ink-muted); }
+.cite { font: 500 13px var(--font-code); color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; white-space: nowrap; }
+.chip { font: 500 14px var(--font-ui); padding: 6px 12px; border-radius: var(--r); border: 1px solid var(--line); background: transparent; color: var(--ink-muted); cursor: pointer; }
+.chip:hover { border-color: var(--ink); color: var(--ink); }
+.chip[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); background: var(--bg-subtle); }
+
+/* molecules */
+.ask { display: flex; flex-wrap: wrap; gap: var(--s3); align-items: stretch; max-width: 640px; border-bottom: 1px solid var(--ink); padding-bottom: var(--s3); }
+.ask .input { border: 0; flex: 1 1 220px; min-width: 0; padding-inline: 0; font-family: var(--font-reading); font-size: 20px; }
+.ask .input:focus-visible { outline: 0; }
+.ask:focus-within { border-bottom-color: var(--accent); }
+.passage { margin: 0; padding-left: var(--s5); border-left: 2px solid var(--accent); display: grid; gap: var(--s3); max-width: 60ch; }
+.passage blockquote { margin: 0; font: 400 19px/1.6 var(--font-reading); }
+.passage figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); font-size: 13px; color: var(--ink-muted); }
+
+/* organisms */
+.answer { display: grid; gap: var(--s6); max-width: 680px; }
+.answer .q { font: 500 28px/1.2 var(--font-reading); }
+.own { display: grid; gap: var(--s2); background: var(--bg-subtle); padding: var(--s4) var(--s5); border-radius: var(--r); }
+.own h3 { font: 600 13px var(--font-ui); }
+.own p { font: 400 17px/1.6 var(--font-reading); }
+.own small { color: var(--ink-muted); font-size: 13px; }
+.claims { display: grid; gap: var(--s6); margin: 0; padding: 0; list-style: none; }
+.claims li { display: grid; gap: var(--s3); padding-top: var(--s5); border-top: 1px solid var(--line); }
+.claims li > p { font: 400 17px/1.6 var(--font-reading); }
+.abstain { border: 1px dashed var(--ink-muted); border-radius: var(--r); padding: var(--s5); display: grid; gap: var(--s3); }
+.abstain h3 { font-size: 22px; }
+.abstain .scope { color: var(--ink-muted); font-size: 14px; max-width: 56ch; }
+.trust { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-block: var(--s3); }
+.trust summary { cursor: pointer; font-weight: 500; }
+.trust ul { margin: var(--s3) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s2); font-size: 15px; }
+.trust li { display: flex; gap: var(--s3); }
+.trust li b { width: 1.2em; font-weight: 500; flex: none; font-family: var(--font-code); }
+.tabs { display: flex; gap: var(--s5); border-bottom: 1px solid var(--line); }
+.tabs button { border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: transparent; color: var(--ink-muted); font: 500 15px var(--font-ui); padding: 8px 0; cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.rules { display: grid; gap: var(--s2); padding-left: var(--s5); margin: 0; max-width: 62ch; font-size: 15px; }
+.fn { font-size: .72em; line-height: 0; vertical-align: super; }
+.fn a { font: 500 1em var(--font-ui); color: var(--accent); text-decoration: none; padding-inline: 1px; }
+.fn a:hover { text-decoration: underline; }
+.refs { margin: 0; padding-left: var(--s5); display: grid; gap: var(--s3); font-size: 14px; }
+.refs li { padding: 2px 0 2px var(--s2); }
+.refs li:target { background: var(--bg-subtle); }
+.refs .ml { display: block; color: var(--ink-muted); font-size: 13px; }
+.crumbs { display: flex; flex-wrap: wrap; gap: var(--s2); font-size: 13px; color: var(--ink-muted); }
+.crumbs span + span::before { content: "/"; margin-right: var(--s2); }
+dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: var(--s2) var(--s5); margin: 0; font-size: 14px; }
+dl.facts dt { color: var(--ink-muted); }
+dl.facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 480px) { dl.facts { grid-template-columns: 1fr; gap: 0; } dl.facts dd { margin-bottom: var(--s2); } }
+.pali { font: 400 20px/1.7 var(--font-reading); margin: 0; }
+.table-wrap { overflow-x: auto; }
+table.data { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; min-width: 460px; }
+table.data th { text-align: left; font-weight: 500; color: var(--ink-muted); border-bottom: 1px solid var(--ink); padding: var(--s2) var(--s3) var(--s2) 0; }
+table.data td { border-bottom: 1px solid var(--line); padding: var(--s2) var(--s3) var(--s2) 0; vertical-align: top; }
+.citebox { border: 1px solid var(--line); border-radius: var(--r); padding: var(--s4); display: grid; gap: var(--s3); }
+.citebox pre { margin: 0; font: 400 13px/1.6 var(--font-code); white-space: pre-wrap; overflow-wrap: anywhere; }
+.stamp { font: 400 12px var(--font-code); color: var(--ink-muted); }
+.h-sm { font: 600 13px var(--font-ui); letter-spacing: .02em; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <span class="wordmark">Quote Buddha</span>
+    <nav aria-label="Sections"><a href="#color">Color</a><a href="#type">Type</a><a href="#space">Space</a><a href="#atoms">Atoms</a><a href="#molecules">Molecules</a><a href="#organisms">Organisms</a></nav>
+    <button class="btn btn-secondary btn-sm" id="themeBtn" type="button">Theme: system</button>
+  </div>
+
+  <div class="intro">
+    <h1>Brand and component preview</h1>
+    <p>Black on white, gray for secondary text, one accent for quoted words and focus. Built for readers who check sources: numbered citations, a references list, full provenance and a citable record on every answer. Evidence state is written out and drawn as a shape, never carried by color alone.</p>
+  </div>
+
+  <section id="color">
+    <h2>Color</h2>
+    <p class="note">Seven tokens do all the work. The accent is used on quote rules, link hover and the ask underline. Nothing else is tinted.</p>
+    <div class="swatches">
+      <div class="sw"><i style="background:var(--bg)"></i><b>Page</b><code>--color-page</code></div>
+      <div class="sw"><i style="background:var(--bg-subtle)"></i><b>Subtle</b><code>--color-surface-subtle</code></div>
+      <div class="sw"><i style="background:var(--line)"></i><b>Line</b><code>--color-border</code></div>
+      <div class="sw"><i style="background:var(--ink-muted)"></i><b>Muted text</b><code>--color-text-muted</code></div>
+      <div class="sw"><i style="background:var(--ink)"></i><b>Ink</b><code>--color-text</code></div>
+      <div class="sw"><i style="background:var(--accent)"></i><b>Accent</b><code>--color-accent</code></div>
+      <div class="sw"><i style="background:var(--danger)"></i><b>Danger</b><code>--color-danger</code></div>
+    </div>
+  </section>
+
+  <section id="type">
+    <h2>Type</h2>
+    <p class="note">One family, IBM Plex, in three roles: Serif for reading and headings, Sans for interface, Mono for citation IDs. Stacks end in Noto Sinhala fallbacks for later.</p>
+    <div>
+      <div class="spec"><span>display / 46</span><h1 style="font-size:clamp(28px,5vw,46px);font-weight:400">What did the Buddha teach about craving?</h1></div>
+      <div class="spec"><span>heading / 26</span><h2 style="font-size:26px">Passages from the included early texts</h2></div>
+      <div class="spec"><span>reading / 18</span><p style="font:400 18px/1.6 var(--font-reading)">The simple answer is a plain-language summary. It is the system's own explanation and is not a quotation.</p></div>
+      <div class="spec"><span>ui / 16</span><p>Ask a question about the early Buddhist texts, or check whether a quote appears in them.</p></div>
+      <div class="spec"><span>caption / 13</span><p style="font-size:13px;color:var(--ink-muted)">Found in the included texts only. Not found does not mean the Buddha did not teach it.</p></div>
+      <div class="spec"><span>pali / 20</span><p class="pali" lang="pi">Evaṃ me sutaṃ. Ñāṇadassana, paṭiccasamuppāda, nibbāna.</p></div>
+      <div class="spec"><span>code / 13</span><code style="font:500 13px var(--font-code)">pitaka_lk:dn-1:44:5</code></div>
+    </div>
+  </section>
+
+  <section id="space">
+    <h2>Space and shape</h2>
+    <div class="scale"><div><i style="width:4px"></i>4</div><div><i style="width:8px"></i>8</div><div><i style="width:12px"></i>12</div><div><i style="width:16px"></i>16</div><div><i style="width:24px"></i>24</div><div><i style="width:32px"></i>32</div><div><i style="width:48px"></i>48</div><div><i style="width:72px"></i>72</div></div>
+    <p class="note">4px base. Corners are 2px everywhere. There are no shadows. Separation comes from hairline rules and whitespace.</p>
+  </section>
+
+  <section id="atoms">
+    <h2>Atoms</h2>
+    <h3 class="sub">Button</h3>
+    <div class="row">
+      <button class="btn btn-primary" type="button">Ask</button>
+      <button class="btn btn-secondary" type="button">Verify a quote</button>
+      <button class="btn btn-text" type="button">Read full passage</button>
+      <button class="btn btn-primary" type="button" disabled>Ask</button>
+      <button class="btn btn-secondary btn-sm" type="button">Small</button>
+    </div>
+    <h3 class="sub">Evidence tag</h3>
+    <div class="row" style="gap:var(--s5)">
+      <span class="tag tag-direct">Direct quote</span>
+      <span class="tag tag-unverified">Not verified</span>
+      <span class="tag tag-abstain">Not established</span>
+      <span class="tag tag-error">Request failed</span>
+    </div>
+    <h3 class="sub">Input</h3>
+    <div class="field"><label for="demoQuote">Quote to check</label><input class="input" id="demoQuote" placeholder="Paste a quote or saying"><span class="hint">We search the included texts only.</span></div>
+    <h3 class="sub">Citation, chip, link</h3>
+    <div class="row" style="gap:var(--s5)">
+      <a class="cite" href="#atoms">DN 1</a>
+      <a class="cite" href="#atoms">pitaka_lk:dn-1:44:5</a>
+      <span class="row" style="gap:var(--s2)"><button class="chip" type="button" aria-pressed="true">English</button><button class="chip" type="button" aria-pressed="false">Sinhala</button><button class="chip" type="button" aria-pressed="false">Pali</button></span>
+      <a href="#atoms">Why should I trust this answer?</a>
+    </div>
+  </section>
+
+  <section id="molecules">
+    <h2>Molecules</h2>
+    <h3 class="sub">Ask field</h3>
+    <form class="ask" id="askForm">
+      <label for="q" style="position:absolute;left:-9999px">Your question</label>
+      <input class="input" id="q" placeholder="What did the Buddha say about anger?">
+      <button class="btn btn-primary" type="submit">Ask</button>
+    </form>
+    <h3 class="sub">Passage quote</h3>
+    <figure class="passage">
+      <blockquote>Placeholder passage text sits here in reading type with an accent rule, so quoted words always look different from the system's own explanation.</blockquote>
+      <figcaption><a class="cite" href="#molecules">DN 1</a><span class="tag tag-direct">Direct quote</span><span>Layout sample, not from the corpus</span></figcaption>
+    </figure>
+  </section>
+
+  <section id="organisms">
+    <h2>Organisms</h2>
+    <p class="note">The answer view has two honest states.</p>
+    <div class="tabs" role="tablist" aria-label="Answer state">
+      <button role="tab" id="tabA" aria-selected="true" aria-controls="panel" type="button">Answered</button>
+      <button role="tab" id="tabB" aria-selected="false" aria-controls="panel" type="button">Abstained</button>
+    </div>
+    <div id="panel" role="tabpanel">
+      <article class="answer" id="stateA">
+        <div class="q">What did the Buddha say about anger?</div>
+        <div class="own">
+          <h3>Simple answer</h3>
+          <p>Sample summary text goes here in plain language, a few sentences long.</p>
+          <small>This is the system's own explanation. It is not a quotation and has not been checked against the texts.</small>
+        </div>
+        <div style="display:grid;gap:var(--s5)">
+          <h3 style="font-size:20px">Passages from the included early texts</h3>
+          <ol class="claims">
+            <li>
+              <p>Sample claim, attributed to the Buddha in DN 1, worded as the attribution rules require.<sup class="fn"><a href="#ref1" id="fn1">[1]</a></sup></p>
+              <figure class="passage" style="margin:0"><blockquote>Placeholder passage text for the verified quote.</blockquote><figcaption><a class="cite" href="#organisms">pitaka_lk:dn-1:44:5</a><span class="tag tag-direct">Direct quote</span></figcaption></figure>
+            </li>
+            <li>
+              <p>A second sample claim whose quote could not be checked.<sup class="fn"><a href="#ref2" id="fn2">[2]</a></sup></p>
+              <div class="row" style="gap:var(--s4)"><a class="cite" href="#organisms">pitaka_lk:dn-1:12:3</a><span class="tag tag-unverified">Not verified</span></div>
+            </li>
+          </ol>
+        </div>
+        <details class="trust">
+          <summary>Why should I trust this?</summary>
+          <ul>
+            <li><b>+</b>Primary source found</li>
+            <li><b>+</b>Original Pali available</li>
+            <li><b>–</b>Parallel text: not checked yet</li>
+            <li><b>+</b>No later commentary used as primary evidence</li>
+          </ul>
+        </details>
+        <div style="display:grid;gap:var(--s3)">
+          <h3 class="h-sm">References</h3>
+          <ol class="refs">
+            <li id="ref1"><a class="cite" href="#organisms">DN 1</a>, passage 44.5. Dīgha Nikāya, Brahmajāla Sutta. Pali with Sinhala translation, pitaka.lk.<span class="ml">Translator: not recorded in source. <a href="#fn1">Back to text</a></span></li>
+            <li id="ref2"><a class="cite" href="#organisms">DN 1</a>, passage 12.3. Same edition.<span class="ml">Quote not found verbatim. <a href="#fn2">Back to text</a></span></li>
+          </ol>
+        </div>
+        <dl class="facts">
+          <dt>Corpus</dt><dd>DN 1 only (sample)</dd>
+          <dt>Retrieval</dt><dd>Word match and semantic similarity, 5 passages</dd>
+          <dt>Verification</dt><dd>Quotes checked character by character against the stored text</dd>
+          <dt>Generated</dt><dd>2026-11-15, corpus v0.1</dd>
+        </dl>
+        <div class="citebox">
+          <div class="row" style="justify-content:space-between">
+            <span class="h-sm">Cite this answer</span>
+            <span class="row" style="gap:var(--s2)"><button class="chip" type="button" id="fmtPlain" aria-pressed="true">Plain</button><button class="chip" type="button" id="fmtBib" aria-pressed="false">BibTeX</button></span>
+          </div>
+          <pre id="citeText"></pre>
+          <div class="row"><button class="btn btn-secondary btn-sm" type="button" id="copyCite">Copy</button><span class="hint" id="copyMsg" role="status"></span></div>
+        </div>
+        <div class="row"><button class="btn btn-secondary btn-sm" type="button">View Pali</button><button class="btn btn-secondary btn-sm" type="button">Read full passage</button></div>
+      </article>
+
+      <article class="answer" id="stateB" hidden>
+        <div class="q">Did the Buddha say anything about smartphones?</div>
+        <div class="abstain">
+          <span class="tag tag-abstain">Not established</span>
+          <h3>The early texts included in this database do not establish this.</h3>
+          <p class="scope">No supporting passage was found in the included corpus by these methods. This does not show that the Buddha did not teach it. The database currently includes only part of the early texts.</p>
+        </div>
+        <div class="row"><button class="btn btn-secondary btn-sm" type="button">Try a different question</button><button class="btn btn-text btn-sm" type="button">See what is included</button></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="scholarly">
+    <h2>Source record</h2>
+    <p class="note">Every citation opens a record like this one: location in the canon, the exact edition, original and translation side by side, and a checksum so a researcher can confirm the text has not changed. Values below are layout samples.</p>
+    <article style="display:grid;gap:var(--s5);max-width:760px">
+      <nav class="crumbs" aria-label="Location in the canon"><span>Sutta Piṭaka</span><span>Dīgha Nikāya</span><span>Sīlakkhandhavagga</span><span>DN 1</span></nav>
+      <h3 style="font-size:28px">Brahmajāla Sutta</h3>
+      <div class="row" style="gap:var(--s4)"><a class="cite" href="#scholarly">pitaka_lk:dn-1:44:5</a><span class="stamp">Permalink</span><button class="btn btn-text btn-sm" type="button">Copy link</button></div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--s5)">
+        <div style="display:grid;gap:var(--s2);align-content:start"><span class="h-sm">Pali</span><p class="pali" lang="pi">Layout sample: Pali text with full diacritics is set here in reading type.</p></div>
+        <div style="display:grid;gap:var(--s2);align-content:start"><span class="h-sm">Translation</span><p class="pali" style="font-size:18px">Layout sample: the translation sits beside the original, at the same size and line height.</p></div>
+      </div>
+      <div style="display:grid;gap:var(--s3)">
+        <h3 class="h-sm">Provenance</h3>
+        <dl class="facts">
+          <dt>Source</dt><dd>pitaka.lk</dd>
+          <dt>Edition</dt><dd>Pali (Sinhala script) with Sinhala translation</dd>
+          <dt>Translator</dt><dd>Not recorded in source</dd>
+          <dt>Print page</dt><dd>Sample</dd>
+          <dt>Retrieved</dt><dd>2026-11-15</dd>
+          <dt>Checksum</dt><dd><span class="stamp">sha256 · sample 9f2c41…e41a</span></dd>
+        </dl>
+      </div>
+      <div style="display:grid;gap:var(--s3)">
+        <h3 class="h-sm">Retrieved passages</h3>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Passage</th><th>Matched by</th><th>Similarity</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td><span class="cite">DN 1 · 44.5</span></td><td>Words</td><td>0.82</td><td><span class="tag tag-direct">Direct quote</span></td></tr>
+            <tr><td><span class="cite">DN 1 · 12.3</span></td><td>Similar text</td><td>0.74</td><td><span class="tag tag-unverified">Not verified</span></td></tr>
+            <tr><td><span class="cite">DN 1 · 7.1</span></td><td>Similar text</td><td>0.69</td><td><span class="tag tag-abstain">Not used</span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <h2>Rules the components enforce</h2>
+    <ul class="rules">
+      <li>The simple answer is always labelled as the system's own explanation.</li>
+      <li>Quoted words use the accent rule. Nothing else does.</li>
+      <li>Abstention is a dashed outline and calm copy. It is a finding, not an error.</li>
+      <li>State is never carried by color alone.</li>
+      <li>Every claim has a numbered citation that resolves to a source record with edition and checksum.</li>
+      <li>Missing facts are stated as missing ("Translator: not recorded"), never hidden or guessed.</li>
+      <li>Every answer can be cited, with the corpus version and date it was generated.
+      <li>Wording comes from one shared module: "attributed to the Buddha in DN 1", never "the Buddha said".</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  var modes = ['system', 'light', 'dark'], i = 0;
+  btn.addEventListener('click', function () {
+    i = (i + 1) % modes.length;
+    if (modes[i] === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', modes[i]);
+    btn.textContent = 'Theme: ' + modes[i];
+  });
+  var a = document.getElementById('tabA'), b = document.getElementById('tabB');
+  var sa = document.getElementById('stateA'), sb = document.getElementById('stateB');
+  function show(isA) {
+    a.setAttribute('aria-selected', String(isA)); b.setAttribute('aria-selected', String(!isA));
+    sa.hidden = !isA; sb.hidden = isA;
+  }
+  a.addEventListener('click', function () { show(true); });
+  b.addEventListener('click', function () { show(false); });
+  document.getElementById('askForm').addEventListener('submit', function (e) { e.preventDefault(); });
+  var fmts = {
+    plain: 'Quote Buddha. "What did the Buddha say about anger?" Answer generated 2026-11-15, corpus v0.1 (DN 1). https://example.org/answers/sample',
+    bib: '@misc{quotebuddha_sample,\n  title  = {What did the Buddha say about anger?},\n  author = {{Quote Buddha}},\n  year   = {2026},\n  note   = {Corpus v0.1, DN 1},\n  url    = {https://example.org/answers/sample}\n}'
+  };
+  var cur = 'plain', out = document.getElementById('citeText');
+  var fp = document.getElementById('fmtPlain'), fb = document.getElementById('fmtBib');
+  function setFmt(k) { cur = k; out.textContent = fmts[k]; fp.setAttribute('aria-pressed', String(k === 'plain')); fb.setAttribute('aria-pressed', String(k === 'bib')); }
+  fp.addEventListener('click', function () { setFmt('plain'); });
+  fb.addEventListener('click', function () { setFmt('bib'); });
+  setFmt('plain');
+  document.getElementById('copyCite').addEventListener('click', function () {
+    var msg = document.getElementById('copyMsg');
+    function done(t) { msg.textContent = t; }
+    try { navigator.clipboard.writeText(fmts[cur]).then(function () { done('Copied'); }, function () { done('Select the text to copy'); }); }
+    catch (e) { done('Select the text to copy'); }
+  });
+  document.querySelectorAll('.chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      document.querySelectorAll('.chip').forEach(function (o) { o.setAttribute('aria-pressed', String(o === c)); });
+    });
+  });
+})();
+</script>

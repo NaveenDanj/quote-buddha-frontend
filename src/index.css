@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+/* IBM Plex, self-hosted. Reading serif, interface sans, mono for citation IDs. */
+@import '@fontsource/ibm-plex-serif/400.css';
+@import '@fontsource/ibm-plex-serif/400-italic.css';
+@import '@fontsource/ibm-plex-serif/500.css';
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+/*
+  Placeholder. Plan 02 (docs/plans/02-tokens-and-foundations.md) moves everything below into
+  src/design-system/tokens: primitives, semantic tokens, dark theme and the @theme mapping.
+*/
+@theme {
+}

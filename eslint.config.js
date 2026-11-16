@@ -1,0 +1,77 @@
+import js from '@eslint/js'
+import { defineConfig, globalIgnores } from 'eslint/config'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+import reactHooks from 'eslint-plugin-react-hooks'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+
+// ---------------------------------------------------------------------------------------------
+// Layer rules (docs/plans/00-overall-plan.md, skill atomic-design-conventions).
+// Imports go one way only. Each entry says which imports a layer may NOT use.
+//
+//   tokens -> atoms (design-system) -> molecules -> organisms -> templates -> pages
+//
+// How to read an entry:
+//   files               which source files the rule applies to
+//   forbidden           import patterns those files must not use (cross-layer imports use aliases)
+//   allowTypeImports    true = `import type { ... }` is still allowed from the forbidden paths
+//   reason              the message shown when someone breaks the rule
+// ---------------------------------------------------------------------------------------------
+const layerRules = [
+  {
+    // Atoms are domain-neutral: they know nothing about the product, so not even its types.
+    files: ['src/design-system/**/*.{ts,tsx}'],
+    forbidden: ['@components/*', '@templates/*', '@pages/*', '@api/*', '@wording/*'],
+    allowTypeImports: false,
+    reason: 'Design-system atoms may import tokens only. If it knows about passages or claims, move it to components/.',
+  },
+  // TODO(human): add the rules for the other layers, following the example above.
+  //   molecules  (src/components/molecules)  may use atoms, so forbid organisms, templates, pages, api
+  //   organisms  (src/components/organisms)  may use molecules and atoms; forbid templates, pages
+  //   templates  (src/templates)             layout only; forbid pages
+  // Decide for each layer: should it be allowed to `import type` from @api (the Answer types),
+  // while still being blocked from importing the client and hooks? Pages need no rule.
+]
+
+function makeLayerConfig(rule) {
+  return {
+    files: rule.files,
+    rules: {
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: rule.forbidden, message: rule.reason, allowTypeImports: rule.allowTypeImports },
+          ],
+        },
+      ],
+    },
+  }
+}
+
+// Short or cryptic names make code harder to read. See skill simple-code-conventions.
+const crypticNames = ['e', 'evt', 'btn', 'el', 'ctx', 'cb', 'tmp', 'val', 'obj', 'arr', 'res', 'sec', 'i', 'j']
+
+export default defineConfig([
+  globalIgnores(['dist', 'storybook-static', 'coverage', 'node_modules', 'docs']),
+  js.configs.recommended,
+  tseslint.configs.strict,
+  jsxA11y.flatConfigs.recommended,
+  reactHooks.configs.flat.recommended,
+  {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: { globals: globals.browser },
+    rules: {
+      'no-nested-ternary': 'error',
+      'max-depth': ['error', 3],
+      complexity: ['warn', 8],
+      'max-lines-per-function': ['warn', { max: 60, skipBlankLines: true, skipComments: true }],
+      'id-denylist': ['error', ...crypticNames],
+    },
+  },
+  {
+    files: ['*.config.{js,ts}', 'scripts/**/*.mjs', '.storybook/**/*.{ts,tsx}'],
+    languageOptions: { globals: globals.node },
+  },
+  ...layerRules.map(makeLayerConfig),
+])

@@ -1,0 +1,1543 @@
+<title>Quote Buddha Workspace</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* Layout concept: chat first, research around it. Left rail = chats + tools, centre = conversation,
+   right = a research panel (sources, evidence, terms, notes) that docks beside the chat on wide screens. */
+:root {
+  --bg: #FFFFFF; --bg-subtle: #F4F4F4; --ink: #111111; --ink-muted: #5E5E5E;
+  --line: #DEDEDE; --accent: #A8480A; --danger: #B3261E; --focus: #1F5FD1;
+  --font-reading: "IBM Plex Serif", "Noto Serif Sinhala", Georgia, serif;
+  --font-ui: "IBM Plex Sans", "Noto Sans Sinhala", system-ui, sans-serif;
+  --font-code: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
+  --r: 2px; --rail: 252px; --pvh: 44px; --topbar: 52px; --rp: 380px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #101010; --bg-subtle: #1A1A1A; --ink: #ECECEC; --ink-muted: #9C9C9C; --line: #2E2E2E; --accent: #E8964A; --danger: #F2877E; --focus: #7FA8F5; color-scheme: dark; }
+}
+:root[data-theme="dark"] { --bg: #101010; --bg-subtle: #1A1A1A; --ink: #ECECEC; --ink-muted: #9C9C9C; --line: #2E2E2E; --accent: #E8964A; --danger: #F2877E; --focus: #7FA8F5; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--font-ui); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--font-reading); font-weight: 500; text-wrap: balance; margin: 0; line-height: 1.2; }
+p { margin: 0; }
+a { color: var(--ink); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { color: var(--accent); }
+button { font-family: inherit; }
+.h-sm { font: 600 13px var(--font-ui); letter-spacing: .02em; }
+.muted { color: var(--ink-muted); } .small { font-size: 13px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); }
+.grid { display: grid; gap: var(--s3); }
+.gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* atoms */
+.btn { font: 500 15px/1 var(--font-ui); padding: 12px 20px; border-radius: var(--r); border: 1px solid var(--ink); cursor: pointer; transition: background .12s, color .12s; }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); }
+.btn-secondary { background: transparent; color: var(--ink); }
+.btn-secondary:hover { background: var(--ink); color: var(--bg); }
+.btn-text { background: transparent; border-color: transparent; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; padding-inline: 0; }
+.btn-text:hover { color: var(--accent); }
+.btn-sm { padding: 8px 12px; font-size: 13px; }
+.tag { display: inline-flex; align-items: center; gap: 8px; font: 500 13px/1 var(--font-ui); white-space: nowrap; }
+.tag::before { content: ""; width: 9px; height: 9px; border: 1.5px solid var(--ink); flex: none; }
+.tag-direct::before { background: var(--ink); }
+.tag-unverified::before { background: repeating-linear-gradient(45deg, var(--ink) 0 2px, transparent 2px 4px); }
+.tag-abstain::before { border-style: dashed; }
+.input { font: 400 16px var(--font-ui); color: var(--ink); background: var(--bg); border: 1px solid var(--ink-muted); border-radius: var(--r); padding: 10px 12px; width: 100%; }
+.input::placeholder { color: var(--ink-muted); }
+select.input { padding-block: 9px; }
+.chip { font: 500 13px var(--font-ui); padding: 6px 10px; border-radius: var(--r); border: 1px solid var(--line); background: transparent; color: var(--ink-muted); cursor: pointer; white-space: nowrap; }
+.chip:hover { border-color: var(--ink); color: var(--ink); }
+.chip[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); background: var(--bg-subtle); }
+.chip[disabled] { opacity: .45; cursor: not-allowed; border-style: dashed; }
+.chip .n { font: 500 11px var(--font-code); color: var(--accent); margin-right: 6px; }
+.cite { font: 500 13px var(--font-code); color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; white-space: nowrap; background: none; border: 0; padding: 0; cursor: pointer; }
+.cite:hover { color: var(--accent); }
+.stamp { font: 400 12px var(--font-code); color: var(--ink-muted); }
+.fn { font-size: .72em; line-height: 0; vertical-align: super; }
+.fn button { font: 500 1em var(--font-ui); color: var(--accent); background: none; border: 0; padding: 0 1px; cursor: pointer; }
+.term { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; border-bottom: 1px dotted var(--ink-muted); }
+.term:hover { border-bottom-color: var(--accent); color: var(--accent); }
+.hl { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+
+/* molecules */
+.passage { margin: 0; padding-left: var(--s5); border-left: 2px solid var(--accent); display: grid; gap: var(--s3); max-width: 60ch; }
+.passage blockquote { margin: 0; font: 400 18px/1.6 var(--font-reading); }
+.passage figcaption { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s4); font-size: 13px; color: var(--ink-muted); }
+dl.facts { display: grid; grid-template-columns: max-content 1fr; gap: var(--s2) var(--s5); margin: 0; font-size: 14px; }
+dl.facts dt { color: var(--ink-muted); } dl.facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+.table-wrap { overflow-x: auto; }
+table.data { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+table.data th { text-align: left; font-weight: 500; color: var(--ink-muted); border-bottom: 1px solid var(--ink); padding: var(--s2) var(--s3) var(--s2) 0; }
+table.data td { border-bottom: 1px solid var(--line); padding: var(--s2) var(--s3) var(--s2) 0; vertical-align: top; }
+.cell { text-align: center; }
+.tabs { display: flex; flex-wrap: wrap; gap: var(--s4); border-bottom: 1px solid var(--line); }
+.tabs button { border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: transparent; color: var(--ink-muted); font: 500 14px var(--font-ui); padding: 8px 0; cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.list { margin: 0; padding: 0; list-style: none; }
+.list li { border-top: 1px solid var(--line); } .list li:last-child { border-bottom: 1px solid var(--line); }
+.list button { width: 100%; display: flex; justify-content: space-between; gap: var(--s4); padding: var(--s3) 0; font: 400 16px/1.4 var(--font-reading); text-align: left; background: none; border: 0; color: var(--ink); cursor: pointer; }
+.list button:hover { color: var(--accent); }
+.list .meta { font: 400 12px var(--font-code); color: var(--ink-muted); align-self: center; white-space: nowrap; }
+.glyph { display: inline-block; width: 12px; height: 12px; border: 1.5px solid var(--ink); vertical-align: middle; }
+.glyph.d { background: var(--ink); } .glyph.u { background: repeating-linear-gradient(45deg, var(--ink) 0 2px, transparent 2px 4px); } .glyph.n { border-style: dashed; border-color: var(--ink-muted); }
+.legend { display: flex; flex-wrap: wrap; gap: var(--s4); font-size: 13px; color: var(--ink-muted); }
+.pali { font: 400 19px/1.7 var(--font-reading); margin: 0; }
+.crumbs { display: flex; flex-wrap: wrap; gap: var(--s2); font-size: 13px; color: var(--ink-muted); }
+.crumbs span + span::before { content: "/"; margin-right: var(--s2); }
+
+/* composer (organism) */
+.composer { border: 1px solid var(--ink); border-radius: var(--r); background: var(--bg); display: grid; position: relative; }
+.composer:focus-within { border-color: var(--accent); }
+.composer textarea { border: 0; background: transparent; color: var(--ink); font: 400 17px/1.5 var(--font-reading); padding: var(--s3) var(--s4) var(--s2); resize: none; width: 100%; min-height: 56px; }
+.composer textarea:focus-visible { outline: 0; }
+.composer textarea::placeholder { color: var(--ink-muted); }
+.composer .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2); padding: var(--s2) var(--s3) var(--s3) var(--s4); }
+.slash { position: absolute; left: 0; right: 0; bottom: calc(100% + 4px); background: var(--bg); border: 1px solid var(--ink); border-radius: var(--r); z-index: 5; }
+.slash button { display: flex; justify-content: space-between; gap: var(--s4); width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); color: var(--ink); padding: var(--s2) var(--s4); font: 400 14px var(--font-ui); cursor: pointer; text-align: left; }
+.slash button:last-child { border-bottom: 0; }
+.slash button:hover { background: var(--bg-subtle); }
+.slash code { font: 500 13px var(--font-code); }
+
+/* shell */
+.pv { position: sticky; top: 0; z-index: 60; height: var(--pvh); display: flex; align-items: center; gap: var(--s2) var(--s3); overflow-x: auto; white-space: nowrap; background: var(--bg); border-bottom: 1px dashed var(--ink-muted); font: 400 12px var(--font-code); color: var(--ink-muted); }
+.pv .grow { flex: 1 0 auto; }
+.shell { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); min-height: calc(100vh - var(--pvh)); }
+.rail { position: sticky; top: var(--pvh); height: calc(100vh - var(--pvh)); overflow-y: auto; border-right: 1px solid var(--line); padding-block: var(--s4); padding-inline: max(16px, env(safe-area-inset-left, 0px)) var(--s4); display: grid; gap: var(--s4); align-content: start; background: var(--bg); z-index: 20; }
+.wordmark { font: 500 20px var(--font-reading); text-decoration: none; color: var(--ink); }
+.rail .input { padding: 8px 10px; font-size: 14px; }
+.rail nav { display: grid; gap: 1px; }
+.rail nav button { text-align: left; background: none; border: 0; border-left: 2px solid transparent; padding: 6px 0 6px var(--s3); font: 400 14px/1.4 var(--font-ui); color: var(--ink-muted); cursor: pointer; }
+.rail nav button:hover { color: var(--ink); }
+.rail nav button[aria-current="page"], .rail nav button[aria-current="true"] { color: var(--ink); border-left-color: var(--ink); font-weight: 500; }
+.rail .grp { font: 600 12px var(--font-ui); letter-spacing: .04em; color: var(--ink-muted); text-transform: uppercase; margin-top: var(--s2); }
+.rail .foot { font-size: 12px; color: var(--ink-muted); }
+.menu-btn { display: none; }
+.main { min-width: 0; transition: margin-right .18s; }
+.topbar { position: sticky; top: var(--pvh); z-index: 10; height: var(--topbar); display: flex; align-items: center; justify-content: space-between; gap: var(--s3); background: var(--bg); border-bottom: 1px solid var(--line); padding-inline: max(16px, env(safe-area-inset-right, 0px)); }
+.topbar .title { font: 500 15px var(--font-ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.page[hidden] { display: none; }
+.work { padding-inline: max(16px, env(safe-area-inset-right, 0px)); padding-block: var(--s6) var(--s8); display: grid; gap: var(--s6); max-width: 1000px; }
+.head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--s3); }
+.head h1 { font-size: clamp(26px, 4vw, 34px); font-weight: 400; }
+.cols { display: grid; gap: var(--s6); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .cols.two { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); } }
+@media (min-width: 1100px) { .main.dock { margin-right: var(--rp); } }
+@media (max-width: 860px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .rail { position: fixed; top: var(--pvh); left: 0; width: min(290px, 88vw); transform: translateX(-102%); transition: transform .18s; z-index: 55; }
+  .rail.open { transform: none; }
+  .menu-btn { display: inline-block; }
+}
+
+/* chat */
+.chat { display: grid; grid-template-rows: 1fr auto; min-height: calc(100vh - var(--pvh) - var(--topbar)); }
+.thread { padding-inline: max(16px, env(safe-area-inset-right, 0px)); padding-block: var(--s6) var(--s5); display: grid; gap: var(--s7); align-content: start; max-width: 920px; width: 100%; margin: 0 auto; }
+.msg-u { justify-self: end; max-width: min(560px, 88%); background: var(--bg-subtle); padding: var(--s3) var(--s4); border-radius: var(--r); font: 400 17px/1.5 var(--font-reading); }
+.msg-a { display: grid; gap: var(--s4); min-width: 0; }
+.msg-a .who { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); font-size: 13px; color: var(--ink-muted); }
+.msg-a .who b { color: var(--ink); font-weight: 600; }
+.proc { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-block: var(--s2); font-size: 13px; }
+.proc summary { cursor: pointer; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); align-items: baseline; }
+.steps { margin: var(--s3) 0 0; padding: 0; list-style: none; display: grid; gap: var(--s2); }
+.steps li { display: flex; gap: var(--s3); } .steps li b { font: 500 12px var(--font-code); color: var(--ink-muted); width: 1.4em; flex: none; }
+.own { display: grid; gap: var(--s2); background: var(--bg-subtle); padding: var(--s4) var(--s5); border-radius: var(--r); }
+.own h3 { font: 600 13px var(--font-ui); } .own p { font: 400 17px/1.65 var(--font-reading); } .own small { color: var(--ink-muted); font-size: 13px; }
+.claims { display: grid; gap: var(--s5); margin: 0; padding: 0; list-style: none; }
+.claims li { display: grid; gap: var(--s3); padding-top: var(--s4); border-top: 1px solid var(--line); }
+.claims li > p { font: 400 17px/1.65 var(--font-reading); }
+.abstain { border: 1px dashed var(--ink-muted); border-radius: var(--r); padding: var(--s5); display: grid; gap: var(--s3); }
+.abstain h3 { font-size: 20px; }
+.actions { display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); align-items: center; }
+.srcrow { display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; }
+.suggest { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.dockbar { position: sticky; bottom: 0; background: var(--bg); padding-block: var(--s3) var(--s4); padding-inline: max(16px, env(safe-area-inset-right, 0px)); border-top: 1px solid var(--line); }
+.dockbar .inner { max-width: 920px; margin: 0 auto; display: grid; gap: var(--s2); }
+.empty { min-height: calc(100vh - var(--pvh) - var(--topbar)); display: grid; align-content: center; justify-items: center; gap: var(--s5); padding-block: var(--s6); padding-inline: max(16px, env(safe-area-inset-right, 0px)); }
+.empty .inner { width: 100%; max-width: 860px; display: grid; gap: var(--s5); }
+.empty h1 { font-size: clamp(28px, 4.6vw, 40px); font-weight: 400; text-align: center; }
+.tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--s3); }
+.tools button { text-align: left; background: none; border: 1px solid var(--line); border-radius: var(--r); padding: var(--s3) var(--s4); display: grid; gap: 2px; color: var(--ink); cursor: pointer; font: inherit; }
+.tools button:hover { border-color: var(--ink); }
+.tools b { font: 500 14px var(--font-ui); } .tools span { font-size: 13px; color: var(--ink-muted); line-height: 1.4; }
+
+/* reader / terms / compare / notebook */
+.reader { display: grid; gap: var(--s5); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 1000px) { .reader { grid-template-columns: 170px minmax(0, 1fr); } }
+.outline { display: grid; gap: var(--s2); align-content: start; font-size: 14px; }
+.outline a { color: var(--ink-muted); text-decoration: none; padding-left: var(--s3); border-left: 1px solid var(--line); }
+.outline a[aria-current="true"] { color: var(--ink); border-left-color: var(--ink); }
+.para { display: grid; gap: var(--s3) var(--s5); grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1fr); padding-block: var(--s4); border-top: 1px solid var(--line); }
+.para .id { font: 500 12px var(--font-code); color: var(--ink-muted); padding-top: 6px; }
+.para p { font: 400 18px/1.7 var(--font-reading); }
+.para .note { grid-column: 2 / -1; border-left: 2px solid var(--ink); padding-left: var(--s3); font-size: 14px; color: var(--ink-muted); }
+@media (max-width: 760px) { .para { grid-template-columns: 1fr; } .para .note { grid-column: auto; } .para .id { padding-top: 0; } }
+.reader.only-pali .tr, .reader.only-tr .pal { display: none; }
+.reader.only-pali .para, .reader.only-tr .para { grid-template-columns: 56px minmax(0, 1fr); }
+.tgrid { display: grid; gap: var(--s6); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .tgrid { grid-template-columns: 200px minmax(0, 1fr); } }
+.hbar { display: grid; grid-template-columns: 90px 1fr 36px; gap: var(--s3); align-items: center; font-size: 13px; }
+.hbar i { display: block; height: 10px; background: var(--ink); }
+.cmp { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--s5); }
+.cmp > div { display: grid; gap: var(--s2); align-content: start; min-width: 0; }
+.cmp p { font: 400 18px/1.65 var(--font-reading); }
+mark { background: transparent; color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.note-ed { border: 1px solid var(--line); border-radius: var(--r); padding: var(--s4); display: grid; gap: var(--s3); }
+.note-ed p { font: 400 16px/1.65 var(--font-reading); }
+
+/* research panel */
+.panel { position: fixed; z-index: 50; top: var(--pvh); right: 0; bottom: 0; width: min(var(--rp), 100vw); background: var(--bg); border-left: 1px solid var(--ink); display: grid; grid-template-rows: auto auto 1fr; transform: translateX(104%); transition: transform .18s; }
+.panel.open { transform: none; }
+.panel .ph { display: flex; justify-content: space-between; align-items: center; gap: var(--s3); padding: var(--s3) max(16px, env(safe-area-inset-right, 0px)) var(--s2) var(--s4); }
+.panel .tabs { padding-inline: var(--s4); gap: var(--s4); }
+.panel .body { overflow-y: auto; padding: var(--s4) max(16px, env(safe-area-inset-right, 0px)) var(--s6) var(--s4); display: grid; gap: var(--s4); align-content: start; }
+.panel details { border-top: 1px solid var(--line); padding-top: var(--s3); }
+.panel summary { cursor: pointer; display: flex; justify-content: space-between; gap: var(--s3); font-weight: 500; font-size: 14px; }
+.panel details > div { display: grid; gap: var(--s3); padding-top: var(--s3); }
+.bar-line { height: 6px; background: var(--line); }
+.bar-line i { display: block; height: 100%; background: var(--ink); }
+.sq { display: flex; flex-wrap: wrap; gap: 3px; }
+.sq i { width: 12px; height: 12px; border: 1px solid var(--ink-muted); }
+.sq i.hit { border-color: var(--accent); background: var(--accent); }
+.duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--s6); }
+.empty .composer { max-width: 760px; width: 100%; justify-self: center; }
+.empty .suggest { justify-content: center; }
+.gdlg { position: fixed; inset: 0; z-index: 70; background: rgb(0 0 0 / .5); display: grid; place-items: center; padding: 16px; }
+.gdlg[hidden] { display: none; }
+.gdlg-box { background: var(--bg); border: 1px solid var(--ink); border-radius: var(--r); width: min(1120px, 100%); max-height: calc(100vh - 32px); overflow-y: auto; padding: var(--s5); display: grid; gap: var(--s4); }
+.gwrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); padding: var(--s3); }
+.gsvg { display: block; }
+.gsvg text { font: 500 12.5px var(--font-ui); fill: var(--ink); pointer-events: none; }
+.gsvg .sub { font-weight: 400; font-size: 11.5px; fill: var(--ink-muted); }
+.gsvg .colh { font: 600 11px var(--font-ui); letter-spacing: .08em; text-transform: uppercase; fill: var(--ink-muted); }
+.gsvg .nd { cursor: pointer; }
+.gsvg .nd rect.box { fill: var(--bg); stroke: var(--ink); stroke-width: 1; }
+.gsvg .nd.k-question rect.box { stroke-width: 2; }
+.gsvg .nd.k-passage.s-direct rect.box { stroke-width: 2; }
+.gsvg .nd.planned rect.box, .gsvg .nd.s-abstain rect.box, .gsvg .nd.s-removed rect.box, .gsvg .nd.s-none rect.box { stroke: var(--ink-muted); stroke-dasharray: 4 3; }
+.gsvg .nd.planned text { fill: var(--ink-muted); }
+.gsvg .nd.sel rect.box { stroke: var(--accent); stroke-width: 3; }
+.gsvg .nd:focus-visible rect.box { stroke: var(--focus); stroke-width: 3; }
+.gsvg .ed { fill: none; stroke-linecap: round; }
+.gsvg .ed.trail { stroke: var(--accent); stroke-width: 2.25; }
+.gsvg .ed.weak { stroke: var(--ink-muted); stroke-width: 1.25; stroke-dasharray: 6 4; }
+.gsvg .ed.none { stroke: var(--ink-muted); stroke-width: 1; stroke-dasharray: 1 5; }
+.gsvg .ed.term { stroke: var(--ink-muted); stroke-width: 1; }
+.gsvg .ed.canon { stroke: var(--ink); stroke-width: 1.25; }
+.gsvg .ed.off { stroke: var(--line); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.gsvg .dim { opacity: .2; }
+.lg { display: inline-flex; align-items: center; gap: var(--s2); }
+.lg i { display: inline-block; width: 30px; height: 0; border-top: 2px solid var(--accent); }
+.lg i.weak { border-top: 1.5px dashed var(--ink-muted); } .lg i.none { border-top: 2px dotted var(--ink-muted); } .lg i.off { border-top: 2px dashed var(--line); }
+.gdetail { border-top: 1px solid var(--ink); padding-top: var(--s4); display: grid; gap: var(--s3); max-width: 760px; }
+.gdetail h2 { font-size: 22px; }
+.gdetail ul { margin: 0; padding-left: var(--s5); display: grid; gap: var(--s1); font-size: 15px; }
+.gdlg-box { width: min(1280px, 100%); height: min(700px, calc(100vh - 32px)); overflow: hidden; grid-template-rows: auto auto minmax(0, 1fr); }
+.gsplit { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr); gap: var(--s5); min-height: 0; }
+.gleft { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: var(--s3); min-height: 0; }
+.gleft .gwrap { overflow: hidden; padding: 0; min-height: 0; display: grid; }
+.gleft .gsvg { width: 100%; height: 100%; }
+.gright { overflow-y: auto; min-height: 0; display: grid; gap: var(--s4); align-content: start; border-left: 1px solid var(--line); padding-left: var(--s5); }
+.gright .gdetail { border-top: 0; padding-top: 0; }
+@media (max-width: 860px) {
+  .gdlg-box { height: calc(100vh - 32px); }
+  .gsplit { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(200px, 42%) minmax(0, 1fr); }
+  .gright { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: var(--s4); }
+}
+.vh { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.crow { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.rail nav .more { border-left: 0; padding: 4px 8px; opacity: 0; font: 600 14px var(--font-ui); letter-spacing: .1em; }
+.crow:hover .more, .crow:focus-within .more, .rail nav .more[aria-expanded="true"] { opacity: 1; }
+@media (hover: none) { .rail nav .more { opacity: 1; } }
+.cmenu { position: fixed; z-index: 85; min-width: 170px; background: var(--bg); border: 1px solid var(--ink); border-radius: var(--r); display: grid; }
+.cmenu button { text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 8px 14px; font: 400 14px var(--font-ui); color: var(--ink); cursor: pointer; }
+.cmenu button:last-child { border-bottom: 0; } .cmenu button:hover { background: var(--bg-subtle); }
+.rail .ren { width: 100%; padding: 6px 8px; font-size: 14px; }
+.msg-u { display: grid; gap: var(--s1); }
+.uact { display: flex; justify-content: flex-end; align-items: center; gap: var(--s3); opacity: 0; }
+.msg-u:hover .uact, .msg-u:focus-within .uact { opacity: 1; }
+@media (hover: none) { .uact { opacity: 1; } }
+.ver { display: inline-flex; align-items: center; gap: var(--s1); font: 400 12px var(--font-code); color: var(--ink-muted); }
+.ver[hidden] { display: none; }
+.ed { display: grid; gap: var(--s2); min-width: min(480px, 70vw); }
+.live::after { content: ""; display: inline-block; width: 7px; height: 7px; margin-left: 8px; background: var(--accent); animation: blink 1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.report { display: grid; gap: var(--s5); }
+.report h3.sec { font-size: 20px; }
+.rep-outline { margin: 0; padding-left: var(--s5); display: grid; gap: var(--s1); font-size: 14px; }
+.mdlg { position: fixed; inset: 0; z-index: 75; background: rgb(0 0 0 / .5); display: grid; place-items: center; padding: 16px; }
+.mdlg[hidden] { display: none; }
+.mdlg.top { place-items: start center; padding-top: 12vh; }
+.mbox { background: var(--bg); border: 1px solid var(--ink); border-radius: var(--r); width: min(560px, 100%); max-height: calc(100vh - 32px); overflow-y: auto; padding: var(--s5); display: grid; gap: var(--s4); }
+.mbox h2 { font-size: 22px; }
+.fld { display: grid; gap: var(--s2); }
+.seg { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.chk { display: flex; gap: var(--s2); align-items: center; font-size: 15px; }
+.pal-list { list-style: none; margin: 0; padding: 0; max-height: 50vh; overflow-y: auto; }
+.pal-list button { display: flex; justify-content: space-between; gap: var(--s4); width: 100%; background: none; border: 0; border-bottom: 1px solid var(--line); padding: 10px 16px; color: var(--ink); font: 400 15px var(--font-ui); text-align: left; cursor: pointer; }
+.pal-list button[aria-selected="true"] { background: var(--bg-subtle); }
+.pal-list .k { font: 400 12px var(--font-code); color: var(--ink-muted); }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 90; background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: var(--r); font-size: 14px; max-width: calc(100vw - 32px); }
+.toast[hidden] { display: none; }
+.hov { position: fixed; z-index: 80; width: 300px; background: var(--bg); border: 1px solid var(--ink); padding: var(--s3) var(--s4); display: grid; gap: var(--s2); font-size: 14px; pointer-events: none; }
+.hov[hidden] { display: none; }
+.hov .pl { font: 400 16px/1.5 var(--font-reading); }
+.drop { display: grid; place-items: center; text-align: center; gap: var(--s1); border: 1px dashed var(--ink-muted); border-radius: var(--r); padding: var(--s6) var(--s4); cursor: pointer; color: var(--ink-muted); }
+.drop:hover, .drop.over { border-color: var(--ink); color: var(--ink); }
+.thread .msg-u, .thread .own p, .thread .claims li > p { font-size: calc(17px * var(--rs, 1)); }
+.thread .passage blockquote { font-size: calc(18px * var(--rs, 1)); }
+.ic { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; vertical-align: -4px; }
+.ibtn { position: relative; display: inline-grid; place-items: center; width: 34px; height: 34px; padding: 0; border: 1px solid transparent; border-radius: var(--r); background: none; color: var(--ink); cursor: pointer; flex: none; }
+.ibtn:hover { background: var(--bg-subtle); border-color: var(--line); }
+.ibtn[aria-pressed="true"] { background: var(--bg-subtle); border-color: var(--ink); }
+.ibtn.sm { width: 28px; height: 28px; } .ibtn.sm .ic { width: 16px; height: 16px; }
+.ibtn.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.ibtn.solid:hover { background: var(--accent); border-color: var(--accent); }
+.ibtn[hidden] { display: none; }
+.ibtn.menu-btn { display: none; }
+@media (max-width: 860px) { .ibtn.menu-btn { display: inline-grid; } }
+.chip { display: inline-flex; align-items: center; gap: 6px; }
+.btn-ic { display: inline-flex; align-items: center; gap: 8px; }
+.rail nav button { display: flex; align-items: center; gap: 10px; justify-content: flex-start; }
+.tabs button { display: inline-flex; align-items: center; gap: 6px; }
+.rail nav .more .ic { width: 16px; height: 16px; }
+.bdg { position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--accent); color: var(--bg); font: 600 10px/16px var(--font-ui); text-align: center; }
+/* reader */
+.rd { --c-out: 220px; --c-side: 440px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: calc(100vh - var(--pvh) - var(--topbar)); min-height: 520px; }
+.rd.no-outline { --c-out: 0px; } .rd.no-notes { --c-side: 0px; }
+.rd-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s2) var(--s4); padding: var(--s2) max(16px, env(safe-area-inset-right, 0px)) var(--s2) max(16px, env(safe-area-inset-left, 0px)); border-bottom: 1px solid var(--line); }
+.rd-bar-l, .rd-bar-r { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); }
+.rd-pick { color: var(--ink); border-color: var(--ink); font-size: 14px; }
+.rd-step { display: inline-flex; align-items: center; gap: var(--s1); }
+.rd-sel { width: auto; max-width: 260px; padding: 6px 10px; font-size: 14px; }
+.rd-main { display: grid; grid-template-columns: var(--c-out) minmax(0, 1fr) var(--c-side); min-height: 0; }
+.rd-out { grid-column: 1; overflow-y: auto; border-right: 1px solid var(--line); padding: var(--s4) var(--s3) var(--s4) max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 2px; align-content: start; font-size: 14px; }
+.rd.no-outline .rd-out { display: none; }
+.rd-out button { text-align: left; background: none; border: 0; border-left: 2px solid var(--line); padding: 6px 0 6px var(--s3); color: var(--ink-muted); font: 400 14px/1.35 var(--font-ui); cursor: pointer; }
+.rd-out button:hover { color: var(--ink); }
+.rd-out button[aria-current="true"] { border-left-color: var(--ink); color: var(--ink); font-weight: 500; }
+.rd-out .sub { display: block; font-size: 12px; color: var(--ink-muted); font-weight: 400; }
+.rd-text { grid-column: 2; overflow-y: auto; padding: var(--s5) clamp(16px, 3.5vw, 48px) var(--s6); min-width: 0; }
+.rd-h { display: grid; gap: var(--s1); padding-bottom: var(--s4); }
+.rd-h h2 { font-size: clamp(24px, 3vw, 30px); font-weight: 400; }
+.rp { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: var(--s2) var(--s4); padding: var(--s4) var(--s3); border-top: 1px solid var(--line); border-left: 3px solid transparent; }
+.rp.sel { border-left-color: var(--accent); background: var(--bg-subtle); }
+.rp-id { font: 500 12px var(--font-code); color: var(--ink-muted); padding-top: 7px; display: flex; gap: 6px; align-items: flex-start; flex-wrap: wrap; }
+.rp-id .ic { width: 14px; height: 14px; color: var(--accent); }
+.rp-id { grid-column: 1; grid-row: 1; }
+.rp-pali { grid-column: 2; grid-row: 1; font: 400 calc(20px * var(--rs, 1))/1.75 var(--font-reading); min-width: 0; max-width: 110ch; }
+.rp-tr { grid-column: 2; grid-row: 2; font: 400 calc(17px * var(--rs, 1))/1.7 var(--font-reading); color: var(--ink-muted); min-width: 0; max-width: 110ch; padding-top: var(--s2); border-top: 1px dashed var(--line); }
+.rd.v-tr .rp-tr { grid-row: 1; color: var(--ink); font-size: calc(19px * var(--rs, 1)); padding-top: 0; border-top: 0; }
+.rp-act { grid-column: 2; grid-row: 3; display: flex; gap: 2px; opacity: 0; }
+.rp:hover .rp-act, .rp:focus-within .rp-act, .rp.sel .rp-act { opacity: 1; }
+@media (hover: none) { .rp-act { opacity: 1; } }
+.rd.v-pali .rp-tr, .rd.v-tr .rp-pali { display: none; }
+.rd.v-pali .rp-act, .rd.v-tr .rp-act { grid-row: 2; }
+.rd-flip { display: flex; justify-content: space-between; gap: var(--s3); padding-top: var(--s5); border-top: 1px solid var(--line); }
+.rd-flip button { display: grid; gap: 2px; text-align: left; background: none; border: 0; color: var(--ink); cursor: pointer; font: 500 14px var(--font-ui); padding: 4px 0; }
+.rd-flip button:last-child { text-align: right; }
+.rd-flip small { color: var(--ink-muted); font-weight: 400; }
+.rd-flip button:hover { color: var(--accent); }
+.rd-side { grid-column: 3; border-left: 1px solid var(--line); display: grid; grid-template-rows: auto minmax(0, 1fr); min-height: 0; background: var(--bg); overflow: hidden; }
+.rd.no-notes .rd-side { display: none; }
+.rd-side .tabs { padding: var(--s2) var(--s4) 0; gap: var(--s4); align-items: center; }
+.rd-side .side-close { display: none; margin-left: auto; }
+.rd-pane { overflow-y: auto; padding: var(--s4); display: grid; gap: var(--s4); align-content: start; min-height: 0; }
+.rd-pane[hidden] { display: none; }
+.note-new { display: grid; gap: var(--s3); }
+.ctxchip { font-size: 12px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-style: dashed; }
+.nlist { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); }
+.nitem { display: grid; gap: var(--s2); border-top: 1px solid var(--line); padding-top: var(--s3); }
+.nitem p { font: 400 15px/1.6 var(--font-reading); white-space: pre-wrap; }
+.nitem .nh { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3); font-size: 13px; color: var(--ink-muted); }
+.nitem details { font-size: 13px; color: var(--ink-muted); }
+.sug { border: 1px dashed var(--ink-muted); border-radius: var(--r); padding: var(--s3) var(--s4); display: grid; gap: var(--s2); }
+.sug p { font: 400 15px/1.6 var(--font-reading); }
+.sug small { color: var(--ink-muted); font-size: 12px; }
+.clar { display: grid; gap: var(--s4); }
+.clar h4 { margin: 0; font: 600 13px var(--font-ui); }
+.clar p { font: 400 15px/1.65 var(--font-reading); }
+.qa { display: grid; gap: var(--s3); }
+.qa .q { justify-self: end; max-width: 90%; background: var(--bg-subtle); padding: var(--s2) var(--s3); border-radius: var(--r); font: 400 15px/1.5 var(--font-reading); }
+.qa .a { display: grid; gap: var(--s2); }
+.qa .a p { font: 400 15px/1.65 var(--font-reading); }
+.rd-ask { display: flex; align-items: center; gap: var(--s2); padding: 12px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); border-top: 1px solid var(--line); background: var(--bg); }
+.rd-ask .input { flex: 1; min-width: 0; padding: 11px 14px; font-size: 16px; }
+.rd-ask .ibtn { width: 42px; height: 42px; }
+.selbar { position: fixed; z-index: 80; display: flex; gap: 2px; background: var(--ink); padding: 2px; border-radius: var(--r); }
+.selbar[hidden] { display: none; }
+.selbar .ibtn { color: var(--bg); }
+.selbar .ibtn:hover { background: color-mix(in srgb, var(--bg) 22%, transparent); border-color: transparent; }
+@media (max-width: 1100px) {
+  .rd-main { grid-template-columns: var(--c-out) minmax(0, 1fr); }
+  .rd-side { position: fixed; z-index: 45; top: var(--pvh); right: 0; bottom: 0; width: min(460px, 100vw); border-left: 1px solid var(--ink); }
+  .rd-side .side-close { display: inline-grid; }
+}
+@media (max-width: 900px) { .rd-out { display: none; } .rd-main { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) { .rp { grid-template-columns: minmax(0, 1fr); } .rp > * { grid-column: 1 !important; grid-row: auto !important; } .rp-id { padding-top: 0; } }
+.rd-pane { overflow-x: hidden; }
+.rd-pane > *, .clar > *, .note-new > *, .qa > *, .sug > * { min-width: 0; }
+.rd-pane .tag { white-space: normal; align-items: flex-start; line-height: 1.4; }
+.rd-pane .tag .ic { margin-top: 1px; }
+.rd-pane .chip { white-space: normal; text-align: left; }
+.rd-pane p, .rd-pane li, .rd-pane small { overflow-wrap: anywhere; }
+.rd-side .tabs { flex-wrap: nowrap; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol><symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h11v11H9zM5 15H4V4h11v1"/></symbol><symbol id="i-quote" viewBox="0 0 24 24"><path d="M7 17c-2 0-3-1-3-3 0-3 2-6 5-7M17 17c-2 0-3-1-3-3 0-3 2-6 5-7"/></symbol><symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/></symbol><symbol id="i-bookmark" viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></symbol><symbol id="i-notes" viewBox="0 0 24 24"><path d="M6 3h12v18H6zM9 8h6M9 12h6M9 16h4"/></symbol><symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h16v16H4zM4 10h16M4 15h16M10 4v16"/></symbol><symbol id="i-graph" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="18" r="2"/><path d="M10 10.5L6.5 7.5M14 10.5l3.5-3M10.5 14l-3 3.5M13.5 14l3 2.5"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2zM12 6v14"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></symbol><symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol><symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h8M16 7h4M4 17h4M12 17h8"/><circle cx="14" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol><symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol><symbol id="i-stop" viewBox="0 0 24 24"><path d="M7 7h10v10H7z"/></symbol><symbol id="i-clip" viewBox="0 0 24 24"><path d="M20 11l-8.5 8.5a5 5 0 0 1-7-7L13 4a3.5 3.5 0 0 1 5 5l-8.5 8.5a2 2 0 0 1-3-3L14 7"/></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19zM14 7l3 3"/></symbol><symbol id="i-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol><symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol><symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol><symbol id="i-thumbup" viewBox="0 0 24 24"><path d="M7 11v9H4v-9zM7 11l4-7c1.5 0 2.5 1 2.5 2.5V9h5a1.5 1.5 0 0 1 1.5 1.7l-1 7a2 2 0 0 1-2 1.8H7"/></symbol><symbol id="i-thumbdown" viewBox="0 0 24 24"><g transform="rotate(180 12 12)"><path d="M7 11v9H4v-9zM7 11l4-7c1.5 0 2.5 1 2.5 2.5V9h5a1.5 1.5 0 0 1 1.5 1.7l-1 7a2 2 0 0 1-2 1.8H7"/></g></symbol><symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol><symbol id="i-dots" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4" fill="currentColor"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/><circle cx="19" cy="12" r="1.4" fill="currentColor"/></symbol><symbol id="i-panel" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM15 5v14"/></symbol><symbol id="i-sidebar" viewBox="0 0 24 24"><path d="M4 5h16v14H4zM9 5v14"/></symbol><symbol id="i-columns" viewBox="0 0 24 24"><path d="M4 5h7v14H4zM13 5h7v14h-7z"/></symbol><symbol id="i-type" viewBox="0 0 24 24"><path d="M5 6h14M12 6v13M9 19h6"/></symbol><symbol id="i-verify" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6zM9 12l2 2 4-4"/></symbol><symbol id="i-filecheck" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7zM14 3v5h5M10 14l2 2 3-3"/></symbol><symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol><symbol id="i-message" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 3h4M7 7l1 13h8l1-13M10 11v6M14 11v6"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></symbol><symbol id="i-highlight" viewBox="0 0 24 24"><path d="M5 19h14M8 16l8-8 3 3-8 8H8z"/></symbol></defs></svg>
+<div class="pv gutter" role="navigation" aria-label="Preview pages">
+  <span>PREVIEW</span>
+  <button class="chip" type="button" data-go="new" aria-pressed="true">New chat</button>
+  <button class="chip" type="button" data-go="convo" aria-pressed="false">Conversation</button>
+  <button class="chip" type="button" data-go="reader" aria-pressed="false">Reader</button>
+  <button class="chip" type="button" data-go="terms" aria-pressed="false">Terms</button>
+  <button class="chip" type="button" data-go="compare" aria-pressed="false">Compare</button>
+  <button class="chip" type="button" data-go="notebook" aria-pressed="false">Notebook</button>
+  <button class="chip" type="button" data-go="verify" aria-pressed="false">Verify</button>
+  <button class="chip" type="button" data-go="check" aria-pressed="false">Document</button>
+  <span class="grow"></span>
+  <button class="chip" type="button" id="themeBtn">Theme: system</button>
+</div>
+
+<div class="shell">
+  <aside class="rail" id="rail" aria-label="Workspace">
+    <a class="wordmark" href="#new" data-go="new">Quote Buddha</a>
+    <button class="btn btn-primary btn-ic" type="button" data-go="new"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg>New chat</button>
+    <label for="rsearch" style="position:absolute;left:-9999px">Search chats and texts</label>
+    <button class="input" id="rsearch" type="button" data-modal="palette" style="text-align:left;color:var(--ink-muted);cursor:pointer">Search chats and texts</button>
+    <div class="grid" style="gap:var(--s1)">
+      <span class="grp" id="pinGrp" hidden>Pinned</span>
+      <nav aria-label="Pinned chats" id="pinNav" hidden></nav>
+      <span class="grp">Today</span>
+      <nav aria-label="Chats today">
+        <div class="crow"><button type="button" data-go="convo" aria-current="true" data-chat>Speculation about the self</button><button type="button" class="more" data-more aria-label="Chat options" aria-haspopup="menu"><svg class="ic" aria-hidden="true"><use href="#i-dots"/></svg></button></div>
+        <div class="crow"><button type="button" data-go="convo" data-chat>Classification of wrong views</button><button type="button" class="more" data-more aria-label="Chat options" aria-haspopup="menu"><svg class="ic" aria-hidden="true"><use href="#i-dots"/></svg></button></div>
+      </nav>
+      <span class="grp">Earlier</span>
+      <nav aria-label="Earlier chats">
+        <div class="crow"><button type="button" data-go="convo" data-chat>Meaning of diṭṭhi</button><button type="button" class="more" data-more aria-label="Chat options" aria-haspopup="menu"><svg class="ic" aria-hidden="true"><use href="#i-dots"/></svg></button></div>
+        <div class="crow"><button type="button" data-go="convo" data-chat>Quote check: sample saying</button><button type="button" class="more" data-more aria-label="Chat options" aria-haspopup="menu"><svg class="ic" aria-hidden="true"><use href="#i-dots"/></svg></button></div>
+      </nav>
+    </div>
+    <div class="grid" style="gap:var(--s1)">
+      <span class="grp">Research tools</span>
+      <nav aria-label="Tools">
+        <button type="button" data-go="reader" data-nav="reader"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg>Reader</button>
+        <button type="button" data-go="terms" data-nav="terms"><svg class="ic" aria-hidden="true"><use href="#i-type"/></svg>Terms</button>
+        <button type="button" data-go="compare" data-nav="compare"><svg class="ic" aria-hidden="true"><use href="#i-columns"/></svg>Compare</button>
+        <button type="button" data-go="notebook" data-nav="notebook"><svg class="ic" aria-hidden="true"><use href="#i-notes"/></svg>Notebook</button>
+        <button type="button" data-go="verify" data-nav="verify"><svg class="ic" aria-hidden="true"><use href="#i-verify"/></svg>Verify a quote</button>
+        <button type="button" data-go="check" data-nav="check"><svg class="ic" aria-hidden="true"><use href="#i-filecheck"/></svg>Check a document</button>
+      </nav>
+    </div>
+    <div class="foot"><button class="btn btn-text btn-sm btn-ic" type="button" data-modal="settings" style="padding:0"><svg class="ic" aria-hidden="true"><use href="#i-sliders"/></svg>Settings</button><br>Corpus v0.1 · DN 1 only</div>
+  </aside>
+
+  <div class="main" id="main">
+    <div class="topbar">
+      <span class="row" style="gap:var(--s3);flex-wrap:nowrap;min-width:0"><button class="ibtn menu-btn" type="button" aria-label="Menu" data-tip="Menu" id="menuBtn" aria-expanded="false" aria-controls="rail"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button><span class="title" id="pageTitle">New chat</span></span>
+      <span class="row" style="gap:var(--s2);flex-wrap:nowrap"><button class="chip" type="button" id="cmdBtn" data-modal="palette" aria-label="Search (Ctrl K)"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg><span class="stamp">Ctrl K</span></button><button class="ibtn" type="button" aria-label="Research panel" data-tip="Research panel" id="rpToggle" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-panel"/></svg></button><button class="ibtn" type="button" aria-label="Share this chat" data-tip="Share this chat" data-modal="share"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg></button></span>
+    </div>
+
+    <!-- NEW CHAT -->
+    <section class="page" data-page="new" data-title="New chat">
+      <div class="empty">
+        <div class="inner">
+          <h1>What would you like to research?</h1>
+          <div class="composer" data-composer>
+            <div class="slash" hidden></div>
+            <label for="c-new" style="position:absolute;left:-9999px">Ask a question</label>
+            <textarea id="c-new" rows="2" placeholder="Ask about the early texts. Type / for tools."></textarea>
+            <div class="bar"><span class="row" style="gap:var(--s2)"><button class="chip" type="button" data-set="depth:quick" aria-pressed="true">Quick</button><button class="chip" type="button" data-set="depth:deep" aria-pressed="false">Deep research</button><button class="chip" type="button" aria-pressed="true">Early texts</button><button class="chip" type="button" disabled title="Not available yet">Commentaries</button><button class="ibtn" type="button" aria-label="Attach a file" data-tip="Attach a file" data-attach><svg class="ic" aria-hidden="true"><use href="#i-clip"/></svg></button></span><button class="ibtn solid" type="button" aria-label="Ask" data-tip="Ask" data-go="convo"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></div>
+          </div>
+          <div class="suggest" aria-label="Suggested questions">
+            <button class="chip" type="button" data-go="convo">What is the Buddha's view on speculation about the self?</button>
+            <button class="chip" type="button" data-go="convo">How does DN 1 classify wrong views?</button>
+          </div>
+          <div class="tools">
+            <button type="button" data-go="verify"><b>Verify a quote</b><span>Is this saying in the early texts?</span></button>
+            <button type="button" data-go="reader"><b>Read DN 1</b><span>Pali and translation side by side</span></button>
+            <button type="button" data-go="terms"><b>Look up a term</b><span>Glosses and where it occurs</span></button>
+            <button type="button" data-go="compare"><b>Compare passages</b><span>Two passages, shared terms</span></button>
+          </div>
+          <div class="duo" style="margin-top:var(--s4)">
+            <div class="grid" style="gap:var(--s2);align-content:start"><h2 class="h-sm muted">Continue</h2>
+              <ul class="list"><li><button type="button" data-go="convo">Speculation about the self<span class="meta">today</span></button></li><li><button type="button" data-go="convo">Classification of wrong views<span class="meta">today</span></button></li><li><button type="button" data-go="notebook">Notebook: Views in DN 1<span class="meta">3 notes</span></button></li></ul></div>
+            <div class="grid" style="gap:var(--s3);align-content:start"><h2 class="h-sm muted">What the database covers</h2>
+              <div class="grid" style="gap:var(--s2)"><div class="row" style="justify-content:space-between"><span class="small">Dīgha Nikāya</span><span class="stamp">1 of 34 suttas</span></div><div class="sq" aria-label="1 of 34 included"><i class="hit"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+              <div class="grid" style="gap:var(--s1)"><div class="row" style="justify-content:space-between"><span class="small">Majjhima, Saṃyutta, Aṅguttara</span><span class="stamp">not yet</span></div><span class="bar-line"></span></div>
+              <p class="small muted">Answers can only draw on filled squares. Everything else is reported as not found.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONVERSATION -->
+    <section class="page" data-page="convo" data-title="Speculation about the self" data-chatpage hidden>
+      <div class="chat">
+        
+        <div class="thread" id="thread">
+          <div class="msg-u"><span data-edit-text>What is the Buddha's view on speculation about the self?</span><div class="uact"><button class="ibtn sm" type="button" aria-label="Edit and branch" data-tip="Edit and branch" data-edit><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></button><span class="ver" hidden><button class="ibtn sm" type="button" aria-label="Previous version" data-tip="Previous version" data-ver="-1"><svg class="ic" aria-hidden="true"><use href="#i-left"/></svg></button><span data-vtxt>1 / 1</span><button class="ibtn sm" type="button" aria-label="Next version" data-tip="Next version" data-ver="1"><svg class="ic" aria-hidden="true"><use href="#i-right"/></svg></button></span></div></div>
+          <div class="msg-a">
+            <div class="who"><b>Quote Buddha</b><span class="tag tag-direct">Found in the included texts</span></div>
+            <details class="proc"><summary><span class="muted">Searched DN 1 · 5 passages · 2 claims verified · 1 dropped</span></summary>
+              <ol class="steps"><li><b>1</b><span>Searched by exact words and by meaning.</span></li><li><b>2</b><span>Drafted three claims with quotes.</span></li><li><b>3</b><span>Checked each quote against the stored passage. One did not match and was removed.</span></li></ol></details>
+            <div class="own"><h3>Simple answer</h3><p><span data-lvl="student">Sample summary in plain language</span><span data-lvl="scholar" hidden>Sample technical summary that keeps the Pali (<span lang="pi">diṭṭhi</span>) and points to sections of DN 1</span>, with a <button class="term" type="button" data-rp="terms">term</button> and a citation.<span class="fn"><button type="button" data-rp="sources">[1]</button></span></p><small>This is the system's own explanation. It is not a quotation and has not been checked against the texts.</small></div>
+            <ol class="claims">
+              <li><p>Sample claim, attributed to the Buddha in DN 1.<span class="fn"><button type="button" data-rp="sources">[1]</button></span></p>
+                <figure class="passage" style="margin:0"><blockquote>Placeholder passage text for the verified quote.</blockquote><figcaption><button class="cite" type="button" data-rp="sources">pitaka_lk:dn-1:44:5</button><span class="tag tag-direct">Direct quote</span></figcaption></figure></li>
+              <li><p>A second sample claim whose quote could not be checked.<span class="fn"><button type="button" data-rp="sources">[2]</button></span></p><div class="row" style="gap:var(--s4)"><button class="cite" type="button" data-rp="sources">pitaka_lk:dn-1:12:3</button><span class="tag tag-unverified">Not verified</span></div></li>
+            </ol>
+            <div class="srcrow"><span class="small muted">Sources</span><button class="chip" type="button" data-rp="sources"><span class="n">1</span>DN 1 · 44.5</button><button class="chip" type="button" data-rp="sources"><span class="n">2</span>DN 1 · 12.3</button><button class="chip" type="button" data-rp="sources"><span class="n">3</span>DN 1 · 7.1</button><button class="chip" type="button" data-graph="a1"><svg class="ic" aria-hidden="true"><use href="#i-graph"/></svg>Source graph</button></div>
+            <div class="actions"><button class="ibtn sm" type="button" aria-label="Copy answer" data-tip="Copy answer" data-copy><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button class="ibtn sm" type="button" aria-label="Cite" data-tip="Cite" data-cite><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg></button><button class="ibtn sm" type="button" aria-label="Regenerate" data-tip="Regenerate" data-regen><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg></button><button class="ibtn sm" type="button" aria-label="Save to notebook" data-tip="Save to notebook" data-go="notebook"><svg class="ic" aria-hidden="true"><use href="#i-bookmark"/></svg></button><span class="small muted">|</span><button class="ibtn sm" type="button" aria-label="Evidence matrix" data-tip="Evidence matrix" data-rp="evidence"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg></button><button class="ibtn sm" type="button" aria-label="Open in Reader" data-tip="Open in Reader" data-go="reader"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg></button></div>
+            <div class="actions fb"><button class="ibtn sm" type="button" aria-label="Helpful" data-tip="Helpful" data-fb="up"><svg class="ic" aria-hidden="true"><use href="#i-thumbup"/></svg></button><button class="ibtn sm" type="button" aria-label="Not helpful" data-tip="Not helpful" data-fb="down"><svg class="ic" aria-hidden="true"><use href="#i-thumbdown"/></svg></button><button class="ibtn sm" type="button" aria-label="Report a citation" data-tip="Report a citation" data-modal="report"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></button><span class="small muted" role="status" data-fbmsg></span></div>
+            <p class="small muted" style="max-width:62ch">Found in the included texts only. A missing answer does not mean the Buddha did not teach it.</p>
+            <div class="suggest"><button class="chip" type="button">How does DN 1 describe the origin of these views?</button><button class="chip" type="button" data-go="terms">What does diṭṭhi mean?</button></div>
+          </div>
+
+          <div class="msg-u"><span data-edit-text>Did the Buddha say anything about smartphones?</span><div class="uact"><button class="ibtn sm" type="button" aria-label="Edit and branch" data-tip="Edit and branch" data-edit><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></button><span class="ver" hidden><button class="ibtn sm" type="button" aria-label="Previous version" data-tip="Previous version" data-ver="-1"><svg class="ic" aria-hidden="true"><use href="#i-left"/></svg></button><span data-vtxt>1 / 1</span><button class="ibtn sm" type="button" aria-label="Next version" data-tip="Next version" data-ver="1"><svg class="ic" aria-hidden="true"><use href="#i-right"/></svg></button></span></div></div>
+          <div class="msg-a">
+            <div class="who"><b>Quote Buddha</b><span class="tag tag-abstain">Not established</span></div>
+            <div class="abstain"><h3>The early texts included in this database do not establish this.</h3><p class="muted small" style="max-width:56ch">No supporting passage was found in the included corpus by these methods. This does not show that the Buddha did not teach it. The database currently includes only part of the early texts.</p></div>
+            <div class="srcrow"><span class="small muted">Sources</span><span class="small muted">None used</span><button class="chip" type="button" data-graph="a2"><svg class="ic" aria-hidden="true"><use href="#i-graph"/></svg>Source graph</button></div>
+            <details class="proc"><summary><span class="muted">What we searched · DN 1 · 3 passages retrieved, none relevant enough</span></summary><dl class="facts" style="margin-top:var(--s3)"><dt>Methods</dt><dd>Word match and semantic similarity</dd><dt>Corpus</dt><dd>DN 1 (Brahmajāla Sutta)</dd></dl></details>
+            <div class="actions fb"><button class="ibtn sm" type="button" aria-label="Helpful" data-tip="Helpful" data-fb="up"><svg class="ic" aria-hidden="true"><use href="#i-thumbup"/></svg></button><button class="ibtn sm" type="button" aria-label="Not helpful" data-tip="Not helpful" data-fb="down"><svg class="ic" aria-hidden="true"><use href="#i-thumbdown"/></svg></button><button class="ibtn sm" type="button" aria-label="Report a citation" data-tip="Report a citation" data-modal="report"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></button><span class="small muted" role="status" data-fbmsg></span></div>
+            <div class="suggest"><button class="chip" type="button" data-go="terms">Look up related terms, such as phassa</button><button class="chip" type="button" data-go="new">Browse included texts</button></div>
+          </div>
+        </div>
+        <div class="dockbar"><div class="inner">
+          <div class="composer" data-composer><div class="slash" hidden></div>
+            <label for="c-follow" style="position:absolute;left:-9999px">Follow-up</label>
+            <textarea id="c-follow" rows="1" placeholder="Ask a follow-up. Type / for tools."></textarea>
+            <div class="bar"><span class="row" style="gap:var(--s2)"><button class="chip" type="button" data-set="depth:quick" aria-pressed="true">Quick</button><button class="chip" type="button" data-set="depth:deep" aria-pressed="false">Deep research</button><button class="chip" type="button" aria-pressed="true">Early texts</button><button class="ibtn" type="button" aria-label="Attach a file" data-tip="Attach a file" data-attach><svg class="ic" aria-hidden="true"><use href="#i-clip"/></svg></button><button class="ibtn" type="button" aria-label="Notes on this answer" data-tip="Notes on this answer" data-rp="notes"><svg class="ic" aria-hidden="true"><use href="#i-notes"/></svg></button><span class="row" id="attachedRow" style="gap:var(--s2)"></span></span><span class="row" style="gap:var(--s2);flex-wrap:nowrap"><button class="ibtn solid" type="button" aria-label="Stop" data-tip="Stop" id="stopBtn" hidden><svg class="ic" aria-hidden="true"><use href="#i-stop"/></svg></button><button class="ibtn solid" type="button" aria-label="Ask" data-tip="Ask" id="askBtn"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button></span></div>
+          </div>
+          <span class="small muted" style="text-align:center" id="hint">Answers can be wrong. Check the sources.</span>
+        </div></div>
+      </div>
+    </section>
+
+    <!-- READER -->
+    <section class="page" data-page="reader" data-title="Reader" hidden>
+      <div class="rd v-both" id="rd">
+        <div class="rd-bar">
+          <div class="rd-bar-l">
+            <button class="chip rd-pick" type="button" id="suttaBtn" aria-haspopup="menu" aria-expanded="false"><svg class="ic" aria-hidden="true"><use href="#i-book"/></svg><span>DN 1 · Brahmajāla Sutta</span><svg class="ic" aria-hidden="true"><use href="#i-down"/></svg></button>
+            <span class="rd-step"><button class="ibtn sm" type="button" aria-label="Previous section" data-tip="Previous section" data-secstep="-1"><svg class="ic" aria-hidden="true"><use href="#i-left"/></svg></button><label class="vh" for="secSel">Section</label><select class="input rd-sel" id="secSel"></select><button class="ibtn sm" type="button" aria-label="Next section" data-tip="Next section" data-secstep="1"><svg class="ic" aria-hidden="true"><use href="#i-right"/></svg></button><span class="stamp" id="secCount">1 / 7</span></span>
+          </div>
+          <div class="rd-bar-r">
+            <span class="seg" role="group" aria-label="Reading view"><button class="chip" type="button" data-rview="both" aria-pressed="true">Both</button><button class="chip" type="button" data-rview="pali" aria-pressed="false">Pali</button><button class="chip" type="button" data-rview="tr" aria-pressed="false">English</button></span>
+            <button class="ibtn" type="button" aria-label="Text size" data-tip="Text size" id="rdSize"><svg class="ic" aria-hidden="true"><use href="#i-type"/></svg></button> <button class="ibtn" type="button" aria-label="Sections list" data-tip="Sections list" id="rdOutBtn" aria-pressed="true"><svg class="ic" aria-hidden="true"><use href="#i-sidebar"/></svg></button> <button class="ibtn" type="button" id="rdNotesBtn" aria-pressed="true" aria-label="Notes and AI pane" data-tip="Notes and AI pane"><svg class="ic" aria-hidden="true"><use href="#i-panel"/></svg><span class="bdg" id="noteCount">2</span></button> <button class="ibtn" type="button" aria-label="Share notes" data-tip="Share notes" data-modal="share" data-sharetitle="Share notes on DN 1"><svg class="ic" aria-hidden="true"><use href="#i-share"/></svg></button> <button class="ibtn" type="button" aria-label="Download or copy notes" data-tip="Download or copy notes" id="rdDl" aria-haspopup="menu"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg></button>
+          </div>
+        </div>
+        <div class="rd-main" id="rdMain">
+          <nav class="rd-out" aria-label="Sections in this sutta" id="rdOut"></nav>
+          <article class="rd-text" id="rdText"></article>
+          <aside class="rd-side" id="rdSide" aria-label="Notes, clarification and questions">
+            <div class="tabs" role="tablist" aria-label="Reader tools">
+              <button role="tab" type="button" aria-selected="true" data-rtab="notes"><svg class="ic" aria-hidden="true"><use href="#i-notes"/></svg>Notes</button>
+              <button role="tab" type="button" aria-selected="false" data-rtab="clarify"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"/></svg>Clarify</button>
+              <button role="tab" type="button" aria-selected="false" data-rtab="ask"><svg class="ic" aria-hidden="true"><use href="#i-message"/></svg>Ask</button>
+              <button class="ibtn sm side-close" type="button" aria-label="Hide this pane" data-tip="Hide this pane" data-rhide><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+            </div>
+            <div class="rd-pane" data-rpane="notes">
+              <div class="note-new">
+                <div class="row" style="justify-content:space-between"><span class="chip ctxchip" data-ctx>On 1.1</span><span class="seg"><button class="chip" type="button" data-nscope="sec" aria-pressed="true">This section</button><button class="chip" type="button" data-nscope="all" aria-pressed="false">All</button></span></div>
+                <label class="vh" for="nbody">New note</label>
+                <textarea class="input" id="nbody" rows="3" placeholder="Write a note about this passage"></textarea>
+                <div class="row" style="justify-content:space-between"><button class="btn btn-secondary btn-sm btn-ic" type="button" data-enh><svg class="ic" aria-hidden="true"><use href="#i-sparkle"/></svg>Enhance with AI</button><button class="ibtn solid" type="button" aria-label="Save note" data-tip="Save note" data-nsave><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></button></div>
+                <div id="enh" hidden></div>
+              </div>
+              <ul class="nlist" id="nlist" aria-label="Your notes"></ul>
+            </div>
+            <div class="rd-pane" data-rpane="clarify" hidden>
+              <div class="row" style="justify-content:space-between"><span class="chip ctxchip" data-ctx>On 1.1</span><button class="btn btn-secondary btn-sm btn-ic" type="button" data-clarify><svg class="ic" aria-hidden="true"><use href="#i-sparkle"/></svg>Clarify this</button></div>
+              <div id="clOut"></div>
+            </div>
+            <div class="rd-pane" data-rpane="ask" hidden>
+              <div class="grid" id="askList" style="gap:var(--s5)"></div>
+              <div class="suggest" id="askSug"><button class="chip" type="button" data-qsug="What does this passage mean?">What does this passage mean?</button><button class="chip" type="button" data-qsug="Which terms matter here?">Which terms matter here?</button><button class="chip" type="button" data-qsug="How does this fit the whole sutta?">How does this fit the whole sutta?</button></div>
+            </div>
+          </aside>
+        </div>
+        <form class="rd-ask" id="rdAsk" autocomplete="off">
+          <span class="chip ctxchip" data-ctx>On 1.1</span>
+          <label class="vh" for="rdQ">Ask about this passage</label>
+          <input class="input" id="rdQ" placeholder="Ask about this passage, or select text to quote it">
+          <button class="ibtn solid" type="submit" aria-label="Ask" data-tip="Ask"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></button>
+        </form>
+      </div>
+      <div class="selbar" id="selbar" hidden role="toolbar" aria-label="Selected text"><button class="ibtn" type="button" aria-label="Add a note" data-tip="Add a note" data-pact="note"><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></button><button class="ibtn" type="button" aria-label="Clarify the meaning" data-tip="Clarify the meaning" data-pact="clarify"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"/></svg></button><button class="ibtn" type="button" aria-label="Ask about this" data-tip="Ask about this" data-pact="ask"><svg class="ic" aria-hidden="true"><use href="#i-message"/></svg></button><button class="ibtn" type="button" aria-label="Copy citation" data-tip="Copy citation" data-pact="cite"><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg></button></div>
+    </section>
+
+    <!-- TERMS -->
+    <section class="page" data-page="terms" data-title="Terms" hidden>
+      <div class="work">
+        <div class="head"><h1>Terms</h1><span class="small muted">Pali terms in the included texts, with glosses and where they occur</span></div>
+        <div class="tgrid">
+          <div class="grid" style="align-content:start"><label class="h-sm" for="tfind">Find a term</label><input class="input" id="tfind" placeholder="diṭṭhi, attā…">
+            <ul class="list"><li><button type="button" style="font-weight:600"><span lang="pi">diṭṭhi</span></button></li><li><button type="button"><span lang="pi">attā</span></button></li><li><button type="button"><span lang="pi">sassata</span></button></li><li><button type="button"><span lang="pi">phassa</span></button></li></ul></div>
+          <article class="grid" style="gap:var(--s5)">
+            <div class="grid" style="gap:var(--s2)"><h2 style="font-size:36px;font-weight:400" lang="pi">diṭṭhi</h2><span class="muted">view, opinion, theory</span></div>
+            <dl class="facts"><dt>Glosses</dt><dd>English: view. Sinhala and Pali glosses: later.</dd><dt>Variants</dt><dd><span lang="pi">diṭṭhi, diṭṭhigata</span></dd><dt>Note</dt><dd>Translations vary: "view", "opinion", "speculative view" (sample).</dd></dl>
+            <div class="grid"><h3 class="h-sm">Occurrences by text (sample data)</h3><div class="hbar"><span>DN 1</span><span><i style="width:100%"></i></span><span class="stamp">62</span></div><div class="hbar"><span class="muted">Others</span><span><i style="width:0"></i></span><span class="stamp">0</span></div><p class="small muted">Only included texts are counted.</p></div>
+            <div class="grid"><h3 class="h-sm">In context</h3><figure class="passage" style="margin:0"><blockquote lang="pi">Layout sample: the term appears here in a passage.</blockquote><figcaption><button class="cite" type="button" data-rp="sources">DN 1 · 44.5</button><button class="btn btn-text btn-sm" type="button" data-go="reader">Open in Reader</button><button class="btn btn-text btn-sm" type="button" data-go="convo">Ask about this term</button></figcaption></figure></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="page" data-page="compare" data-title="Compare" hidden>
+      <div class="work">
+        <div class="head"><h1>Compare passages</h1><span class="small muted">Parallels across texts arrive as more texts are added.</span></div>
+        <div class="cmp">
+          <div><label class="h-sm" for="cmpa">Passage A</label><select class="input" id="cmpa"><option>DN 1 · 44.5</option><option>DN 1 · 12.3</option></select><p lang="pi" style="font:400 19px/1.7 var(--font-reading)">Layout sample: Pali for passage A with <mark>shared</mark> wording.</p><p>Layout sample translation for passage A.</p></div>
+          <div><label class="h-sm" for="cmpb">Passage B</label><select class="input" id="cmpb"><option>DN 1 · 12.3</option><option>DN 1 · 44.5</option></select><p lang="pi" style="font:400 19px/1.7 var(--font-reading)">Layout sample: Pali for passage B with <mark>shared</mark> wording.</p><p>Layout sample translation for passage B.</p></div>
+        </div>
+        <dl class="facts"><dt>Shared terms</dt><dd><span lang="pi">diṭṭhi, attā</span></dd><dt>Only in A</dt><dd><span lang="pi">sassata</span></dd><dt>Only in B</dt><dd><span lang="pi">ucchedavāda</span></dd></dl>
+        <div class="row"><button class="btn btn-secondary btn-sm" type="button" data-go="notebook">Add to notebook</button><button class="btn btn-text btn-sm" type="button" data-go="convo">Ask about the difference</button></div>
+      </div>
+    </section>
+
+    <!-- NOTEBOOK -->
+    <section class="page" data-page="notebook" data-title="Notebook" hidden>
+      <div class="work">
+        <div class="head"><div class="grid" style="gap:var(--s2)"><span class="crumbs"><span>Notebook</span></span><h1>Views and speculation in DN 1</h1></div><span class="row" style="gap:var(--s4)"><button class="ibtn" type="button" aria-label="Export Markdown" data-tip="Export Markdown" data-export="Markdown"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg></button><button class="ibtn" type="button" aria-label="Export BibTeX" data-tip="Export BibTeX" data-export="BibTeX"><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg></button></span></div>
+        <div class="cols two">
+          <div class="grid" style="gap:var(--s5)">
+            <div class="note-ed"><span class="h-sm">Note · 2026-11-16</span><p>Sample researcher note. Notes sit next to the passages they discuss, and passages keep their citation.</p><figure class="passage" style="margin:0"><blockquote>Placeholder passage embedded in a note.</blockquote><figcaption><button class="cite" type="button" data-rp="sources">pitaka_lk:dn-1:44:5</button><span class="tag tag-direct">Direct quote</span></figcaption></figure></div>
+            <div class="note-ed" style="border-style:dashed"><span class="h-sm muted">New note</span><textarea class="input" rows="3" id="newnote" placeholder="Write a note."></textarea><div class="row"><button class="btn btn-primary btn-sm" type="button">Save note</button></div></div>
+          </div>
+          <aside class="grid" style="gap:var(--s5);align-content:start">
+            <div class="grid" style="gap:var(--s2)"><h2 class="h-sm">Chats</h2><ul class="list"><li><button type="button" data-go="convo">Speculation about the self</button></li><li><button type="button" data-go="convo">Classification of wrong views</button></li></ul></div>
+            <div class="grid" style="gap:var(--s2)"><h2 class="h-sm">Sources used</h2><ul class="list"><li><button type="button" data-rp="sources"><span class="cite">DN 1 · 44.5</span><span class="meta">3 uses</span></button></li><li><button type="button" data-rp="sources"><span class="cite">DN 1 · 12.3</span><span class="meta">1 use</span></button></li></ul></div>
+            <p class="small muted">Exports include references, edition details and the corpus version.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHECK -->
+    <section class="page" data-page="check" data-title="Check a document" hidden>
+      <div class="work" style="max-width:860px">
+        <div class="grid" style="gap:var(--s2)"><h1 style="font-size:clamp(26px,4vw,34px);font-weight:400">Check a document</h1><p class="muted" style="max-width:64ch">Upload or paste an article, essay or PDF. We find the sayings attributed to the Buddha and check each one against the included texts.</p></div>
+        <label class="drop" id="drop" for="docfile"><b>Drop a file here, or choose one</b><span class="small">.txt, .pdf or .docx, up to 10 MB</span><span class="small" id="docname"></span></label>
+        <input class="vh" type="file" id="docfile" accept=".txt,.pdf,.docx">
+        <div class="composer"><label for="doctext" class="vh">Or paste text</label><textarea id="doctext" rows="4">Sample paragraph from an article. The author writes that the Buddha taught "sample saying one", and later adds "sample saying two" without a source.</textarea><div class="bar"><span class="small muted">Searches the included texts only (DN 1).</span><button class="btn btn-primary btn-sm" type="button" data-checkdoc>Check quotes</button></div></div>
+        <div class="grid" style="gap:var(--s4)">
+          <div class="head"><h2 class="h-sm">Result (sample)</h2><button class="btn btn-secondary btn-sm" type="button" data-export="Report">Export report</button></div>
+          <div class="row" style="gap:var(--s5)"><span class="tag tag-direct">1 found verbatim</span><span class="tag tag-unverified">1 close paraphrase</span><span class="tag tag-abstain">2 not found in the included texts</span></div>
+          <div class="table-wrap"><table class="data" style="min-width:560px"><thead><tr><th>Saying in your text</th><th>Result</th><th>Closest passage</th></tr></thead><tbody>
+            <tr><td>"Sample saying one"</td><td><span class="tag tag-direct">Verbatim</span></td><td><button class="cite" type="button" data-rp="sources">DN 1 · 44.5</button></td></tr>
+            <tr><td>"Sample saying two"</td><td><span class="tag tag-unverified">Close paraphrase</span></td><td><button class="cite" type="button" data-rp="sources">DN 1 · 12.3</button></td></tr>
+            <tr><td>"Sample saying three"</td><td><span class="tag tag-abstain">Not found</span></td><td class="muted">None in DN 1</td></tr>
+            <tr><td>"Sample saying four"</td><td><span class="tag tag-abstain">Not found</span></td><td class="muted">None in DN 1</td></tr>
+          </tbody></table></div>
+          <p class="muted small" style="border-top:1px solid var(--line);padding-top:var(--s3);max-width:62ch">Results cover the included texts only (DN 1). Not found does not mean the Buddha did not say it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERIFY -->
+    <section class="page" data-page="verify" data-title="Verify a quote" hidden>
+      <div class="work" style="max-width:720px">
+        <div class="grid" style="gap:var(--s2)"><h1 style="font-size:clamp(26px,4vw,34px);font-weight:400">Verify a quote</h1><p class="muted">Paste a saying attributed to the Buddha. We check whether it appears in the included texts.</p></div>
+        <div class="composer"><label for="vq" style="position:absolute;left:-9999px">Quote</label><textarea id="vq" rows="3">Sample quote pasted by the reader appears here.</textarea><div class="bar"><span class="small muted">Searches the included texts only.</span><button class="btn btn-primary btn-sm" type="button">Check quote</button></div></div>
+        <div class="grid" style="gap:var(--s4)">
+          <div class="tabs" role="tablist" aria-label="Result states (preview only)"><button role="tab" aria-selected="true" data-res="found" type="button">Found verbatim</button><button role="tab" aria-selected="false" data-res="close" type="button">Close paraphrase</button><button role="tab" aria-selected="false" data-res="none" type="button">Not found</button></div>
+          <div data-result="found" class="grid" style="gap:var(--s4)"><span class="tag tag-direct">Found verbatim in the included texts</span><figure class="passage"><blockquote>Placeholder passage text matching the pasted quote exactly.</blockquote><figcaption><button class="cite" type="button" data-rp="sources">DN 1 · 44.5</button><span>Pali with Sinhala translation, pitaka.lk</span></figcaption></figure></div>
+          <div data-result="close" hidden class="grid" style="gap:var(--s4)"><span class="tag tag-unverified">Close paraphrase found</span><p class="muted small">The wording differs from the passage. This is not the exact wording preserved in the included texts.</p><div class="cmp"><div><span class="h-sm">Your quote</span><p>The <mark>sample</mark> words as pasted, with some terms changed.</p></div><div><span class="h-sm">Closest passage · <button class="cite" type="button" data-rp="sources">DN 1 · 12.3</button></span><p>The <mark>placeholder</mark> words as they appear in the text.</p></div></div></div>
+          <div data-result="none" hidden class="grid" style="gap:var(--s4)"><span class="tag tag-abstain">Not found in the included texts</span><p style="font:400 19px/1.5 var(--font-reading);max-width:50ch">We could not find this quote or a close paraphrase in the included texts.</p></div>
+          <p class="muted small" style="border-top:1px solid var(--line);padding-top:var(--s3);max-width:62ch">Results cover the included texts only (DN 1). Not found does not mean the Buddha did not say it.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- SOURCE GRAPH DIALOG -->
+<div class="gdlg" id="gdlg" hidden>
+  <div class="gdlg-box" role="dialog" aria-modal="true" aria-labelledby="gdlgTitle">
+    <div class="row" style="justify-content:space-between;align-items:start;flex-wrap:nowrap">
+      <div class="grid" style="gap:var(--s1);min-width:0"><span class="small muted">Source graph</span><h2 id="gdlgTitle" style="font-size:24px"></h2></div>
+      <button class="ibtn" type="button" aria-label="Close" data-tip="Close" id="gclose"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+    </div>
+    <p class="muted small" style="max-width:66ch">Each claim in this answer, the passages cited for it, and the Tipiṭaka text those passages come from. Click any node to follow its path.</p>
+    <div class="gsplit">
+    <div class="gleft">
+    <div class="gwrap" id="gbox" role="group" aria-label="Graph of the question, passages and the Tipiṭaka"></div>
+    <div class="legend">
+      <span class="lg"><i></i>Direct quote, verified</span><span class="lg"><i class="weak"></i>Cited, not verified</span><span class="lg"><i class="none"></i>Removed, no passage matched</span>
+    </div>
+    </div>
+    <div class="gright">
+    <div class="gdetail" id="gdetail" aria-live="polite"></div>
+    <p class="small muted" id="gnote" style="max-width:66ch"></p>
+    <details class="proc"><summary><span class="muted">Connections as a list</span></summary><ul id="glist" style="margin:var(--s3) 0 0;padding-left:var(--s5);display:grid;gap:var(--s1);font-size:14px"></ul></details>
+    </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARE -->
+<div class="mdlg" id="dlg-share" hidden>
+  <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="t-share">
+    <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h2 id="t-share">Share this chat</h2><button class="ibtn" type="button" aria-label="Close" data-tip="Close" data-mclose><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <div class="fld"><span class="h-sm">Who can open the link</span><span class="seg"><button class="chip" type="button" data-seg="who" aria-pressed="true">Only me</button><button class="chip" type="button" data-seg="who" aria-pressed="false">Anyone with the link</button></span></div>
+    <div class="fld"><label class="h-sm" for="sharelink">Link</label><div class="row" style="flex-wrap:nowrap"><input class="input" id="sharelink" readonly value="https://quotebuddha.example/c/a1b2c3"><button class="ibtn" type="button" aria-label="Copy link" data-tip="Copy link" data-copylink><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button></div></div>
+    <div class="fld"><span class="h-sm">Include</span><label class="chk"><input type="checkbox" checked> Evidence matrix and source graph</label><label class="chk"><input type="checkbox"> My notes</label></div>
+    <div class="fld"><span class="h-sm">Export</span><span class="seg"><button class="btn btn-secondary btn-sm" type="button" data-export="Markdown">Markdown</button><button class="btn btn-secondary btn-sm" type="button" data-export="PDF">PDF</button><button class="btn btn-secondary btn-sm" type="button" data-export="BibTeX">BibTeX</button><button class="btn btn-secondary btn-sm" type="button" data-export="Answer with references">Copy with references</button></span></div>
+    <p class="small muted">Shared pages are read-only and show the corpus version they were generated from.</p>
+  </div>
+</div>
+
+<!-- REPORT -->
+<div class="mdlg" id="dlg-report" hidden>
+  <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="t-report">
+    <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h2 id="t-report">Report a citation</h2><button class="ibtn" type="button" aria-label="Close" data-tip="Close" data-mclose><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <p class="muted small">Tell us what is wrong with a citation. Reports go to the corpus reviewers and are used to improve answers.</p>
+    <div class="fld"><label class="h-sm" for="repcite">Citation</label><select class="input" id="repcite"><option>[1] DN 1 · 44.5</option><option>[2] DN 1 · 12.3</option><option>[3] DN 1 · 7.1</option></select></div>
+    <div class="fld"><span class="h-sm">What is wrong</span><span class="seg"><button class="chip" type="button" data-seg="reason" aria-pressed="true">Wrong passage</button><button class="chip" type="button" data-seg="reason" aria-pressed="false">Quote altered</button><button class="chip" type="button" data-seg="reason" aria-pressed="false">Wrong location</button><button class="chip" type="button" data-seg="reason" aria-pressed="false">Translation issue</button><button class="chip" type="button" data-seg="reason" aria-pressed="false">Other</button></span></div>
+    <div class="fld"><label class="h-sm" for="repnote">Details (optional)</label><textarea class="input" id="repnote" rows="3" placeholder="What did you expect to see?"></textarea></div>
+    <div class="row"><button class="btn btn-primary btn-sm" type="button" data-submitreport>Send report</button><button class="btn btn-text btn-sm" type="button" data-mclose>Cancel</button></div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="mdlg" id="dlg-settings" hidden>
+  <div class="mbox" role="dialog" aria-modal="true" aria-labelledby="t-settings">
+    <div class="row" style="justify-content:space-between;flex-wrap:nowrap"><h2 id="t-settings">Settings</h2><button class="ibtn" type="button" aria-label="Close settings" data-tip="Close settings" data-mclose><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <div class="fld"><span class="h-sm">Reading text size</span><span class="seg"><button class="chip" type="button" data-set="rs:0.9" aria-pressed="false">Small</button><button class="chip" type="button" data-set="rs:1" aria-pressed="true">Medium</button><button class="chip" type="button" data-set="rs:1.15" aria-pressed="false">Large</button></span></div>
+    <div class="fld"><span class="h-sm">Theme</span><span class="seg"><button class="chip" type="button" data-set="theme:system" aria-pressed="true">System</button><button class="chip" type="button" data-set="theme:light" aria-pressed="false">Light</button><button class="chip" type="button" data-set="theme:dark" aria-pressed="false">Dark</button></span></div>
+    <div class="fld"><span class="h-sm">Pali spelling</span><span class="seg"><button class="chip" type="button" data-set="pali:diacritics" aria-pressed="true">With diacritics (Evaṃ me sutaṃ)</button><button class="chip" type="button" data-set="pali:plain" aria-pressed="false">Plain letters (Evam me sutam)</button></span></div>
+    <div class="fld"><span class="h-sm">Explain answers for a</span><span class="seg"><button class="chip" type="button" data-set="level:student" aria-pressed="true">General reader</button><button class="chip" type="button" data-set="level:scholar" aria-pressed="false">Researcher</button></span><span class="small muted">A researcher gets technical wording, Pali terms and section references.</span></div>
+    <div class="fld"><span class="h-sm">Default answer depth</span><span class="seg"><button class="chip" type="button" data-set="depth:quick" aria-pressed="true">Quick</button><button class="chip" type="button" data-set="depth:deep" aria-pressed="false">Deep research</button></span></div>
+    <div class="fld"><span class="h-sm">Citation style</span><span class="seg"><button class="chip" type="button" data-set="cite:plain" aria-pressed="true">Plain</button><button class="chip" type="button" data-set="cite:chicago" aria-pressed="false">Chicago</button><button class="chip" type="button" data-set="cite:apa" aria-pressed="false">APA</button><button class="chip" type="button" data-set="cite:bibtex" aria-pressed="false">BibTeX</button></span></div>
+    <div class="fld"><span class="h-sm">Language</span><span class="seg"><button class="chip" type="button" aria-pressed="true">English</button><button class="chip" type="button" disabled>සිංහල soon</button><button class="chip" type="button" disabled>Pali soon</button></span></div>
+    <p class="small muted">Settings apply to this preview only.</p>
+  </div>
+</div>
+
+<!-- PALETTE -->
+<div class="mdlg top" id="dlg-palette" hidden>
+  <div class="mbox" role="dialog" aria-modal="true" aria-label="Command palette" style="padding:0;gap:0;width:min(620px,100%)">
+    <label for="palq" class="vh">Search</label>
+    <input class="input" id="palq" placeholder="Search chats, texts, terms and actions" autocomplete="off" aria-controls="pallist" style="border:0;border-bottom:1px solid var(--line);padding:16px" data-autofocus>
+    <ul class="pal-list" id="pallist" role="listbox" aria-label="Results"></ul>
+    <div class="small muted" style="padding:8px 16px;border-top:1px solid var(--line)">Up and Down to move, Enter to open, Esc to close</div>
+  </div>
+</div>
+
+<input class="vh" type="file" id="attachFile" tabindex="-1" aria-label="Attach a file">
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<div class="hov" id="hov" role="tooltip" hidden></div>
+
+<!-- RESEARCH PANEL -->
+<aside class="panel" id="panel" aria-label="Research panel" aria-hidden="true">
+  <div class="ph"><span class="h-sm">Research panel <span class="muted" style="font-weight:400">· latest answer</span></span><button class="ibtn" type="button" aria-label="Close panel" data-tip="Close panel" id="closePanel"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button></div>
+  <div class="tabs" role="tablist" aria-label="Research panel views">
+    <button role="tab" aria-selected="true" data-ptab="sources" type="button">Sources</button>
+    <button role="tab" aria-selected="false" data-ptab="evidence" type="button">Evidence</button>
+    <button role="tab" aria-selected="false" data-ptab="terms" type="button">Terms</button>
+    <button role="tab" aria-selected="false" data-ptab="notes" type="button">Notes</button>
+  </div>
+  <div class="body">
+    <div data-ppane="sources" class="grid" style="gap:var(--s4)">
+      <details open><summary><span>[1] DN 1 · 44.5</span><span class="tag tag-direct">Direct quote</span></summary><div>
+        <nav class="crumbs" aria-label="Location in the canon"><span>Sutta Piṭaka</span><span>Dīgha Nikāya</span><span>DN 1</span></nav>
+        <div class="grid" style="gap:var(--s1)"><span class="h-sm">Pali</span><p class="pali" lang="pi">Layout sample: Evaṃ me sutaṃ.</p></div>
+        <div class="grid" style="gap:var(--s1)"><span class="h-sm">Translation</span><p class="pali" style="font-size:17px">Layout sample translation.</p></div>
+        <dl class="facts"><dt>Source</dt><dd>pitaka.lk</dd><dt>Translator</dt><dd>Not recorded in source</dd><dt>Checksum</dt><dd><span class="stamp">sha256 · sample 9f2c41…e41a</span></dd></dl>
+        <div class="row"><button class="btn btn-secondary btn-sm" type="button" data-go="reader">Open in Reader</button><button class="btn btn-text btn-sm" type="button" data-go="compare">Compare</button><button class="btn btn-text btn-sm" type="button">Save</button></div></div></details>
+      <details><summary><span>[2] DN 1 · 12.3</span><span class="tag tag-unverified">Not verified</span></summary><div><p class="small muted">Layout sample: the passage text and provenance expand here.</p></div></details>
+      <details><summary><span>[3] DN 1 · 7.1</span><span class="tag tag-abstain">Not used</span></summary><div><p class="small muted">Layout sample: retrieved but not used in the answer.</p></div></details>
+    </div>
+    <div data-ppane="evidence" hidden class="grid" style="gap:var(--s3)">
+      <p class="small muted">Rows are claims in the answer. Columns are retrieved passages.</p>
+      <div class="table-wrap"><table class="data"><thead><tr><th>Claim</th><th class="cell">44.5</th><th class="cell">12.3</th><th class="cell">7.1</th></tr></thead><tbody>
+        <tr><td>Claim one</td><td class="cell"><span class="glyph d"></span></td><td class="cell"><span class="glyph n"></span></td><td class="cell"><span class="glyph n"></span></td></tr>
+        <tr><td>Claim two</td><td class="cell"><span class="glyph n"></span></td><td class="cell"><span class="glyph u"></span></td><td class="cell"><span class="glyph n"></span></td></tr>
+        <tr><td class="muted">Removed claim</td><td class="cell"><span class="glyph n"></span></td><td class="cell"><span class="glyph n"></span></td><td class="cell"><span class="glyph u"></span></td></tr></tbody></table></div>
+      <div class="legend"><span><span class="glyph d"></span> Direct quote</span><span><span class="glyph u"></span> Not verified</span><span><span class="glyph n"></span> No support</span></div>
+      <dl class="facts"><dt>Retrieval</dt><dd>Words and meaning, 5 passages</dd><dt>Verification</dt><dd>Character by character</dd><dt>Corpus</dt><dd>v0.1, DN 1</dd></dl>
+    </div>
+    <div data-ppane="terms" hidden>
+      <ul class="list"><li><button type="button" data-go="terms"><span><span lang="pi">diṭṭhi</span> · view</span><span class="meta">62 in DN 1</span></button></li><li><button type="button" data-go="terms"><span><span lang="pi">attā</span> · self</span><span class="meta">sample</span></button></li><li><button type="button" data-go="terms"><span><span lang="pi">sassata</span> · eternal</span><span class="meta">sample</span></button></li></ul>
+    </div>
+    <div data-ppane="notes" hidden class="grid" style="gap:var(--s3)">
+      <label class="h-sm" for="pnote">Note on this answer</label><textarea class="input" id="pnote" rows="4" placeholder="Write a note. It saves to your notebook with the citations."></textarea>
+      <div class="row"><button class="btn btn-primary btn-sm" type="button">Save note</button><button class="btn btn-text btn-sm" type="button" data-go="notebook">Open notebook</button></div>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var pages = ['new', 'convo', 'reader', 'terms', 'compare', 'notebook', 'verify', 'check'];
+  var rail = document.getElementById('rail'), panel = document.getElementById('panel'), main = document.getElementById('main');
+  var rpBtn = document.getElementById('rpToggle');
+  var current = 'new';
+  function setPanel(open) {
+    panel.classList.toggle('open', open); panel.setAttribute('aria-hidden', String(!open));
+    rpBtn.setAttribute('aria-pressed', String(open));
+    var chat = current === 'convo';
+    main.classList.toggle('dock', open && chat);
+  }
+  function ptab(key) {
+    document.querySelectorAll('[data-ppane]').forEach(function (p) { p.hidden = p.getAttribute('data-ppane') !== key; });
+    document.querySelectorAll('[data-ptab]').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-ptab') === key)); });
+  }
+  function go(name) {
+    if (pages.indexOf(name) < 0) name = 'new';
+    current = name;
+    document.querySelectorAll('[data-page]').forEach(function (m) {
+      var on = m.getAttribute('data-page') === name; m.hidden = !on;
+      if (on) document.getElementById('pageTitle').textContent = m.getAttribute('data-title') || '';
+    });
+    document.querySelectorAll('.pv [data-go]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-go') === name)); });
+    document.querySelectorAll('[data-nav]').forEach(function (a) { if (a.getAttribute('data-nav') === name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    document.querySelectorAll('[data-chat]').forEach(function (a) { /* keep chat highlight on convo only */ if (name !== 'convo') a.removeAttribute('aria-current'); });
+    rail.classList.remove('open'); document.getElementById('menuBtn').setAttribute('aria-expanded', 'false');
+    setPanel(false);
+    try { history.replaceState(null, '', '#' + name); } catch (e) {}
+    window.scrollTo(0, 0);
+  }
+  function swap(attr, paneAttr, key) {
+    document.querySelectorAll('[' + paneAttr + ']').forEach(function (p) { p.hidden = p.getAttribute(paneAttr) !== key; });
+    document.querySelectorAll('[' + attr + ']').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute(attr) === key)); });
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-go]');
+    if (t) {
+      e.preventDefault();
+      if (t.hasAttribute('data-chat')) { document.querySelectorAll('[data-chat]').forEach(function (a) { a.removeAttribute('aria-current'); }); }
+      go(t.getAttribute('data-go'));
+      if (t.hasAttribute('data-chat')) t.setAttribute('aria-current', 'true');
+      return;
+    }
+    var p = e.target.closest('[data-rp]'); if (p) { ptab(p.getAttribute('data-rp')); setPanel(true); return; }
+    var pt = e.target.closest('[data-ptab]'); if (pt) { ptab(pt.getAttribute('data-ptab')); return; }
+    var r = e.target.closest('[data-res]'); if (r) { swap('data-res', 'data-result', r.getAttribute('data-res')); return; }
+    var m = e.target.closest('[data-mode]');
+    if (m) {
+      var box = document.getElementById('readerBox'); box.classList.remove('only-pali', 'only-tr');
+      if (m.getAttribute('data-mode')) box.classList.add(m.getAttribute('data-mode'));
+      document.querySelectorAll('[data-mode]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === m)); });
+    }
+  });
+  rpBtn.addEventListener('click', function () { setPanel(!panel.classList.contains('open')); });
+  document.getElementById('closePanel').addEventListener('click', function () { setPanel(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { setPanel(false); document.querySelectorAll('.slash').forEach(function (s) { s.hidden = true; }); }
+  });
+  document.getElementById('menuBtn').addEventListener('click', function () { var on = rail.classList.toggle('open'); this.setAttribute('aria-expanded', String(on)); });
+
+  /* slash commands in every composer */
+  var items = [['/verify', 'Check a quote', 'verify'], ['/check', 'Check a document', 'check'], ['/term', 'Look up a term', 'terms'], ['/compare', 'Compare two passages', 'compare'], ['/read', 'Open DN 1 in the Reader', 'reader'], ['/note', 'Save to notebook', 'notebook']];
+  document.querySelectorAll('[data-composer]').forEach(function (c) {
+    var ta = c.querySelector('textarea'), menu = c.querySelector('.slash');
+    menu.innerHTML = items.map(function (i) { return '<button type="button" data-go="' + i[2] + '"><code>' + i[0] + '</code><span class="muted">' + i[1] + '</span></button>'; }).join('');
+    ta.addEventListener('input', function () { menu.hidden = ta.value.charAt(0) !== '/'; });
+  });
+
+  /* source graph: a star around the answer */
+  (function () {
+    var W = 820, H = 560, CX = 410, CY = 280, RX = [120, 225, 368], RY = [100, 170, 245], NS = 'http://www.w3.org/2000/svg';
+    var EDITION = 'Pali with Sinhala translation, pitaka.lk. Translator: not recorded in source.';
+    var KIND = { question: 'Answer', claim: 'Claim', passage: 'Citation', text: 'Tipiṭaka text' };
+    function leaf(id, parent) {
+      return { id: id, kind: 'text', parent: parent, lines: ['Brahmajāla Sutta', 'DN 1 · Dīgha Nikāya'], state: 'included', w: 132, h: 40, d: 'Source text. ' + EDITION };
+    }
+    var ANSWERS = {
+      a1: {
+        title: "What is the Buddha's view on speculation about the self?",
+        note: 'Two of three claims are supported by Tipiṭaka passages: one with direct quotes, one cited but not verified. The third was removed because no passage matched its quote.',
+        center: { id: 'q', kind: 'question', lines: ["What is the Buddha's", 'view on speculation', 'about the self?'], state: 'direct', w: 140, h: 68, d: 'Your question. Three claims were drafted. One is verified, one is not verified and one was removed.' },
+        claims: [
+          { id: 'c1', angle: -145, lines: ['Claim 1', 'Direct quote'], state: 'direct', d: 'Attributed to the Buddha in DN 1. Both of its quotes match the stored passages.',
+            cites: [
+              { id: 'p445', da: -9, lines: ['DN 1 · 44.5', 'Direct quote'], state: 'direct', d: 'Quoted verbatim in the answer. Found by word match (similarity 0.82).' },
+              { id: 'p312', da: 9, lines: ['DN 1 · 3.12', 'Direct quote'], state: 'direct', d: 'Quoted verbatim in the answer. Found by word match (similarity 0.77).' }] },
+          { id: 'c2', angle: -35, lines: ['Claim 2', 'Not verified'], state: 'unverified', d: 'The claim is cited, but its quote could not be matched exactly, so it is labelled not verified.',
+            cites: [{ id: 'p123', da: 11, lines: ['DN 1 · 12.3', 'Not verified'], state: 'unverified', d: 'Found by similar text (0.74). The wording is close but not the same as the quote.' }] },
+          { id: 'c3', angle: 90, lines: ['Claim 3', 'Removed'], state: 'removed', d: 'The quote did not match any passage, so this claim was dropped from the answer.', cites: [] }
+        ]
+      },
+      a2: {
+        title: 'Did the Buddha say anything about smartphones?',
+        note: 'No passage in the included texts supported this question, so there are no claims and nothing to connect to the Tipiṭaka. Not found does not mean the Buddha did not teach it.',
+        center: { id: 'q', kind: 'question', lines: ['Did the Buddha say', 'anything about', 'smartphones?'], state: 'abstain', w: 140, h: 68, d: 'Not established. Three passages were retrieved, but none was relevant enough to support a claim.' },
+        claims: []
+      }
+    };
+    var cur = 'a1', sel = 'c1', nodes = [], edges = [];
+    var box = document.getElementById('gbox'), detail = document.getElementById('gdetail'), noteEl = document.getElementById('gnote'), listEl = document.getElementById('glist');
+    var STYLE = { direct: 'trail', unverified: 'weak', removed: 'none' };
+    var WORD = { trail: 'direct quote, verified', weak: 'cited, not verified', none: 'removed, no passage matched' };
+
+    function el(name, attrs) { var e = document.createElementNS(NS, name); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+    function pos(angle, ring) { var r = angle * Math.PI / 180; return { x: CX + RX[ring] * Math.cos(r), y: CY + RY[ring] * Math.sin(r) }; }
+    function build(a) {
+      nodes = []; edges = [];
+      var c = a.center; c.x = CX; c.y = CY; nodes.push(c);
+      a.claims.forEach(function (cl) {
+        var pc = pos(cl.angle, 0);
+        var n = { id: cl.id, kind: 'claim', parent: 'q', lines: cl.lines, state: cl.state, d: cl.d, w: 92, h: 40, x: pc.x, y: pc.y };
+        nodes.push(n); edges.push({ from: 'q', to: cl.id, style: STYLE[cl.state] });
+        cl.cites.forEach(function (ci) {
+          var p1 = pos(cl.angle + ci.da, 1), p2 = pos(cl.angle + ci.da, 2);
+          nodes.push({ id: ci.id, kind: 'passage', parent: cl.id, lines: ci.lines, state: ci.state, d: ci.d, w: 100, h: 40, x: p1.x, y: p1.y });
+          edges.push({ from: cl.id, to: ci.id, style: STYLE[ci.state] });
+          var lf = leaf('s' + ci.id, ci.id); lf.x = p2.x; lf.y = p2.y; nodes.push(lf);
+          edges.push({ from: ci.id, to: lf.id, style: STYLE[ci.state] });
+        });
+      });
+    }
+    function byId(id) { return nodes.filter(function (n) { return n.id === id; })[0]; }
+    function kin(id) {
+      var out = {}; out[id] = 1;
+      var up = byId(id); while (up && up.parent) { out[up.parent] = 1; up = byId(up.parent); }
+      (function down(i) { nodes.forEach(function (n) { if (n.parent === i) { out[n.id] = 1; down(n.id); } }); })(id);
+      return out;
+    }
+    function label(n) { return n.lines.join(' · '); }
+    function render() {
+      var a = ANSWERS[cur]; build(a);
+      if (!byId(sel)) sel = 'q';
+      var lit = kin(sel);
+      var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H, class: 'gsvg', role: 'group', 'aria-label': 'Star graph of the answer, its claims, citations and Tipiṭaka texts' });
+      var defs = el('defs', {}); var pat = el('pattern', { id: 'hatch', width: 4, height: 4, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' });
+      pat.appendChild(el('line', { x1: 0, y1: 0, x2: 0, y2: 4, style: 'stroke:var(--ink);stroke-width:2' })); defs.appendChild(pat); svg.appendChild(defs);
+      [['Claims', 0], ['Citations', 1], ['Tipiṭaka text', 2]].forEach(function (r) {
+        if (!a.claims.length) return;
+        var t = el('text', { x: 16, y: 24 + r[1] * 18, class: 'colh' }); t.textContent = r[0]; svg.appendChild(t);
+      });
+      edges.forEach(function (e) {
+        var f = byId(e.from), t = byId(e.to);
+        svg.appendChild(el('line', { x1: f.x, y1: f.y, x2: t.x, y2: t.y, class: 'ed ' + e.style + (lit[e.from] && lit[e.to] ? '' : ' dim') }));
+      });
+      nodes.forEach(function (n) {
+        var cls = 'nd k-' + n.kind + ' s-' + n.state + (sel === n.id ? ' sel' : '') + (lit[n.id] ? '' : ' dim');
+        var g = el('g', { class: cls, tabindex: 0, role: 'button', 'data-id': n.id, 'aria-label': KIND[n.kind] + ': ' + n.lines.join(', ') });
+        var x = n.x - n.w / 2, top = n.y - n.h / 2;
+        g.appendChild(el('rect', { class: 'box', x: x, y: top, width: n.w, height: n.h, rx: 2 }));
+        if (n.kind === 'claim' || n.kind === 'passage') {
+          var gl = { direct: ['var(--ink)', 'var(--ink)'], unverified: ['url(#hatch)', 'var(--ink)'], removed: ['none', 'var(--ink-muted)'] }[n.state];
+          g.appendChild(el('rect', { x: x + n.w - 15, y: top + 7, width: 8, height: 8, style: 'fill:' + gl[0] + ';stroke:' + gl[1] + ';stroke-width:1.5' + (n.state === 'removed' ? ';stroke-dasharray:2 2' : '') }));
+        }
+        var ty = top + (n.kind === 'question' ? 24 : 17);
+        n.lines.forEach(function (ln, i) { var t = el('text', { x: x + 10, y: ty + i * 16, class: i === 0 ? '' : 'sub' }); t.textContent = ln; g.appendChild(t); });
+        svg.appendChild(g);
+      });
+      box.innerHTML = ''; box.appendChild(svg);
+
+      var n = byId(sel), html = '<span class="small muted">' + KIND[n.kind] + '</span><h2>' + label(n) + '</h2><p class="muted">' + n.d + '</p><ul>';
+      var kids = nodes.filter(function (x) { return x.parent === n.id; });
+      var par = n.parent ? byId(n.parent) : null;
+      if (n.kind === 'claim') html += kids.length ? '<li>Supported by: ' + kids.map(function (k) { return k.lines[0]; }).join(', ') + '</li>' : '<li>Supported by: nothing in the included texts</li>';
+      if (n.kind === 'passage') { html += '<li>Supports: ' + par.lines[0] + '</li>'; if (kids[0]) html += '<li>Source text: ' + kids[0].lines.join(', ') + '</li>'; }
+      if (n.kind === 'text') { var cit = byId(n.parent), cl = byId(cit.parent); html += '<li>Cited by: ' + cit.lines[0] + ', for ' + cl.lines[0] + '</li>'; }
+      if (n.kind === 'question' && !a.claims.length) html += '<li>No claims: nothing in the included texts supported this question.</li>';
+      html += '</ul><div class="row">';
+      if (n.kind === 'passage' || n.kind === 'text') html += '<button class="btn btn-secondary btn-sm" type="button" data-go="reader">Open in Reader</button>';
+      html += '</div>';
+      detail.innerHTML = html;
+      noteEl.textContent = a.note;
+      document.getElementById('gdlgTitle').textContent = a.title;
+      listEl.innerHTML = a.claims.length ? a.claims.map(function (cl) {
+        var ks = nodes.filter(function (x) { return x.parent === cl.id; });
+        if (!ks.length) return '<li>' + cl.lines[0] + ' (' + WORD[STYLE[cl.state]] + ')</li>';
+        return ks.map(function (k) { return '<li>' + cl.lines[0] + ' is supported by ' + k.lines[0] + ' (' + WORD[STYLE[k.state]] + '), from ' + byId('s' + k.id).lines[0] + ', DN 1</li>'; }).join('');
+      }).join('') : '<li>No claims. Nothing in the included texts supported this question.</li>';
+    }
+    box.addEventListener('click', function (e) {
+      var g = e.target.closest('.nd'); if (!g) return;
+      sel = g.getAttribute('data-id'); render();
+      var again = box.querySelector('[data-id="' + sel + '"]'); if (again) again.focus();
+    });
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { var g = e.target.closest('.nd'); if (g) { e.preventDefault(); g.dispatchEvent(new MouseEvent('click', { bubbles: true })); } }
+    });
+
+    var dlg = document.getElementById('gdlg'), opener = null;
+    function openGraph(which, from) {
+      cur = which; sel = which === 'a1' ? 'c1' : 'q'; opener = from || null;
+      render(); dlg.hidden = false; document.body.style.overflow = 'hidden';
+      document.getElementById('gclose').focus();
+    }
+    function closeGraph() {
+      if (dlg.hidden) return;
+      dlg.hidden = true; document.body.style.overflow = '';
+      if (opener && document.body.contains(opener)) opener.focus();
+    }
+    document.addEventListener('click', function (e) {
+      var o = e.target.closest('[data-graph]');
+      if (o) { openGraph(o.getAttribute('data-graph'), o); return; }
+      if (e.target === dlg || e.target.closest('#gclose')) { closeGraph(); return; }
+      if (e.target.closest('#gdlg [data-go]')) closeGraph();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (dlg.hidden) return;
+      if (e.key === 'Escape') { closeGraph(); return; }
+      if (e.key === 'Tab') {
+        var f = Array.prototype.filter.call(dlg.querySelectorAll('button, summary, [tabindex="0"]'), function (x) { return !x.disabled; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  })();
+
+  /* ---------- workspace features ---------- */
+  (function () {
+    var $ = function (q, r) { return (r || document).querySelector(q); };
+    var $$ = function (q, r) { return Array.prototype.slice.call((r || document).querySelectorAll(q)); };
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    var S = { rs: '1', theme: 'system', pali: 'diacritics', cite: 'plain', level: 'student', depth: 'quick' };
+
+    /* toast */
+    var toastEl = $('#toast'), toastT;
+    function toast(msg) { toastEl.textContent = msg; toastEl.hidden = false; clearTimeout(toastT); toastT = setTimeout(function () { toastEl.hidden = true; }, 2800); }
+    function copyText(t, ok) {
+      try { navigator.clipboard.writeText(t).then(function () { toast(ok); }, function () { toast('Select the text to copy'); }); } catch (e) { toast('Select the text to copy'); }
+    }
+
+    /* modals */
+    var openName = null, openFrom = null;
+    function openModal(n, from) {
+      var m = document.getElementById('dlg-' + n); if (!m) return;
+      if (openName) closeModal(true);
+      openName = n; openFrom = from || null; m.hidden = false; document.body.style.overflow = 'hidden';
+      if (n === 'palette') { $('#palq').value = ''; renderPal(''); }
+      if (n === 'share') $('#t-share').textContent = (from && from.getAttribute('data-sharetitle')) || 'Share this chat';
+      var f = $('[data-autofocus]', m) || $('button, input, select, textarea', m); if (f) f.focus();
+    }
+    function closeModal(silent) {
+      if (!openName) return;
+      var m = document.getElementById('dlg-' + openName), f = openFrom;
+      m.hidden = true; document.body.style.overflow = ''; openName = null; openFrom = null;
+      if (!silent && f && document.body.contains(f)) f.focus();
+    }
+
+    /* settings */
+    var MAP = { 'ā': 'a', 'ī': 'i', 'ū': 'u', 'ṃ': 'm', 'ṁ': 'm', 'ṇ': 'n', 'ñ': 'n', 'ṭ': 't', 'ḍ': 'd', 'ḷ': 'l', 'ṅ': 'n', 'Ā': 'A', 'Ī': 'I', 'Ū': 'U', 'Ṃ': 'M', 'Ṇ': 'N', 'Ñ': 'N', 'Ṭ': 'T', 'Ḍ': 'D', 'Ḷ': 'L', 'Ṅ': 'N' };
+    function applyPali(mode) {
+      $$('[lang="pi"]').forEach(function (el) {
+        var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n;
+        while ((n = w.nextNode())) {
+          if (n.__o === undefined) n.__o = n.nodeValue;
+          n.nodeValue = mode === 'plain' ? n.__o.replace(/[āīūṃṁṇñṭḍḷṅĀĪŪṂṆÑṬḌḶṄ]/g, function (c) { return MAP[c] || c; }) : n.__o;
+        }
+      });
+    }
+    function applySet(k, v) {
+      S[k] = v;
+      $$('[data-set^="' + k + ':"]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === k + ':' + v)); });
+      if (k === 'rs') root.style.setProperty('--rs', v);
+      if (k === 'theme') { if (v === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', v); $('#themeBtn').textContent = 'Theme: ' + v; }
+      if (k === 'pali') applyPali(v);
+      if (k === 'level') $$('[data-lvl]').forEach(function (x) { x.hidden = x.getAttribute('data-lvl') !== v; });
+      if (k === 'depth') { var h = $('#hint'); if (h) h.textContent = v === 'deep' ? 'Deep research writes a structured report with references. It takes about a minute.' : 'Answers can be wrong. Check the sources.'; }
+    }
+    var QTXT = "What is the Buddha's view on speculation about the self?";
+    function citeText() {
+      return { plain: 'Quote Buddha. "' + QTXT + '" Generated 2026-11-16, corpus v0.1 (DN 1).',
+        chicago: 'Quote Buddha. "' + QTXT + '" Answer generated November 16, 2026. Corpus v0.1 (DN 1).',
+        apa: 'Quote Buddha. (2026, November 16). ' + QTXT + ' [Answer generated from corpus v0.1, DN 1].',
+        bibtex: '@misc{quotebuddha_2026,\n  title  = {' + QTXT + '},\n  author = {{Quote Buddha}},\n  year   = {2026},\n  note   = {Corpus v0.1, DN 1}\n}' }[S.cite];
+    }
+
+    /* command palette */
+    var CMDS = [
+      ['New chat', 'Action', function () { go('new'); }],
+      ['Chat: Speculation about the self', 'Chat', function () { go('convo'); }],
+      ['Chat: Classification of wrong views', 'Chat', function () { go('convo'); }],
+      ['Chat: Meaning of diṭṭhi', 'Chat', function () { go('convo'); }],
+      ['Read DN 1, Brahmajāla Sutta', 'Text', function () { go('reader'); }],
+      ['Term: diṭṭhi (view)', 'Term', function () { go('terms'); }],
+      ['Term: attā (self)', 'Term', function () { go('terms'); }],
+      ['Compare passages', 'Tool', function () { go('compare'); }],
+      ['Verify a quote', 'Tool', function () { go('verify'); }],
+      ['Check a document', 'Tool', function () { go('check'); }],
+      ['Notebook', 'Tool', function () { go('notebook'); }],
+      ['Open the source graph for the latest answer', 'Action', function () { var b = $('[data-graph="a1"]'); if (b) { go('convo'); setTimeout(function () { b.click(); }, 0); } }],
+      ['Share this chat', 'Action', function () { openModal('share'); }],
+      ['Settings', 'Action', function () { openModal('settings'); }],
+      ['Switch theme', 'Action', function () { applySet('theme', (root.getAttribute('data-theme') === 'dark') ? 'light' : 'dark'); }]
+    ];
+    var palItems = [], palSel = 0;
+    function renderPal(q) {
+      q = q.toLowerCase();
+      palItems = CMDS.filter(function (c) { return !q || c[0].toLowerCase().indexOf(q) >= 0 || c[1].toLowerCase().indexOf(q) >= 0; });
+      palSel = 0;
+      $('#pallist').innerHTML = palItems.length ? palItems.map(function (c, i) { return '<li role="presentation"><button type="button" role="option" data-pal="' + i + '" aria-selected="' + (i === 0) + '"><span>' + esc(c[0]) + '</span><span class="k">' + c[1] + '</span></button></li>'; }).join('') : '<li style="padding:16px" class="muted">Nothing matches that.</li>';
+    }
+    function markPal() { $$('#pallist [data-pal]').forEach(function (b, i) { b.setAttribute('aria-selected', String(i === palSel)); if (i === palSel) b.scrollIntoView({ block: 'nearest' }); }); }
+    function runPal(i) { var c = palItems[i]; if (!c) return; closeModal(true); c[2](); }
+    $('#palq').addEventListener('input', function () { renderPal(this.value); });
+    $('#palq').addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); palSel = Math.min(palSel + 1, palItems.length - 1); markPal(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); palSel = Math.max(palSel - 1, 0); markPal(); }
+      else if (e.key === 'Enter') { e.preventDefault(); runPal(palSel); }
+    });
+
+    /* chat manage menu */
+    var menu = null, menuRow = null;
+    function closeMenu() { if (menu) { menu.remove(); menu = null; } $$('.more[aria-expanded="true"]').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); }); menuRow = null; }
+    function openMenu(btn) {
+      closeMenu(); menuRow = btn.closest('.crow'); btn.setAttribute('aria-expanded', 'true');
+      var pinned = menuRow.parentNode.id === 'pinNav';
+      menu = document.createElement('div'); menu.className = 'cmenu'; menu.setAttribute('role', 'menu');
+      menu.innerHTML = '<button type="button" role="menuitem" data-m="rename">Rename</button><button type="button" role="menuitem" data-m="pin">' + (pinned ? 'Unpin' : 'Pin') + '</button><button type="button" role="menuitem" data-m="archive">Archive</button><button type="button" role="menuitem" data-m="delete">Delete</button>';
+      document.body.appendChild(menu);
+      var r = btn.getBoundingClientRect(); menu.style.left = Math.min(r.left, window.innerWidth - 190) + 'px'; menu.style.top = (r.bottom + 4) + 'px';
+      $('button', menu).focus();
+    }
+    function pinState() { var n = $('#pinNav'); var any = n.children.length > 0; n.hidden = !any; $('#pinGrp').hidden = !any; }
+    function menuAction(a) {
+      var row = menuRow, btn = $('button[data-chat]', row), title = btn.textContent;
+      closeMenu();
+      if (a === 'rename') {
+        var inp = document.createElement('input'); inp.className = 'input ren'; inp.value = title; inp.setAttribute('aria-label', 'Chat name');
+        btn.hidden = true; $('.more', row).hidden = true; row.insertBefore(inp, btn); inp.focus(); inp.select();
+        var done = function (save) { if (save && inp.value.trim()) btn.textContent = inp.value.trim(); inp.remove(); btn.hidden = false; $('.more', row).hidden = false; if (save) toast('Chat renamed'); };
+        inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') done(true); else if (e.key === 'Escape') done(false); });
+        inp.addEventListener('blur', function () { done(true); });
+      } else if (a === 'pin') {
+        var pinned = row.parentNode.id === 'pinNav';
+        if (pinned) $('nav[aria-label="Chats today"]').appendChild(row); else $('#pinNav').appendChild(row);
+        pinState(); toast(pinned ? 'Chat unpinned' : 'Chat pinned');
+      } else if (a === 'archive') { row.remove(); pinState(); toast('Chat archived. It stays in your library.'); }
+      else if (a === 'delete') { row.remove(); pinState(); toast('Chat deleted'); }
+    }
+
+    /* hover preview on citations */
+    var hov = $('#hov');
+    var PV = {
+      p445: { id: 'DN 1 · 44.5', tag: 'tag-direct', tl: 'Direct quote', pali: 'Layout sample: Evaṃ me sutaṃ.', tr: 'Layout sample translation of the passage.' },
+      p123: { id: 'DN 1 · 12.3', tag: 'tag-unverified', tl: 'Not verified', pali: 'Layout sample: Pali text for the passage.', tr: 'Layout sample translation. The wording is close to the quote but not the same.' },
+      p71: { id: 'DN 1 · 7.1', tag: 'tag-abstain', tl: 'Not used', pali: 'Layout sample: Pali text for the passage.', tr: 'Retrieved but not used in the answer.' }
+    };
+    function pvKey(t) { t = t.trim(); if (/44[.:]5|^\[1\]$/.test(t)) return 'p445'; if (/12[.:]3|^\[2\]$/.test(t)) return 'p123'; if (/\b7[.:]1|^\[3\]$/.test(t)) return 'p71'; return null; }
+    function showHov(el) {
+      var d = PV[pvKey(el.textContent)]; if (!d) return;
+      hov.innerHTML = '<span class="row" style="gap:var(--s3);justify-content:space-between"><b class="stamp" style="color:var(--ink)">' + d.id + '</b><span class="tag ' + d.tag + '">' + d.tl + '</span></span><span class="pl" lang="pi">' + d.pali + '</span><span class="muted">' + d.tr + '</span><span class="small muted">Click to open in the research panel</span>';
+      hov.hidden = false;
+      var r = el.getBoundingClientRect(), h = hov.offsetHeight;
+      hov.style.left = Math.max(8, Math.min(r.left, window.innerWidth - 316)) + 'px';
+      hov.style.top = (r.bottom + 8 + h > window.innerHeight ? Math.max(8, r.top - h - 8) : r.bottom + 8) + 'px';
+    }
+    document.addEventListener('mouseover', function (e) { var el = e.target.closest('[data-rp="sources"]'); if (el && el.closest('.msg-a, .page')) showHov(el); });
+    document.addEventListener('mouseout', function (e) { if (e.target.closest('[data-rp="sources"]')) hov.hidden = true; });
+    document.addEventListener('focusin', function (e) { var el = e.target.closest('[data-rp="sources"]'); if (el) showHov(el); });
+    document.addEventListener('focusout', function () { hov.hidden = true; });
+
+    /* streaming answers, quick and deep */
+    var running = null, thread = $('#thread'), askBtn = $('#askBtn'), stopBtn = $('#stopBtn');
+    var FB = '<div class="actions fb"><button class="ibtn sm" type="button" aria-label="Helpful" data-tip="Helpful" data-fb="up"><svg class="ic" aria-hidden="true"><use href="#i-thumbup"/></svg></button><button class="ibtn sm" type="button" aria-label="Not helpful" data-tip="Not helpful" data-fb="down"><svg class="ic" aria-hidden="true"><use href="#i-thumbdown"/></svg></button><button class="ibtn sm" type="button" aria-label="Report a citation" data-tip="Report a citation" data-modal="report"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg></button><span class="small muted" role="status" data-fbmsg></span></div>';
+    var SRC = '<div class="srcrow"><span class="small muted">Sources</span><button class="chip" type="button" data-rp="sources"><span class="n">1</span>DN 1 · 44.5</button><button class="chip" type="button" data-rp="sources"><span class="n">2</span>DN 1 · 12.3</button><button class="chip" type="button" data-graph="a1"><svg class="ic" aria-hidden="true"><use href="#i-graph"/></svg>Source graph</button></div>';
+    var ACT = '<div class="actions"><button class="ibtn sm" type="button" aria-label="Copy answer" data-tip="Copy answer" data-copy><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg></button><button class="ibtn sm" type="button" aria-label="Cite" data-tip="Cite" data-cite><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg></button><button class="ibtn sm" type="button" aria-label="Regenerate" data-tip="Regenerate" data-regen><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg></button><button class="ibtn sm" type="button" aria-label="Save to notebook" data-tip="Save to notebook" data-go="notebook"><svg class="ic" aria-hidden="true"><use href="#i-bookmark"/></svg></button><span class="small muted">|</span><button class="ibtn sm" type="button" aria-label="Evidence matrix" data-tip="Evidence matrix" data-rp="evidence"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg></button></div>';
+    var FN1 = '<span class="fn"><button type="button" data-rp="sources">[1]</button></span>', FN2 = '<span class="fn"><button type="button" data-rp="sources">[2]</button></span>';
+    var QUOTE = '<figure class="passage" style="margin:0"><blockquote>Placeholder passage text for the verified quote.</blockquote><figcaption><button class="cite" type="button" data-rp="sources">pitaka_lk:dn-1:44:5</button><span class="tag tag-direct">Direct quote</span></figcaption></figure>';
+    var OWN = '<small>This is the system\'s own explanation. It is not a quotation and has not been checked against the texts.</small>';
+    function quickHtml(q) {
+      return '<div class="own"><h3>Simple answer</h3><p>Sample answer to: ' + esc(q) + FN1 + '</p>' + OWN + '</div><ol class="claims"><li><p>Sample claim, attributed to the Buddha in DN 1.' + FN1 + '</p>' + QUOTE + '</li></ol>' + SRC + ACT + FB + '<p class="small muted" style="max-width:62ch">Found in the included texts only. A missing answer does not mean the Buddha did not teach it.</p>';
+    }
+    function deepHtml(q) {
+      return '<div class="report"><div class="own"><h3>Summary</h3><p>Sample summary of the report on: ' + esc(q) + FN1 + '</p>' + OWN + '</div>' +
+        '<div class="grid" style="gap:var(--s2)"><span class="h-sm">In this report</span><ol class="rep-outline"><li>Background</li><li>What DN 1 says</li><li>Open questions</li></ol></div>' +
+        '<div class="grid" style="gap:var(--s3)"><h3 class="sec">1. Background</h3><p style="font:400 17px/1.65 var(--font-reading)">Sample background paragraph, written in plain language.' + FN2 + '</p></div>' +
+        '<div class="grid" style="gap:var(--s3)"><h3 class="sec">2. What DN 1 says</h3><p style="font:400 17px/1.65 var(--font-reading)">Sample claim, attributed to the Buddha in DN 1.' + FN1 + '</p>' + QUOTE + '</div>' +
+        '<div class="grid" style="gap:var(--s3)"><h3 class="sec">3. Open questions</h3><p style="font:400 17px/1.65 var(--font-reading)">Sample note on what the included texts do not settle. Only DN 1 was searched.</p></div>' +
+        '<dl class="facts"><dt>Passages reviewed</dt><dd>5 of 5 retrieved</dd><dt>Claims</dt><dd>3 verified, 1 removed</dd><dt>Corpus</dt><dd>v0.1, DN 1</dd></dl>' +
+        '<div class="grid" style="gap:var(--s2)"><span class="h-sm">References</span><ol class="refs" style="margin:0;padding-left:var(--s5);display:grid;gap:var(--s2);font-size:14px"><li><button class="cite" type="button" data-rp="sources">DN 1 · 44.5</button>, Brahmajāla Sutta. Pali with Sinhala translation, pitaka.lk.</li><li><button class="cite" type="button" data-rp="sources">DN 1 · 12.3</button>, same edition.</li></ol></div>' +
+        '<div class="actions"><button class="btn btn-secondary btn-sm btn-ic" type="button" data-go="notebook"><svg class="ic" aria-hidden="true"><use href="#i-notes"/></svg>Open as a note</button><button class="ibtn sm" type="button" aria-label="Export Markdown" data-tip="Export Markdown" data-export="Markdown"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg></button><button class="ibtn sm" type="button" aria-label="Cite" data-tip="Cite" data-cite><svg class="ic" aria-hidden="true"><use href="#i-quote"/></svg></button><button class="chip" type="button" data-graph="a1"><svg class="ic" aria-hidden="true"><use href="#i-graph"/></svg>Source graph</button></div>' + FB + '</div>';
+    }
+    function setRunning(on) { askBtn.hidden = on; stopBtn.hidden = !on; }
+    function stopRun(reason) {
+      if (!running) return;
+      clearInterval(running.timer);
+      var a = running.el; running = null; setRunning(false);
+      if (reason === 'user') {
+        var t = $('[data-state]', a); t.className = 'tag tag-abstain'; t.textContent = 'Stopped';
+        $('[data-sum]', a).textContent = 'Stopped before an answer was written';
+        $('[data-out]', a).innerHTML = '<p class="small muted">Stopped. Nothing was saved to your notebook.</p>';
+      }
+    }
+    function stream(q, afterEl) {
+      if (running) stopRun('user');
+      var deep = S.depth === 'deep';
+      var steps = deep ? ['Planning the report sections', 'Searching DN 1 by exact words and by meaning', 'Retrieved 5 passages and reading all of them', 'Drafting claims for each section', 'Verifying each quote against the stored passage', 'Compiling references']
+                       : ['Searching DN 1 by exact words and by meaning', 'Retrieved 5 passages', 'Drafting claims with quotes', 'Verifying each quote against the stored passage'];
+      var a = document.createElement('div'); a.className = 'msg-a';
+      a.innerHTML = '<div class="who"><b>Quote Buddha</b><span class="tag tag-unverified live" data-state>' + (deep ? 'Researching' : 'Working') + '</span></div><details class="proc" open><summary><span class="muted" data-sum>Starting</span></summary><ol class="steps" data-steps></ol></details><div class="grid" style="gap:var(--s4)" data-out></div>';
+      afterEl.parentNode.insertBefore(a, afterEl.nextSibling);
+      var i = 0;
+      var timer = setInterval(function () {
+        if (i < steps.length) {
+          $('[data-steps]', a).insertAdjacentHTML('beforeend', '<li><b>' + (i + 1) + '</b><span>' + esc(steps[i]) + '</span></li>');
+          $('[data-sum]', a).textContent = steps[i]; i++;
+          window.scrollTo({ top: document.body.scrollHeight });
+        } else {
+          clearInterval(timer); running = null; setRunning(false);
+          var t = $('[data-state]', a); t.className = 'tag tag-direct'; t.textContent = 'Found in the included texts';
+          $('[data-sum]', a).textContent = deep ? 'Done · 3 sections · 3 claims verified · 1 removed' : 'Searched DN 1 · 5 passages · 1 claim verified · 1 removed';
+          $('[data-out]', a).innerHTML = deep ? deepHtml(q) : quickHtml(q);
+          $('.proc', a).open = false;
+          if (S.pali === 'plain') applyPali('plain');
+          window.scrollTo({ top: document.body.scrollHeight });
+        }
+      }, 750);
+      running = { el: a, timer: timer }; setRunning(true);
+      return a;
+    }
+    function userHtml(q) {
+      return '<div class="msg-u"><span data-edit-text>' + esc(q) + '</span><div class="uact"><button class="ibtn sm" type="button" aria-label="Edit and branch" data-tip="Edit and branch" data-edit><svg class="ic" aria-hidden="true"><use href="#i-pencil"/></svg></button><span class="ver" hidden><button class="ibtn sm" type="button" aria-label="Previous version" data-tip="Previous version" data-ver="-1"><svg class="ic" aria-hidden="true"><use href="#i-left"/></svg></button><span data-vtxt>1 / 1</span><button class="ibtn sm" type="button" aria-label="Next version" data-tip="Next version" data-ver="1"><svg class="ic" aria-hidden="true"><use href="#i-right"/></svg></button></span></div></div>';
+    }
+    function ask() {
+      var ta = $('#c-follow'), q = ta.value.trim();
+      if (q.charAt(0) === '/') return;
+      if (!q) q = 'What does DN 1 say about the senses and attachment?';
+      ta.value = ''; var sl = ta.parentNode.querySelector('.slash'); if (sl) sl.hidden = true;
+      thread.insertAdjacentHTML('beforeend', userHtml(q));
+      stream(q, thread.lastElementChild);
+    }
+    $('#c-follow').addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(); } });
+
+    /* edit and branch */
+    var vers = new WeakMap();
+    function answerOf(u) { var n = u.nextElementSibling; while (n && !n.classList.contains('msg-a')) n = n.nextElementSibling; return n; }
+    function setVersion(u, i) {
+      var st = vers.get(u); st.i = i;
+      $('[data-edit-text]', u).textContent = st.v[i].text;
+      st.v.forEach(function (x, j) { x.ans.hidden = j !== i; });
+      $('[data-vtxt]', u).textContent = (i + 1) + ' / ' + st.v.length;
+      $('.ver', u).hidden = st.v.length < 2;
+    }
+    function startEdit(u) {
+      var span = $('[data-edit-text]', u), act = $('.uact', u);
+      var ed = document.createElement('div'); ed.className = 'ed';
+      ed.innerHTML = '<textarea class="input" rows="2" aria-label="Edit your question"></textarea><div class="row" style="gap:var(--s3)"><button class="btn btn-primary btn-sm" type="button" data-edsave>Save and branch</button><button class="btn btn-text btn-sm" type="button" data-edcancel>Cancel</button></div>';
+      $('textarea', ed).value = span.textContent; span.hidden = true; act.hidden = true; u.appendChild(ed); $('textarea', ed).focus();
+    }
+    function endEdit(u) { var ed = $('.ed', u); if (ed) ed.remove(); $('[data-edit-text]', u).hidden = false; $('.uact', u).hidden = false; }
+    function saveEdit(u) {
+      var text = $('.ed textarea', u).value.trim(), st = vers.get(u);
+      if (!text) { endEdit(u); return; }
+      if (!st) { st = { i: 0, v: [{ text: $('[data-edit-text]', u).textContent, ans: answerOf(u) }] }; vers.set(u, st); }
+      if (text === st.v[st.i].text) { endEdit(u); return; }
+      var ans = stream(text, st.v[st.v.length - 1].ans);
+      st.v.push({ text: text, ans: ans }); endEdit(u); setVersion(u, st.v.length - 1);
+      toast('Saved as a new branch. The earlier answer is kept.');
+    }
+
+    /* attach */
+    function showAttached(name) {
+      $('#attachedRow').innerHTML = '<span class="chip" style="border-style:dashed">' + esc(name) + '</span><button class="btn btn-text btn-sm" type="button" data-go="check">Check quotes in this file</button><button class="btn btn-text btn-sm" type="button" data-detach>Remove</button>';
+    }
+    $('#attachFile').addEventListener('change', function () { if (this.files && this.files[0]) { go('convo'); showAttached(this.files[0].name); toast('File attached. Check its quotes against the texts.'); } });
+    var df = $('#docfile'), drop = $('#drop');
+    df.addEventListener('change', function () { if (df.files[0]) $('#docname').textContent = df.files[0].name; });
+    ['dragenter', 'dragover'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('over'); }); });
+    ['dragleave', 'drop'].forEach(function (ev) { drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.remove('over'); if (ev === 'drop' && e.dataTransfer.files[0]) $('#docname').textContent = e.dataTransfer.files[0].name; }); });
+
+    /* delegated clicks */
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      var mo = t.closest('[data-modal]'); if (mo) { e.preventDefault(); openModal(mo.getAttribute('data-modal'), mo); return; }
+      if (t.closest('[data-mclose]') || (t.classList && t.classList.contains('mdlg'))) { closeModal(); return; }
+      var pal = t.closest('[data-pal]'); if (pal) { runPal(+pal.getAttribute('data-pal')); return; }
+      var set = t.closest('[data-set]'); if (set && !set.disabled) { var kv = set.getAttribute('data-set').split(':'); applySet(kv[0], kv[1]); return; }
+      var seg = t.closest('[data-seg]'); if (seg) { var g = seg.getAttribute('data-seg'); $$('[data-seg="' + g + '"]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === seg)); }); return; }
+      if (t.closest('[data-copylink]')) { copyText($('#sharelink').value, 'Link copied'); return; }
+      var ex = t.closest('[data-export]'); if (ex) { toast(ex.getAttribute('data-export') + ' export prepared (preview only)'); return; }
+      if (t.closest('[data-submitreport]')) { closeModal(true); toast('Thanks. Your report was sent for review.'); return; }
+      var fb = t.closest('[data-fb]');
+      if (fb) { var row = fb.closest('.fb'); $('[data-fbmsg]', row).textContent = fb.getAttribute('data-fb') === 'up' ? 'Thanks, noted.' : 'Thanks. Tell us what was wrong.'; if (fb.getAttribute('data-fb') === 'down') openModal('report', fb); return; }
+      if (t.closest('[data-cite]')) { copyText(citeText(), 'Citation copied (' + S.cite + ')'); return; }
+      if (t.closest('[data-copy]')) { copyText('Sample answer text with references', 'Answer copied with references'); return; }
+      if (t.closest('[data-regen]')) { toast('Regenerating (preview only)'); return; }
+      if (t.closest('[data-checkdoc]')) { toast('Checked. This preview shows a sample result.'); return; }
+      if (t.closest('[data-attach]')) { $('#attachFile').click(); return; }
+      if (t.closest('[data-detach]')) { $('#attachedRow').innerHTML = ''; return; }
+      if (t.closest('#askBtn')) { ask(); return; }
+      if (t.closest('#stopBtn')) { stopRun('user'); return; }
+      var more = t.closest('[data-more]'); if (more) { e.preventDefault(); e.stopPropagation(); if (menu && menuRow === more.closest('.crow')) closeMenu(); else openMenu(more); return; }
+      var mi = t.closest('[data-m]'); if (mi) { menuAction(mi.getAttribute('data-m')); return; }
+      if (menu && !t.closest('.cmenu')) closeMenu();
+      var ed = t.closest('[data-edit]'); if (ed) { startEdit(ed.closest('.msg-u')); return; }
+      var sv = t.closest('[data-edsave]'); if (sv) { saveEdit(sv.closest('.msg-u')); return; }
+      var cn = t.closest('[data-edcancel]'); if (cn) { endEdit(cn.closest('.msg-u')); return; }
+      var vb = t.closest('[data-ver]');
+      if (vb) { var u = vb.closest('.msg-u'), st = vers.get(u); setVersion(u, Math.max(0, Math.min(st.v.length - 1, st.i + (+vb.getAttribute('data-ver'))))); return; }
+    }, true);
+
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openModal('palette', document.activeElement); return; }
+      if (menu && e.key === 'Escape') { var b = $('.more[aria-expanded="true"]'); closeMenu(); if (b) b.focus(); return; }
+      if (!openName) return;
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key === 'Tab') {
+        var m = document.getElementById('dlg-' + openName);
+        var f = $$('button, input, select, textarea', m).filter(function (x) { return !x.disabled && x.offsetParent !== null; });
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    window.__qb = { toast: toast, openModal: openModal, copyText: copyText };
+  })();
+
+  /* ---------- reader ---------- */
+  (function () {
+    var Q = window.__qb;
+    var $ = function (q, r) { return (r || document).querySelector(q); };
+    var $$ = function (q, r) { return Array.prototype.slice.call((r || document).querySelectorAll(q)); };
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function ic(n) { return '<svg class="ic" aria-hidden="true"><use href="#i-' + n + '"/></svg>'; }
+    function ib(icon, label, attrs, cls) { return '<button class="ibtn' + (cls ? ' ' + cls : '') + '" type="button" aria-label="' + label + '" data-tip="' + label + '" ' + (attrs || '') + '>' + ic(icon) + '</button>'; }
+    var SECS = [
+      { pali: 'Paribbājakakathā', en: 'The wanderers\' talk', n: 3 }, { pali: 'Cūḷasīla', en: 'The shorter section on morality', n: 3 },
+      { pali: 'Majjhimasīla', en: 'The middle section on morality', n: 3 }, { pali: 'Mahāsīla', en: 'The longer section on morality', n: 3 },
+      { pali: 'Pubbantakappikā', en: 'Speculations about the past', n: 4 }, { pali: 'Aparantakappikā', en: 'Speculations about the future', n: 4 },
+      { pali: 'Niṭṭhā', en: 'The conclusion', n: 3 }
+    ];
+    var SUTTAS = [
+      { l: 'DN 1 · Brahmajāla Sutta', ok: true }, { l: 'DN 2 · Sāmaññaphala Sutta', ok: false }, { l: 'DN 3 · Ambaṭṭha Sutta', ok: false },
+      { l: 'MN 1 · Mūlapariyāya Sutta', ok: false }, { l: 'MN 2 · Sabbāsava Sutta', ok: false }
+    ];
+    var rd = $('#rd'), cur = 0, ctx = { pid: '1.1', text: '' }, tab = 'notes', nscope = 'sec', nid = 3, aiOrig = null, clT = null;
+    var sizes = ['0.9', '1', '1.15', '1.3'];
+    var notes = [
+      { id: 1, sec: 0, pid: '1.1', text: 'The traditional opening. Compare how other suttas open.', ai: false },
+      { id: 2, sec: 0, pid: '1.2', text: 'Clarified: this paragraph sets the scene for the discussion that follows. In context, it introduces who is speaking and where.', ai: true, orig: 'sets the scene?' }
+    ];
+
+    function paras(si) {
+      var out = [];
+      for (var k = 1; k <= SECS[si].n; k++) {
+        var id = (si + 1) + '.' + k, first = k === 1;
+        out.push({
+          id: id,
+          pali: (si === 0 && first) ? '<button class="term" type="button" data-rp="terms">Evaṃ me sutaṃ</button>. Layout sample: Pali text for this paragraph.' :
+            (first ? 'Layout sample: Pali text for ' + id + ', with the term <button class="term" type="button" data-rp="terms">diṭṭhi</button> linked.' : 'Layout sample: Pali text for ' + id + '.'),
+          tr: 'Layout sample: the translation of ' + id + ' sits beside the original. Real text appears here once the corpus is loaded.'
+        });
+      }
+      return out;
+    }
+    function noteCount(pid) { return notes.filter(function (n) { return n.pid === pid; }).length; }
+    function renderText() {
+      var s = SECS[cur], prev = SECS[cur - 1], next = SECS[cur + 1];
+      var html = '<header class="rd-h"><span class="stamp">Section ' + (cur + 1) + ' of ' + SECS.length + ' · section titles are layout samples</span><h2 lang="pi">' + s.pali + '</h2><p class="muted">' + s.en + '</p></header>';
+      paras(cur).forEach(function (p) {
+        var c = noteCount(p.id);
+        html += '<div class="rp' + (ctx.pid === p.id ? ' sel' : '') + '" data-pid="' + p.id + '" tabindex="0"><span class="rp-id">' + p.id + (c ? ic('notes') + c : '') + '</span><div class="rp-pali" lang="pi">' + p.pali + '</div><div class="rp-tr">' + p.tr + '</div><div class="rp-act">' +
+          ib('pencil', 'Add a note', 'data-pact="note"', 'sm') + ib('sparkle', 'Clarify the meaning', 'data-pact="clarify"', 'sm') + ib('message', 'Ask about this', 'data-pact="ask"', 'sm') + ib('quote', 'Copy citation', 'data-pact="cite"', 'sm') + ib('link', 'Copy link', 'data-pact="link"', 'sm') + '</div></div>';
+      });
+      html += '<div class="rd-flip">' + (prev ? '<button type="button" data-secstep="-1">' + ic('left') + '<span>' + prev.pali + '</span><small>Previous section</small></button>' : '<span></span>') +
+        (next ? '<button type="button" data-secstep="1">' + ic('right') + '<span>' + next.pali + '</span><small>Next section</small></button>' : '<span></span>') + '</div>';
+      $('#rdText').innerHTML = html; $('#rdText').scrollTop = 0;
+      $('#secCount').textContent = (cur + 1) + ' / ' + SECS.length; $('#secSel').value = String(cur);
+    }
+    function renderOutline() {
+      $('#rdOut').innerHTML = '<span class="h-sm muted" style="padding-left:var(--s3)">DN 1 · sections</span>' + SECS.map(function (s, i) {
+        return '<button type="button" data-sec="' + i + '"' + (i === cur ? ' aria-current="true"' : '') + '><span lang="pi">' + (i + 1) + ' · ' + s.pali + '</span><span class="sub">' + s.en + '</span></button>';
+      }).join('');
+    }
+    function renderNotes() {
+      var list = notes.filter(function (n) { return nscope === 'all' || n.sec === cur; });
+      $('#noteCount').textContent = notes.length;
+      $('#nlist').innerHTML = list.length ? list.map(function (n) {
+        return '<li class="nitem" data-nid="' + n.id + '"><div class="nh"><button class="cite" type="button" data-ngo="' + n.sec + ':' + n.pid + '">DN 1 · ' + n.pid + '</button>' +
+          (n.ai ? '<span class="tag tag-unverified">' + ic('sparkle') + 'AI-enhanced</span>' : '<span>Your note</span>') + '<span style="margin-left:auto" class="row">' + ib('copy', 'Copy note', 'data-ncopy="' + n.id + '"', 'sm') + ib('trash', 'Delete note', 'data-ndel="' + n.id + '"', 'sm') + '</span></div><p>' + esc(n.text) + '</p>' +
+          (n.ai && n.orig ? '<details><summary>Your original</summary><p style="font-size:14px">' + esc(n.orig) + '</p></details>' : '') + '</li>';
+      }).join('') : '<li class="muted small">No notes yet. Select text or use the pencil on a paragraph.</li>';
+    }
+    function ctxLabel() { return ctx.text ? 'On ' + ctx.pid + ': "' + ctx.text.slice(0, 28) + (ctx.text.length > 28 ? '…' : '') + '"' : 'On ' + ctx.pid; }
+    function setCtx(pid, text) {
+      ctx = { pid: pid, text: text || '' };
+      $$('.rp').forEach(function (p) { p.classList.toggle('sel', p.getAttribute('data-pid') === pid); });
+      $$('[data-ctx]').forEach(function (c) { c.textContent = ctxLabel(); });
+      $('#nbody').placeholder = 'Write a note about ' + pid;
+      $('#rdQ').placeholder = 'Ask about ' + pid + ', or select text to quote it';
+    }
+    function setSection(i, pid) {
+      cur = Math.max(0, Math.min(SECS.length - 1, i));
+      setCtx(pid || ((cur + 1) + '.1'), ''); renderText(); renderOutline(); renderNotes();
+    }
+    function rtab(name) {
+      tab = name;
+      $$('[data-rtab]').forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-rtab') === name)); });
+      $$('[data-rpane]').forEach(function (p) { p.hidden = p.getAttribute('data-rpane') !== name; });
+      if (rd.classList.contains('no-notes')) rd.classList.remove('no-notes'), $('#rdNotesBtn').setAttribute('aria-pressed', 'true');
+    }
+
+    /* clarify */
+    function clarifyHtml() {
+      var s = SECS[cur];
+      return '<div class="clar"><div class="tag tag-unverified">' + ic('sparkle') + 'Written by the system. Not a quotation. Check it against the passage.</div>' +
+        '<div><h4>Plain meaning</h4><p>Sample explanation of ' + esc(ctxLabel()) + ' in plain language, a few sentences long.</p></div>' +
+        '<div><h4>Key terms</h4><div class="suggest"><button class="chip" type="button" data-rp="terms"><span lang="pi">diṭṭhi</span> · view</button><button class="chip" type="button" data-rp="terms"><span lang="pi">attā</span> · self</button></div></div>' +
+        '<div><h4>In context</h4><p>This passage sits in section ' + (cur + 1) + ', <span lang="pi">' + s.pali + '</span> (' + s.en.toLowerCase() + '). Sample note on how it connects to the sections around it.</p></div>' +
+        '<div><h4>What this does not say</h4><p>Sample caution about reading more into the passage than the text supports. This explanation uses DN 1 only.</p></div>' +
+        '<div class="srcrow"><span class="small muted">Based on</span><button class="chip" type="button" data-rp="sources">DN 1 · ' + ctx.pid + '</button></div>' +
+        '<div class="row">' + ib('plus', 'Save as a note', 'data-clsave') + ib('copy', 'Copy explanation', 'data-clcopy') + '</div></div>';
+    }
+    function clarify() {
+      var out = $('#clOut'); out.innerHTML = '<p class="muted small live">Reading ' + esc(ctx.pid) + ' in context</p>';
+      clearTimeout(clT); clT = setTimeout(function () { out.innerHTML = clarifyHtml(); }, 700);
+    }
+
+    /* ask */
+    function ask(q) {
+      q = (q || '').trim(); if (!q) return;
+      rtab('ask'); $('#askSug').hidden = true;
+      var wrap = document.createElement('div'); wrap.className = 'qa';
+      wrap.innerHTML = '<div class="q">' + esc(q) + '</div><div class="a"><p class="muted small live">Searching DN 1 around ' + esc(ctx.pid) + '</p></div>';
+      $('#askList').appendChild(wrap); $('#askList').parentNode.scrollTop = 1e6;
+      setTimeout(function () {
+        $('.a', wrap).innerHTML = '<div class="small muted"><b style="color:var(--ink)">Quote Buddha</b> · <span class="tag tag-direct">Found in the included texts</span></div><p>Sample answer about ' + esc(ctxLabel()) + '. It refers to the passage and to the sections around it.<span class="fn"><button type="button" data-rp="sources" style="color:var(--accent);background:none;border:0;cursor:pointer;font:inherit">[1]</button></span></p>' +
+          '<div class="srcrow"><span class="small muted">Sources</span><button class="chip" type="button" data-rp="sources"><span class="n">1</span>DN 1 · ' + esc(ctx.pid) + '</button></div>' +
+          '<div class="row">' + ib('plus', 'Save as a note', 'data-qanote="' + esc(q) + '"', 'sm') + ib('copy', 'Copy answer', 'data-qacopy', 'sm') + ib('flag', 'Report a citation', 'data-modal="report"', 'sm') + '</div>';
+        $('#askList').parentNode.scrollTop = 1e6;
+      }, 900);
+    }
+
+    /* menus */
+    var menu = null;
+    function closeMenu() { if (menu) { menu.remove(); menu = null; } $$('#suttaBtn,#rdDl').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); }); }
+    function openMenu(btn, items) {
+      closeMenu(); btn.setAttribute('aria-expanded', 'true');
+      menu = document.createElement('div'); menu.className = 'cmenu'; menu.setAttribute('role', 'menu'); menu.style.minWidth = '240px';
+      menu.innerHTML = items.map(function (it, i) { return '<button type="button" role="menuitem" data-ritem="' + i + '"' + (it.off ? ' disabled style="opacity:.5;cursor:not-allowed"' : '') + '>' + it.l + (it.off ? ' · not yet included' : '') + '</button>'; }).join('');
+      document.body.appendChild(menu);
+      var r = btn.getBoundingClientRect(); menu.style.left = Math.max(8, Math.min(r.left, window.innerWidth - 260)) + 'px'; menu.style.top = (r.bottom + 4) + 'px';
+      menu.__items = items; var f = $('button:not([disabled])', menu); if (f) f.focus();
+    }
+    function mdText() {
+      var out = '# Notes on DN 1 · Brahmajāla Sutta\n\n';
+      notes.slice().sort(function (a, b) { return a.sec - b.sec || a.pid.localeCompare(b.pid); }).forEach(function (n) {
+        out += '## Section ' + (n.sec + 1) + ' · ' + SECS[n.sec].pali + ' (' + n.pid + ')\n' + n.text + (n.ai ? '\n*AI-enhanced. Written by the system; check it against the passage.*' : '') + '\n\nReference: DN 1 ' + n.pid + ', pitaka.lk edition (pitaka_lk:dn-1:' + n.pid.replace('.', ':') + ')\n\n';
+      });
+      return out + '---\nGenerated 2026-11-16 from corpus v0.1 (DN 1 only).';
+    }
+    function shareDl(btn) {
+      openMenu(btn, [
+        { l: 'Copy notes as Markdown', run: function () { Q.copyText(mdText(), 'Notes copied as Markdown'); } },
+        { l: 'Download Markdown (.md)', run: function () { Q.toast('Markdown download prepared (preview only)'); } },
+        { l: 'Download PDF', run: function () { Q.toast('PDF download prepared (preview only)'); } },
+        { l: 'Copy references as BibTeX', run: function () { Q.copyText('@misc{dn1, title={Brahmajāla Sutta (DN 1)}, note={Pali with Sinhala translation, pitaka.lk, corpus v0.1}}', 'BibTeX copied'); } },
+        { l: 'Add notes to the Notebook', run: function () { Q.toast('Notes added to the Notebook'); } }
+      ]);
+    }
+
+    /* selection toolbar */
+    var selbar = $('#selbar'), selText = '', selPid = null;
+    function hideSel() { selbar.hidden = true; }
+    $('#rdText').addEventListener('mouseup', function () {
+      setTimeout(function () {
+        var sel = window.getSelection(), t = sel ? sel.toString().trim() : '';
+        if (!t || t.length < 3 || !sel.anchorNode) { return; }
+        var el = sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement, p = el && el.closest('.rp'); if (!p) return;
+        selText = t; selPid = p.getAttribute('data-pid');
+        var r = sel.getRangeAt(0).getBoundingClientRect(); selbar.hidden = false;
+        selbar.style.left = Math.max(8, Math.min(r.left + r.width / 2 - 70, window.innerWidth - 150)) + 'px'; selbar.style.top = Math.max(8, r.top - 44) + 'px';
+      }, 0);
+    });
+    $('#rdText').addEventListener('scroll', hideSel);
+    document.addEventListener('mousedown', function (e) { if (!e.target.closest('#selbar')) hideSel(); if (menu && !e.target.closest('.cmenu') && !e.target.closest('#suttaBtn,#rdDl')) closeMenu(); });
+
+    function paraAction(act, pid, text) {
+      setCtx(pid, text);
+      if (act === 'note') { rtab('notes'); $('#nbody').focus(); }
+      else if (act === 'clarify') { rtab('clarify'); clarify(); }
+      else if (act === 'ask') { rtab('ask'); $('#rdQ').focus(); }
+      else if (act === 'cite') Q.copyText('Brahmajāla Sutta (DN 1), ' + pid + '. Pali with Sinhala translation, pitaka.lk. Corpus v0.1.', 'Citation copied');
+      else if (act === 'link') Q.copyText('https://quotebuddha.example/dn1#' + pid, 'Link copied');
+    }
+
+    /* events */
+    document.addEventListener('click', function (e) {
+      var t = e.target;
+      if (!t.closest('.page[data-page="reader"], #selbar, .cmenu')) return;
+      var pa = t.closest('[data-pact]');
+      if (pa) {
+        var inSel = !!t.closest('#selbar'), p = t.closest('.rp');
+        paraAction(pa.getAttribute('data-pact'), inSel ? selPid : p.getAttribute('data-pid'), inSel ? selText : '');
+        if (inSel) { hideSel(); window.getSelection().removeAllRanges(); } return;
+      }
+      var rp = t.closest('.rp'); if (rp && !t.closest('button, a, .term')) setCtx(rp.getAttribute('data-pid'), '');
+      var ss = t.closest('[data-secstep]'); if (ss) { setSection(cur + (+ss.getAttribute('data-secstep'))); return; }
+      var sc = t.closest('[data-sec]'); if (sc) { setSection(+sc.getAttribute('data-sec')); return; }
+      var rv = t.closest('[data-rview]');
+      if (rv) { rd.classList.remove('v-both', 'v-pali', 'v-tr'); rd.classList.add('v-' + rv.getAttribute('data-rview')); $$('[data-rview]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === rv)); }); return; }
+      if (t.closest('#rdSize')) {
+        var cs = getComputedStyle(root).getPropertyValue('--rs').trim() || '1', i = (sizes.indexOf(cs) + 1) % sizes.length;
+        root.style.setProperty('--rs', sizes[i]); $$('[data-set^="rs:"]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === 'rs:' + sizes[i])); });
+        Q.toast('Text size ' + ['small', 'medium', 'large', 'extra large'][i]); return;
+      }
+      if (t.closest('#rdOutBtn')) { var o = rd.classList.toggle('no-outline'); $('#rdOutBtn').setAttribute('aria-pressed', String(!o)); return; }
+      if (t.closest('#rdNotesBtn')) { var n = rd.classList.toggle('no-notes'); $('#rdNotesBtn').setAttribute('aria-pressed', String(!n)); return; }
+      if (t.closest('[data-rhide]')) { rd.classList.add('no-notes'); $('#rdNotesBtn').setAttribute('aria-pressed', 'false'); return; }
+      var rt = t.closest('[data-rtab]'); if (rt) { rtab(rt.getAttribute('data-rtab')); if (rt.getAttribute('data-rtab') === 'clarify' && !$('#clOut').innerHTML) clarify(); return; }
+      var ns = t.closest('[data-nscope]'); if (ns) { nscope = ns.getAttribute('data-nscope'); $$('[data-nscope]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === ns)); }); renderNotes(); return; }
+      if (t.closest('#suttaBtn')) { openMenu($('#suttaBtn'), SUTTAS.map(function (x) { return { l: x.l, off: !x.ok, run: function () { Q.toast('DN 1 is open'); } }; })); return; }
+      if (t.closest('#rdDl')) { shareDl($('#rdDl')); return; }
+      var ri = t.closest('[data-ritem]'); if (ri && menu) { var it = menu.__items[+ri.getAttribute('data-ritem')]; closeMenu(); if (it && it.run) it.run(); return; }
+      if (t.closest('[data-clarify]')) { clarify(); return; }
+      if (t.closest('[data-clsave]')) { notes.unshift({ id: nid++, sec: cur, pid: ctx.pid, text: 'Clarified: sample explanation of ' + ctx.pid + ' saved from the Clarify tab.', ai: true, orig: '' }); renderNotes(); renderText(); rtab('notes'); Q.toast('Saved as an AI-enhanced note'); return; }
+      if (t.closest('[data-clcopy]')) { Q.copyText('Sample explanation of ' + ctx.pid, 'Explanation copied'); return; }
+      var qs = t.closest('[data-qsug]'); if (qs) { ask(qs.getAttribute('data-qsug')); return; }
+      var qn = t.closest('[data-qanote]'); if (qn) { notes.unshift({ id: nid++, sec: cur, pid: ctx.pid, text: 'Q: ' + qn.getAttribute('data-qanote') + '\nA: sample answer saved from the Ask tab.', ai: true, orig: '' }); renderNotes(); renderText(); Q.toast('Saved to your notes'); return; }
+      if (t.closest('[data-qacopy]')) { Q.copyText('Sample answer', 'Answer copied'); return; }
+      var ng = t.closest('[data-ngo]'); if (ng) { var pr = ng.getAttribute('data-ngo').split(':'); setSection(+pr[0], pr[1]); return; }
+      var nd = t.closest('[data-ndel]'); if (nd) { notes = notes.filter(function (x) { return x.id !== +nd.getAttribute('data-ndel'); }); renderNotes(); renderText(); Q.toast('Note deleted'); return; }
+      var nc = t.closest('[data-ncopy]'); if (nc) { var nn = notes.filter(function (x) { return x.id === +nc.getAttribute('data-ncopy'); })[0]; if (nn) Q.copyText(nn.text, 'Note copied'); return; }
+      if (t.closest('[data-enh]')) {
+        var body = $('#nbody').value.trim(), box = $('#enh');
+        if (!body) { Q.toast('Write a note first, then enhance it'); return; }
+        box.hidden = false; box.innerHTML = '<p class="muted small live">Reading ' + esc(ctx.pid) + ' and your note</p>';
+        setTimeout(function () {
+          box.innerHTML = '<div class="sug"><span class="tag tag-unverified">' + ic('sparkle') + 'Suggested by the system</span><p>Clarified: ' + esc(body) + ' In context, this refers to ' + esc(ctx.pid) + ' in section ' + (cur + 1) + ' (' + esc(SECS[cur].en.toLowerCase()) + ').</p><small>Written by the system. Check it against the passage.</small><div class="row">' + ib('check', 'Use this version', 'data-enhok', 'sm') + ib('close', 'Discard', 'data-enhno', 'sm') + '</div></div>';
+        }, 800); return;
+      }
+      if (t.closest('[data-enhok]')) { aiOrig = $('#nbody').value; $('#nbody').value = $('#enh .sug p').textContent; $('#enh').hidden = true; Q.toast('Enhanced version in the note box. Save it to keep it.'); return; }
+      if (t.closest('[data-enhno]')) { $('#enh').hidden = true; return; }
+      if (t.closest('[data-nsave]')) {
+        var tx = $('#nbody').value.trim(); if (!tx) { Q.toast('Write a note first'); return; }
+        notes.unshift({ id: nid++, sec: cur, pid: ctx.pid, text: tx, ai: aiOrig !== null, orig: aiOrig || '' });
+        aiOrig = null; $('#nbody').value = ''; $('#enh').hidden = true; renderNotes(); renderText(); Q.toast('Note saved'); return;
+      }
+    });
+    $('#secSel').addEventListener('change', function () { setSection(+this.value); });
+    $('#rdAsk').addEventListener('submit', function (e) { e.preventDefault(); var v = $('#rdQ').value; $('#rdQ').value = ''; ask(v); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { hideSel(); closeMenu(); } });
+
+    /* init */
+    $('#secSel').innerHTML = SECS.map(function (s, i) { return '<option value="' + i + '">' + (i + 1) + ' · ' + s.pali + '</option>'; }).join('');
+    if (window.innerWidth < 1100) { rd.classList.add('no-notes'); $('#rdNotesBtn').setAttribute('aria-pressed', 'false'); }
+    if (window.innerWidth < 900) { rd.classList.add('no-outline'); $('#rdOutBtn').setAttribute('aria-pressed', 'false'); }
+    setSection(0);
+  })();
+
+  window.addEventListener('hashchange', function () { go(location.hash.replace('#', '')); });
+  go(location.hash.replace('#', '') || 'new');
+  var btn = document.getElementById('themeBtn'), modes = ['system', 'light', 'dark'], i = 0;
+  btn.addEventListener('click', function () {
+    i = (modes.indexOf(root.getAttribute('data-theme') || 'system') + 1) % modes.length;
+    if (modes[i] === 'system') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', modes[i]);
+    btn.textContent = 'Theme: ' + modes[i];
+    document.querySelectorAll('[data-set^="theme:"]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-set') === 'theme:' + modes[i])); });
+  });
+})();
+</script>
