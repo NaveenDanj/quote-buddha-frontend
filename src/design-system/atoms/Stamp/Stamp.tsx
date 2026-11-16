@@ -7,7 +7,7 @@ type StampProps = {
 }
 
 export function Stamp({ isKey = false, children }: StampProps) {
-  const className = 'font-code text-code text-text-muted'
+  const className = 'font-code text-stamp text-text-muted'
 
   if (isKey) {
     return <kbd className={className}>{children}</kbd>

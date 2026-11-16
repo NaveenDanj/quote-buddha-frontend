@@ -14,7 +14,7 @@ import {
   FileCheck,
   Flag,
   Grid3x3,
-  Link,
+  Link as LinkIcon,
   Menu,
   MessageSquare,
   Network,
@@ -54,7 +54,7 @@ const icons = {
   search: Search,
   share: Share2,
   download: Download,
-  link: Link,
+  link: LinkIcon,
   settings: SlidersHorizontal,
   menu: Menu,
   add: Plus,
@@ -107,8 +107,7 @@ export function Icon({ name, size = 'medium', label, className }: IconProps) {
 
   return (
     <Drawing
-      className={clsx('shrink-0', sizeClass[size], className)}
-      style={{ strokeWidth: 'var(--icon-stroke)' }}
+      className={clsx('shrink-0 stroke-(length:--icon-stroke)', sizeClass[size], className)}
       aria-hidden={isDecoration ? true : undefined}
       aria-label={label}
       role={isDecoration ? undefined : 'img'}

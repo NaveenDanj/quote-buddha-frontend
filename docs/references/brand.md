@@ -30,9 +30,9 @@ Source of truth for token values. Visual reference: `docs/prototypes/design-syst
 | accent on subtle | 5.31 | 7.37 |
 | danger on page | 6.54 | 7.74 |
 | focus on page | 5.81 | 7.99 |
-| border on page | 1.35 | 1.40 |
+| border on page (decorative only) | 1.35 | 1.40 |
 
-All text pairs pass AA (4.5:1). **Open item:** unselected chips use `--color-border` as their boundary (1.35:1). Decide in the atoms step whether chip borders move to `--color-text-muted` (3:1 or more for control boundaries). Input borders already use `--color-text-muted`.
+All text pairs pass AA (4.5:1). **Decided (plan 03, batch B):** unselected chips use `--color-text-muted` as their boundary (6.48:1 light, 6.93:1 dark), like input borders. `--color-border` stays decorative (hairlines, dividers) and is never a control boundary.
 
 ## Typography
 | Role | Family | Size / line | Weight |
@@ -64,6 +64,8 @@ Space (4px base): `--spacing-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `
 
 ## Breakpoints
 `sm` 760 (stack everything) · `md` 900 (hide Reader outline) · `lg` 1100 (side panes become drawers below this).
+
+Other sizes: `--button-padding-x` 20 (button side padding), `--badge-size` 16, `--dot-size` 7 (streaming dot), `--meter-height` 6, `--glyph-size` 10 with `--glyph-outline` 1.5, `--text-stamp` 12.
 
 ## Motion
 `--motion-fast` 120ms, `--motion-base` 180ms, ease. Drawers and panel slides use base. `prefers-reduced-motion` removes transitions and the streaming blink.

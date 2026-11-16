@@ -1,7 +1,3 @@
-/*
-  Primitive palette: raw values only. Nothing outside tokens.css may use these.
-  Components use the semantic tokens (--color-text, --color-page, ...), never these.
-*/
 :root {
   --palette-white: #ffffff;
   --palette-gray-050: #f4f4f4;

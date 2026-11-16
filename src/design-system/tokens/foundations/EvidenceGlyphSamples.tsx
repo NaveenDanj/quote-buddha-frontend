@@ -1,33 +1,23 @@
-// Plain squares that show the three glyph patterns. The real EvidenceGlyph molecule comes in a later plan.
-const glyphs = [
-  { name: 'Filled', meaning: 'Direct quote', className: 'bg-text border-text' },
-  { name: 'Hatched', meaning: 'Not verified', className: 'border-text-muted', hatched: true },
-  {
-    name: 'Dashed outline',
-    meaning: 'No support, removed, not used, abstained, or not yet included',
-    className: 'border-dashed border-text-muted',
-  },
-]
+import { Tag } from '../../atoms/Tag'
 
+// The three shapes from the Tag atom, with what each one means. The real evidence molecule comes later.
 export function EvidenceGlyphSamples() {
   return (
     <ul className="grid gap-3 font-ui text-ui">
-      {glyphs.map((glyph) => (
-        <li key={glyph.name} className="flex items-center gap-3">
-          <span
-            aria-hidden="true"
-            className={`inline-block border text-text ${glyph.className}`}
-            style={{
-              width: 'var(--glyph-size)',
-              height: 'var(--glyph-size)',
-              borderWidth: 'var(--glyph-outline)',
-              backgroundImage: glyph.hatched ? 'var(--pattern-hatch)' : undefined,
-            }}
-          />
-          <span className="font-medium">{glyph.name}</span>
-          <span className="text-text-muted">{glyph.meaning}</span>
-        </li>
-      ))}
+      <li className="flex items-center gap-3">
+        <Tag glyph="filled">Filled</Tag>
+        <span className="text-text-muted">Direct quote</span>
+      </li>
+      <li className="flex items-center gap-3">
+        <Tag glyph="hatched">Hatched</Tag>
+        <span className="text-text-muted">Not verified</span>
+      </li>
+      <li className="flex items-center gap-3">
+        <Tag glyph="dashed">Dashed outline</Tag>
+        <span className="text-text-muted">
+          No support, removed, not used, abstained, or not yet included
+        </span>
+      </li>
     </ul>
   )
 }

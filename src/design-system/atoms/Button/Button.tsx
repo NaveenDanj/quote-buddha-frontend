@@ -6,9 +6,9 @@ type ButtonVariant = 'primary' | 'secondary' | 'text'
 type ButtonSize = 'medium' | 'small'
 
 const variantClass: Record<ButtonVariant, string> = {
-  primary: 'border-text bg-text text-page hover:border-accent hover:bg-accent',
-  secondary: 'border-text bg-transparent text-text hover:bg-text hover:text-page',
-  text: 'border-transparent bg-transparent text-text underline decoration-1 underline-offset-4 hover:text-accent',
+  primary: 'border-text bg-text text-page enabled:hover:border-accent enabled:hover:bg-accent',
+  secondary: 'border-text bg-transparent text-text enabled:hover:bg-text enabled:hover:text-page',
+  text: 'border-transparent bg-transparent text-text underline decoration-1 underline-offset-4 enabled:hover:text-accent',
 }
 
 const sizeClass: Record<ButtonSize, string> = {
@@ -24,7 +24,7 @@ function getSidePaddingClass(variant: ButtonVariant, size: ButtonSize): string {
   if (size === 'small') {
     return 'px-3'
   }
-  return 'px-5'
+  return 'px-(--button-padding-x)'
 }
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {

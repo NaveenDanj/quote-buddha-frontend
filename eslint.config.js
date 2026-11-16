@@ -132,6 +132,11 @@ export default defineConfig([
     },
   },
   {
+    // A test file is one long describe block on purpose: each test inside it stays short.
+    files: ['**/*.test.{ts,tsx}'],
+    rules: { 'max-lines-per-function': 'off' },
+  },
+  {
     files: ['*.config.{js,ts}', 'scripts/**/*.mjs', '.storybook/**/*.{ts,tsx}'],
     languageOptions: {
       globals: globals.node,

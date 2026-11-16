@@ -9,11 +9,6 @@ const sizeClass: Record<IconButtonSize, string> = {
   medium: 'size-(--control-medium)',
 }
 
-const iconSize: Record<IconButtonSize, 'small' | 'medium'> = {
-  small: 'small',
-  medium: 'medium',
-}
-
 type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> & {
   icon: IconName
   // There is no visible text and no tooltip, so the label is the button's only name. It is required.
@@ -27,12 +22,13 @@ type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' 
 
 function getLookClass(isSolid: boolean, isPressed: boolean | undefined): string {
   if (isSolid) {
-    return 'border-inverse-bg bg-inverse-bg text-inverse-text hover:border-accent hover:bg-accent'
+    return 'border-inverse-bg bg-inverse-bg text-inverse-text enabled:hover:border-accent enabled:hover:bg-accent'
   }
   if (isPressed) {
-    return 'border-text bg-surface-subtle text-text'
+    // In Windows high contrast mode colors are replaced, so a pressed button gets a thicker border.
+    return 'border-text bg-surface-subtle text-text forced-colors:border-2'
   }
-  return 'border-transparent bg-transparent text-text hover:border-border hover:bg-surface-subtle'
+  return 'border-transparent bg-transparent text-text enabled:hover:border-border enabled:hover:bg-surface-subtle'
 }
 
 export function IconButton({
@@ -47,6 +43,7 @@ export function IconButton({
 }: IconButtonProps) {
   return (
     <button
+      {...buttonProps}
       type={type}
       aria-label={label}
       aria-pressed={isPressed}
@@ -58,9 +55,8 @@ export function IconButton({
         getLookClass(isSolid, isPressed),
         className,
       )}
-      {...buttonProps}
     >
-      <Icon name={icon} size={iconSize[size]} />
+      <Icon name={icon} size={size} />
     </button>
   )
 }

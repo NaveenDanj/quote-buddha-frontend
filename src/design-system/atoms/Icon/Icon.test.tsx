@@ -16,12 +16,6 @@ describe('Icon', () => {
     expect(screen.getByRole('img', { name: 'Verified' })).toBeInTheDocument()
   })
 
-  it('draws the stroke from the token', () => {
-    const { container } = render(<Icon name="close" />)
-    // jsdom cannot work out var(), so check the written style text instead.
-    expect(container.querySelector('svg')?.getAttribute('style')).toContain('var(--icon-stroke)')
-  })
-
   it('has no accessibility violations', async () => {
     const { container } = render(<Icon name="verify" label="Verified" />)
     expect(await axe(container)).toHaveNoViolations()

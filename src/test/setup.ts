@@ -6,6 +6,17 @@ import { server } from '@api/mocks/server'
 
 expect.extend(axeMatchers)
 
+// jsdom lacks a few browser features that Radix menus and selects use. These stand-ins do nothing.
+Element.prototype.hasPointerCapture = () => false
+Element.prototype.setPointerCapture = () => {}
+Element.prototype.releasePointerCapture = () => {}
+Element.prototype.scrollIntoView = () => {}
+globalThis.ResizeObserver = class {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+
 beforeAll(() => server.listen({ onUnhandledFrame: 'error' }))
 
 afterEach(() => {

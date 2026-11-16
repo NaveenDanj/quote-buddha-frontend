@@ -49,6 +49,29 @@ describe('Button', () => {
     expect(screen.getByRole('button', { name: 'New chat' })).toBeInTheDocument()
   })
 
+  it('works from the keyboard', async () => {
+    const onClick = vi.fn()
+    const user = userEvent.setup()
+    render(<Button onClick={onClick}>Send report</Button>)
+
+    await user.tab()
+    await user.keyboard('{Enter}')
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not click when the text variant is disabled', async () => {
+    const onClick = vi.fn()
+    const user = userEvent.setup()
+    render(
+      <Button variant="text" disabled onClick={onClick}>
+        Show all
+      </Button>,
+    )
+    await user.click(screen.getByRole('button'))
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
   it('has no accessibility violations in every variant', async () => {
     const { container } = render(
       <>
