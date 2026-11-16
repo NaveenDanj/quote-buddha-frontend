@@ -23,6 +23,10 @@ Backend rules: `../quote-buddha/.claude/skills/rag-attribution-integrity/SKILL.m
 9. **Scope notes everywhere it matters.** Answers, Verify results and document results carry the included-texts-only disclaimer.
 10. **Sample content is marked.** Placeholders say "Layout sample". Never pair a real quotation with a made-up citation ID.
 
+## Where the state rules live in code
+- States are `EvidenceState.*` and shapes are `EvidenceShape.*` (`src/domain/evidence.ts`). The shape for each state comes only from `getEvidenceShape`, and the words only from `evidenceStateText` (`src/wording`). Never compare to or write a state as a loose string, and never pick a shape inside a component.
+- Adding a state means adding it in all three places; the compiler fails until you do.
+
 ## Components that carry these rules
 `EvidenceGlyph`, `EvidenceTag`, `PassageQuote`, `CiteLink`, `FootnoteMarker`, `SystemExplanation`, `Notice`, `AbstainNotice`, `EvidenceMatrix`, `StarGraph`, `VerifyResult`, `DocumentResults`, `SuggestionBlock`. Change one of them and the wording-auditor must run.
 

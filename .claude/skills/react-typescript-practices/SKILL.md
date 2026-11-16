@@ -13,6 +13,9 @@ KISS and plain English first. Readable beats clever. Read `simple-code-conventio
 - Backend types live in `src/api/types.ts` and mirror the contract (skill `api-contract-mirroring`). Do not redefine them in components.
 - Simple plain-English names, no abbreviations: `onSaveNote`, not `onSaveNt`; `event`, not `e`; `index`, not `i`. Booleans read as questions (`isOpen`), functions start with a verb (`saveNote`).
 
+## Constants
+- Do not scatter string literals for states and kinds. Use the `const` objects in `src/domain` (`EvidenceState.removed`, `AnswerStatus.abstained`) and derive types from them. Name magic numbers with their unit. Rules and examples: skill `simple-code-conventions`, section "Constants".
+
 ## Components
 - Function components, props typed in the same file, small and single-purpose. Compose with children and slots, not boolean prop piles.
 - Extend native element props where it helps (`ComponentProps<'button'>`), and forward `ref` and `className` on atoms.

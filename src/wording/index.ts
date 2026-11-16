@@ -1,2 +1,2 @@
-// Fixed copy for answers, evidence and abstention (see docs/references/wording.md).
-export {}
+export { attributedToBuddhaIn, backendWordingKeys, evidenceStateText, wording } from './wording'
+export type { Wording } from './wording'

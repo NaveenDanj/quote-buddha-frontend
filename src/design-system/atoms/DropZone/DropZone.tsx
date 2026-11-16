@@ -25,11 +25,15 @@ export function DropZone({
 }: DropZoneProps) {
   const [isDraggingOver, setIsDraggingOver] = useState(false)
 
-  function onInputChange(event: ChangeEvent<HTMLInputElement>) {
-    const files = pickFiles(event.target.files, isMultiple)
+  function chooseFiles(fileList: FileList | null) {
+    const files = pickFiles(fileList, isMultiple)
     if (files.length > 0) {
       onFilesChosen(files)
     }
+  }
+
+  function onInputChange(event: ChangeEvent<HTMLInputElement>) {
+    chooseFiles(event.target.files)
     event.target.value = ''
   }
 
@@ -46,10 +50,7 @@ export function DropZone({
     if (disabled) {
       return
     }
-    const files = pickFiles(event.dataTransfer.files, isMultiple)
-    if (files.length > 0) {
-      onFilesChosen(files)
-    }
+    chooseFiles(event.dataTransfer.files)
   }
 
   return (
@@ -58,14 +59,16 @@ export function DropZone({
       onDragLeave={() => setIsDraggingOver(false)}
       onDrop={onDrop}
       className={clsx(
-        'grid cursor-pointer place-items-center gap-1 rounded border border-dashed px-4 py-6 text-center font-ui',
+        'relative grid place-items-center gap-1 rounded border border-dashed px-4 py-6 text-center font-ui',
         'has-[:focus-visible]:outline-(length:--focus-ring-width) has-[:focus-visible]:outline-offset-(--focus-ring-offset) has-[:focus-visible]:outline-focus has-[:focus-visible]:outline-solid',
         isDraggingOver ? 'border-text text-text' : 'border-text-muted text-text-muted',
-        disabled ? 'cursor-not-allowed opacity-35' : 'hover:border-text hover:text-text',
+        disabled
+          ? 'cursor-not-allowed opacity-(--opacity-disabled)'
+          : 'cursor-pointer hover:border-text hover:text-text',
       )}
     >
-      <span className="text-ui font-medium">{title}</span>
-      {hint ? <span className="text-caption">{hint}</span> : null}
+      <span className="pointer-events-none text-ui font-medium">{title}</span>
+      {hint ? <span className="pointer-events-none text-caption">{hint}</span> : null}
       <input
         type="file"
         className="sr-only"

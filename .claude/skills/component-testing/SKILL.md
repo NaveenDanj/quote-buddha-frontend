@@ -30,5 +30,8 @@ Tests sit next to the component: `Button.test.tsx`. Page tests live in `src/page
 - Keep tests small and named for the behaviour: `it('keeps the original when an AI-enhanced note is saved')`.
 - Tests follow `simple-code-conventions` too: plain variable names (`savedNote`, `stopButton`, not `n1`, `btn`), no clever one-line setups, one thing asserted per test where practical.
 
+## Constants in tests
+Compare against the domain constants (`EvidenceState.removed`, `EvidenceShape.dashed`), not retyped strings, so a renamed value breaks the test at compile time. Sample text may stay a plain string.
+
 ## Commands
 `npm run test` (watch off in CI), `npx vitest run src/path`, `npm run test -- --coverage`.

@@ -1,30 +1,30 @@
 import { render, screen } from '@testing-library/react'
 import { axe } from 'vitest-axe'
 import { describe, expect, it } from 'vitest'
-import { Tag } from './Tag'
+import { Tag, TagGlyph } from './Tag'
 
 describe('Tag', () => {
   it('always shows its label in words', () => {
-    render(<Tag glyph="hatched">Not verified</Tag>)
+    render(<Tag glyph={TagGlyph.hatched}>Not verified</Tag>)
     expect(screen.getByText('Not verified')).toBeInTheDocument()
   })
 
   it('hides the square from assistive technology', () => {
-    const { container } = render(<Tag glyph="filled">Direct quote</Tag>)
+    const { container } = render(<Tag glyph={TagGlyph.filled}>Direct quote</Tag>)
     expect(container.querySelector('[aria-hidden="true"]')).toBeInTheDocument()
   })
 
   it('draws no square for a plain tag', () => {
-    const { container } = render(<Tag glyph="plain">Deep answer</Tag>)
+    const { container } = render(<Tag glyph={TagGlyph.plain}>Deep answer</Tag>)
     expect(container.querySelector('[aria-hidden="true"]')).not.toBeInTheDocument()
   })
 
   it('gives each shape a different look, so state is not carried by color', () => {
     const { container } = render(
       <>
-        <Tag glyph="filled">A</Tag>
-        <Tag glyph="hatched">B</Tag>
-        <Tag glyph="dashed">C</Tag>
+        <Tag glyph={TagGlyph.filled}>A</Tag>
+        <Tag glyph={TagGlyph.hatched}>B</Tag>
+        <Tag glyph={TagGlyph.dashed}>C</Tag>
       </>,
     )
     const squares = container.querySelectorAll<HTMLElement>('[aria-hidden="true"]')
@@ -34,7 +34,7 @@ describe('Tag', () => {
   })
 
   it('has no accessibility violations', async () => {
-    const { container } = render(<Tag glyph="dashed">Not established</Tag>)
+    const { container } = render(<Tag glyph={TagGlyph.dashed}>Not established</Tag>)
     expect(await axe(container)).toHaveNoViolations()
   })
 })

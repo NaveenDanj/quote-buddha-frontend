@@ -9,8 +9,8 @@ type DisclosureProps = {
 
 export function Disclosure({ summary, isOpenAtStart = false, children }: DisclosureProps) {
   return (
-    <details open={isOpenAtStart} className="group border-b border-border py-3">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-ui text-ui font-medium text-text [&::-webkit-details-marker]:hidden">
+    <details open={isOpenAtStart} className="group border-b border-border">
+      <summary className="flex cursor-pointer list-none items-center py-3 justify-between gap-3 font-ui text-ui font-medium text-text [&::-webkit-details-marker]:hidden">
         {summary}
         <span className="group-open:rotate-180">
           <Icon name="expand" size="small" />

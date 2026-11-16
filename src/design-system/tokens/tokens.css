@@ -141,10 +141,17 @@
   --measure-reading: 62ch;
   --measure-wide: 110ch;
 
+  /* Disabled controls fade to this opacity */
+  --opacity-disabled: 0.35;
+
+  /* Popup menus are at least this wide */
+  --menu-min-width: 220px;
+
   /* Control heights */
   --control-small: 28px;
   --control-medium: 34px;
   --control-send: 42px;
+  --control-field: 42px;
 
   /* Icons */
   --icon-small: 16px;
@@ -165,6 +172,9 @@
 
   /* A data table never gets narrower than this; below it the table scrolls sideways */
   --table-min-width: 460px;
+
+  /* One square in the coverage strip */
+  --coverage-square-size: 12px;
 
   /* Count badge size */
   --badge-size: 16px;

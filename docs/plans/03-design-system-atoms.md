@@ -34,3 +34,17 @@ The user installs Radix packages (before batches C, D, E). Nothing else needs in
 
 ## 7. Out of scope
 Domain molecules (plan 04), pages, the API client.
+
+## 8. Status (all five batches built)
+Done: Icon, IconButton, Button, Link, Text, VisuallyHidden, Divider, Stamp, Chip, Tag, CountBadge, Mark, Skeleton, LiveDot, Meter, Field (extra, shared label/hint/error), Input, Textarea, Select, Checkbox, DropZone, Tabs, SegmentedControl, Disclosure, DataTable, FactList, Breadcrumbs, ListRow, Dialog, Menu, Popover, HoverCard, Toast. Reviewed by `design-system-reviewer` and `a11y-auditor` after batches A and B, and after batches C to E.
+
+Open items carried forward (decide when the first user of each exists):
+- **Disabled chip meaning:** make it `aria-disabled` with a hidden reason when building `SourceChip` (plan 04).
+- **Inverse surfaces:** dark focus blue on the inverse background is 2.0:1. Add `--color-inverse-focus` before any control goes inside a toast or the selection toolbar.
+- **Small controls:** 28px passes WCAG 2.2 (24px) but not the 32px rule in the auditor. Decide: raise `--control-small` or relax the rule.
+- **HoverCard on touch:** only documented. The molecule that uses it (`TermLink`) must make the trigger a real link.
+- **DataTable cells:** typed as `Record<string, ReactNode>`; a generic over the column keys would catch a missing cell.
+- **Deep imports:** `@ds/atoms/Field/Field` (past the index) is not blocked by lint yet.
+- **Toast provider:** each Toast has its own provider, so two at once overlap. Move the provider to the app shell if more than one is needed.
+- **14px text:** the prototype uses 14px for field labels, FactList, DataTable; atoms use 13px or 15px. Compare in Storybook and add a token if it matters.
+- **Windows high contrast:** forced-colors cues were added by reading code (Chip, IconButton, Tabs, ListRow, LiveDot, Meter, Tag). Check once in Edge forced-colors mode.

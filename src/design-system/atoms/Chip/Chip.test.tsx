@@ -55,6 +55,31 @@ describe('Chip', () => {
     expect(screen.getByRole('button', { name: 'Attach file' })).toBeInTheDocument()
   })
 
+  it('stays reachable by keyboard when unavailable, and says why', async () => {
+    const user = userEvent.setup()
+    render(<Chip unavailableReason="not yet included">MN 1</Chip>)
+    const chip = screen.getByRole('button', { name: 'MN 1 not yet included' })
+
+    await user.tab()
+
+    expect(chip).toHaveFocus()
+    expect(chip).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('does nothing when it is unavailable', async () => {
+    const onClick = vi.fn()
+    const user = userEvent.setup()
+    render(
+      <Chip unavailableReason="not yet included" onClick={onClick}>
+        MN 1
+      </Chip>,
+    )
+
+    await user.click(screen.getByRole('button'))
+
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
   it('has no accessibility violations', async () => {
     const { container } = render(
       <>

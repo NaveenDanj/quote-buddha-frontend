@@ -1,0 +1,1 @@
+export { PassageQuote } from './PassageQuote'

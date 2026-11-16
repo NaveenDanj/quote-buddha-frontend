@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import type { ButtonHTMLAttributes } from 'react'
+import type { ComponentProps } from 'react'
 import { Icon, type IconName } from '@ds/atoms/Icon'
 
 type IconButtonSize = 'small' | 'medium'
@@ -9,26 +9,33 @@ const sizeClass: Record<IconButtonSize, string> = {
   medium: 'size-(--control-medium)',
 }
 
-type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'aria-label'> & {
+type IconButtonProps = Omit<ComponentProps<'button'>, 'children' | 'aria-label'> & {
   icon: IconName
-  // There is no visible text and no tooltip, so the label is the button's only name. It is required.
   label: string
   size?: IconButtonSize
-  // The filled, dark version for the one main action in a row (for example Send).
   isSolid?: boolean
-  // For toggles. Leave out when the button is not a toggle.
   isPressed?: boolean
 }
 
 function getLookClass(isSolid: boolean, isPressed: boolean | undefined): string {
-  if (isSolid) {
-    return 'border-inverse-bg bg-inverse-bg text-inverse-text enabled:hover:border-accent enabled:hover:bg-accent'
+  // if (isSolid) {
+  //   return 'border-inverse-bg bg-inverse-bg text-inverse-text enabled:hover:border-accent enabled:hover:bg-accent'
+  // }
+
+  // if (isPressed) {
+  //   return 'border-text bg-surface-subtle text-text forced-colors:border-2'
+  // }
+
+  // return 'border-transparent bg-transparent text-text enabled:hover:border-border enabled:hover:bg-surface-subtle'
+
+  switch (true) {
+    case isSolid:
+      return 'border-inverse-bg bg-inverse-bg text-inverse-text enabled:hover:border-accent enabled:hover:bg-accent'
+    case isPressed:
+      return 'border-text bg-surface-subtle text-text forced-colors:border-2'
+    default:
+      return 'border-transparent bg-transparent text-text enabled:hover:border-border enabled:hover:bg-surface-subtle'
   }
-  if (isPressed) {
-    // In Windows high contrast mode colors are replaced, so a pressed button gets a thicker border.
-    return 'border-text bg-surface-subtle text-text forced-colors:border-2'
-  }
-  return 'border-transparent bg-transparent text-text enabled:hover:border-border enabled:hover:bg-surface-subtle'
 }
 
 export function IconButton({
@@ -50,7 +57,7 @@ export function IconButton({
       className={clsx(
         'relative inline-grid shrink-0 cursor-pointer place-items-center rounded border p-0',
         'transition-colors duration-(--motion-fast)',
-        'disabled:cursor-not-allowed disabled:opacity-35',
+        'disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)',
         sizeClass[size],
         getLookClass(isSolid, isPressed),
         className,

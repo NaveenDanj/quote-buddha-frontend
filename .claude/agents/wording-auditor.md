@@ -18,5 +18,6 @@ Check:
 7. **Scope notes:** every answer, verify result and document result carries the included-texts-only disclaimer.
 8. **No invented content:** sample or placeholder text in stories and fixtures is clearly marked as sample and never uses a real quotation with a fake citation.
 9. **Strings come from `src/wording`:** flag fixed answer or evidence copy written inline in components.
+10. **States are constants:** flag evidence states, statuses and abstention reasons compared or written as loose strings (`'removed'`, `'ABSTAINED'`) instead of `EvidenceState.*`, `AnswerStatus.*`, `AbstentionReason.*`, and any component that chooses a glyph shape itself instead of using `getEvidenceShape` and `evidenceStateText`.
 
 Report each finding as `file:line - problem - suggested fix`, ordered by severity. Say clearly when the wording is clean; do not invent findings.

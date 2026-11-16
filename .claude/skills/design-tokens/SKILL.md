@@ -24,6 +24,9 @@ Color · Typography (`--font-reading`, `--font-ui`, `--font-code`; roles display
 - Evidence state is a glyph pattern (filled, hatched, dashed) plus text, never color alone.
 - Theme switching works on three states: `data-theme="light"`, `data-theme="dark"`, and none (follow the system). Define every token on `:root` first, then redefine in `@media (prefers-color-scheme: dark)` (guarded with `:root:not([data-theme="light"])`) and under `:root[data-theme="dark"]`.
 
+## Numbers in TypeScript
+Visual values are tokens in CSS. If a library needs a number in code (a Radix `sideOffset`, a delay), give it a name with its unit at the top of the file or in the shared module (`popupGapInPixels`), and keep it in step with the token it matches. Never an unnamed `4`.
+
 ## Adding or changing a token
 1. Add the primitive (if new) and the semantic token with light and dark values.
 2. Map it in `@theme` if it needs a utility.

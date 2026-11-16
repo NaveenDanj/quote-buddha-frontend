@@ -14,6 +14,9 @@ Contract: `docs/references/api-contract.md`. Backend source of truth: `../quote-
 - Validate responses at the boundary (a small schema per response). A malformed answer shows the calm error state, never a broken page.
 - Status and labels are exhaustive unions (`'ANSWERED' | 'ABSTAINED'`; `'DIRECT' | 'UNVERIFIED'`). Switch statements must be exhaustive so a new backend value fails the type check.
 
+## Backend strings become constants
+A string the backend sends (`'ANSWERED'`, `'DIRECT'`, `'WEAK_EVIDENCE'`) is written once, as a `const` object in `src/domain` (`AnswerStatus.answered`), with the type made from it. Components and mapping code use the constant, never the raw string. If the backend adds a value, add it there and the compiler shows every place that must change.
+
 ## Mocks until the backend exists
 - `/api/v1/ask`, `/verify-quote`, passages, terms, clarify and notes are served by MSW handlers in `src/api/mocks`, built from fixtures that follow the contract exactly (including the SSE step events).
 - Fixtures cover: answered (direct and unverified claims, a dropped claim), abstained (each `AbstentionReason`), streaming, stopped, network error, empty corpus.

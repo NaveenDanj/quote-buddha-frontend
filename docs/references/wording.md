@@ -15,6 +15,7 @@ All fixed copy about answers, evidence and abstention comes from `src/wording` (
 | `paliLabel` / `sinhalaLabel` | Pali / Sinhala |
 | `foundHeading` | Quoted words found in the included early texts |
 | `foundYes` | yes (the quoted words were found in the included corpus; the explanation is the system's own) |
+| `samePassageNote` | (same passage) |
 | `foundNo` | no (not found in the included corpus by these methods; this does not show that the Buddha did not teach it) |
 
 ## Added by the frontend (shown in the approved prototype)
@@ -29,6 +30,8 @@ All fixed copy about answers, evidence and abstention comes from `src/wording` (
 | `notUsed` | Not used |
 | `removed` | Removed |
 | `notYetIncluded` | not yet included |
+| `notYetIncludedTag` | Not yet included |
+| `sourceLabel` | Source |
 | `translatorMissing` | Translator: not recorded in source |
 | `parallelsNotChecked` | Parallel text: not checked yet |
 | `systemLabel` | Written by the system. Check it against the passage. |

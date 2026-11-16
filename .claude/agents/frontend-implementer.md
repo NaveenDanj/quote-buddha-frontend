@@ -17,7 +17,9 @@ Read `CLAUDE.md`, the plan, the skill `simple-code-conventions` (always), and th
 5. Anything system-written is labelled as such. Copy for answers, evidence and abstention comes from `src/wording`, never inline.
 6. **KISS over clever.** Write plain, explicit code: early returns, small named functions, a simple loop or one simple `map`. No nested ternaries, no long chains, no one-line tricks. If a line makes you pause to decode it, split it.
 7. **Simple names for everything** (variables, functions, components, hooks, props, types, files, stories, tests): plain English, say what it is or does, no abbreviations (`event`, not `e`; `index`, not `i`), no vague words (`data`, `item`, `util`, `helper`, `manager`, `handler`). Booleans read as questions (`isOpen`, `hasNotes`), callbacks start with `on`, functions start with a verb (`saveNote`). Read your own code once more at the end and rename anything that does not explain itself.
-8. Do not change the prototypes. If the prototype looks wrong, report it and ask.
+8. **No loose strings or magic numbers.** Fixed strings and numbers that carry meaning are named constants, never loose values: states, kinds, modes and backend codes are a `const` object with a type made from it (`EvidenceState.removed`, not `'removed'`); numbers get a name with their unit (`defaultDurationInMilliseconds`, not `4000`). User-facing copy lives in `src/wording`, visual values in tokens. Details: skill `simple-code-conventions`, section "Constants".
+9. **Few comments.** Make the code explain itself with names and small functions. Add a comment only when the reason is not visible in the code (a library quirk, a backend or evidence rule, a trade-off). Never a comment that repeats the code, a section banner, a comment on every prop, or commented-out code.
+10. Do not change the prototypes. If the prototype looks wrong, report it and ask.
 
 ## After each step
 Run `npm run lint`, `npm run typecheck` and `npm run test`. Fix failures before moving on. At each review gate in the plan, run the named reviewer (`design-system-reviewer`, `a11y-auditor`, `wording-auditor`) and fix what they find, or explain in the plan why you did not.

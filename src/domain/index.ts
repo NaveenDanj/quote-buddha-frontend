@@ -1,2 +1,18 @@
-// Shared domain types (Answer, Claim, Citation) go here. Mirrors the backend: docs/references/api-contract.md
-export {}
+export { AbstentionReason, AnswerDepth, AnswerStatus, EvidenceLabel, MatchedBy } from './answer'
+export type {
+  Answer,
+  AnswerSource,
+  AnswerTerm,
+  DeepReport,
+  DeepReportSection,
+  SourceLocation,
+  VerifiedClaim,
+} from './answer'
+export {
+  EvidenceShape,
+  EvidenceState,
+  evidenceStates,
+  getEvidenceShape,
+  getEvidenceStateFromLabel,
+} from './evidence'
+export { TextLanguage } from './language'

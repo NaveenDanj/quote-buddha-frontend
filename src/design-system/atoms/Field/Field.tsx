@@ -66,7 +66,11 @@ export function Field({
         </p>
       ) : null}
       {errorText ? (
-        <p id={getErrorId(controlId)} className="font-ui text-caption font-medium text-danger">
+        <p
+          id={getErrorId(controlId)}
+          role="alert"
+          className="font-ui text-caption font-medium text-danger"
+        >
           {errorText}
         </p>
       ) : null}

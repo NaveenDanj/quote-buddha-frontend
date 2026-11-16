@@ -48,7 +48,7 @@ export function Button({
       className={clsx(
         'inline-flex cursor-pointer items-center gap-2 rounded border font-ui font-medium leading-none',
         'transition-colors duration-(--motion-fast)',
-        'disabled:cursor-not-allowed disabled:opacity-35',
+        'disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)',
         variantClass[variant],
         sizeClass[size],
         getSidePaddingClass(variant, size),

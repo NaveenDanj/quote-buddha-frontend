@@ -16,13 +16,12 @@ export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
           return (
             <li
               key={`${crumb.label}-${position}`}
-              aria-current={isCurrent ? 'page' : undefined}
               className="not-first:before:mr-2 not-first:before:content-['/']"
             >
               {crumb.href && !isCurrent ? (
                 <Link href={crumb.href}>{crumb.label}</Link>
               ) : (
-                crumb.label
+                <span aria-current={isCurrent ? 'page' : undefined}>{crumb.label}</span>
               )}
             </li>
           )

@@ -2,7 +2,10 @@ import * as RadixSelect from '@radix-ui/react-select'
 import clsx from 'clsx'
 import { useId } from 'react'
 import { Field, getDescribedBy } from '@ds/atoms/Field'
+import { popupGapInPixels, popupSurfaceClass } from '@ds/atoms/popupLook'
 import { Icon } from '@ds/atoms/Icon'
+
+const defaultPlaceholder = 'Choose one'
 
 export type SelectOption = {
   value: string
@@ -27,7 +30,7 @@ function SelectChoices({ options }: { options: SelectOption[] }) {
     <RadixSelect.Item
       key={option.value}
       value={option.value}
-      className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2 font-ui text-ui text-text outline-none data-[highlighted]:bg-surface-subtle data-[disabled]:opacity-35"
+      className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2 font-ui text-ui text-text -outline-offset-2 data-[highlighted]:bg-surface-subtle data-[disabled]:opacity-(--opacity-disabled)"
     >
       <RadixSelect.ItemText>{option.label}</RadixSelect.ItemText>
       <RadixSelect.ItemIndicator>
@@ -46,7 +49,7 @@ export function Select({
   options,
   value,
   defaultValue,
-  placeholder = 'Choose one',
+  placeholder = defaultPlaceholder,
   disabled,
   onValueChange,
 }: SelectProps) {
@@ -71,9 +74,9 @@ export function Select({
           aria-invalid={errorText ? true : undefined}
           aria-describedby={getDescribedBy(triggerId, hint, errorText)}
           className={clsx(
-            'inline-flex h-(--control-send) w-full items-center justify-between gap-2 rounded border bg-page px-3',
+            'inline-flex h-(--control-field) w-full items-center justify-between gap-2 rounded border bg-page px-3',
             'font-ui text-input text-text data-[placeholder]:text-text-muted',
-            'disabled:cursor-not-allowed disabled:opacity-35',
+            'disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)',
             errorText ? 'border-danger' : 'border-text-muted',
           )}
         >
@@ -85,8 +88,8 @@ export function Select({
         <RadixSelect.Portal>
           <RadixSelect.Content
             position="popper"
-            sideOffset={4}
-            className="z-(--z-menu) min-w-(--radix-select-trigger-width) rounded border border-text-muted bg-page"
+            sideOffset={popupGapInPixels}
+            className={`${popupSurfaceClass} max-h-(--radix-select-content-available-height) min-w-(--radix-select-trigger-width) overflow-y-auto`}
           >
             <RadixSelect.Viewport>
               <SelectChoices options={options} />

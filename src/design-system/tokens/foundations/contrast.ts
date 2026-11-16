@@ -1,3 +1,15 @@
+// The numbers below come from the WCAG 2 definition of relative luminance and contrast ratio.
+const maxChannelValue = 255
+const darkChannelLimit = 0.03928
+const darkChannelDivisor = 12.92
+const brightChannelOffset = 0.055
+const brightChannelDivisor = 1.055
+const brightChannelPower = 2.4
+const redWeight = 0.2126
+const greenWeight = 0.7152
+const blueWeight = 0.0722
+const glareAllowance = 0.05
+
 export type RgbColor = { red: number; green: number; blue: number }
 
 // Reads the color text that getComputedStyle returns: three numbers, commas or spaces between them.
@@ -24,11 +36,11 @@ export function toHex(color: RgbColor): string {
 }
 
 function channelBrightness(channel: number): number {
-  const fraction = channel / 255
-  if (fraction <= 0.03928) {
-    return fraction / 12.92
+  const fraction = channel / maxChannelValue
+  if (fraction <= darkChannelLimit) {
+    return fraction / darkChannelDivisor
   }
-  return Math.pow((fraction + 0.055) / 1.055, 2.4)
+  return Math.pow((fraction + brightChannelOffset) / brightChannelDivisor, brightChannelPower)
 }
 
 // WCAG relative luminance.
@@ -36,7 +48,7 @@ function brightness(color: RgbColor): number {
   const red = channelBrightness(color.red)
   const green = channelBrightness(color.green)
   const blue = channelBrightness(color.blue)
-  return 0.2126 * red + 0.7152 * green + 0.0722 * blue
+  return redWeight * red + greenWeight * green + blueWeight * blue
 }
 
 // WCAG contrast ratio, from 1 (same) to 21 (black on white).
@@ -45,5 +57,5 @@ export function contrastRatio(first: RgbColor, second: RgbColor): number {
   const secondBrightness = brightness(second)
   const lighter = Math.max(firstBrightness, secondBrightness)
   const darker = Math.min(firstBrightness, secondBrightness)
-  return (lighter + 0.05) / (darker + 0.05)
+  return (lighter + glareAllowance) / (darker + glareAllowance)
 }

@@ -1,2 +1,1 @@
-export { Tag } from './Tag'
-export type { TagGlyph } from './Tag'
+export { Tag, TagGlyph } from './Tag'

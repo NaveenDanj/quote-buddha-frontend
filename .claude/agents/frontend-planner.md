@@ -22,6 +22,7 @@ If the prototype is silent or the backend contract is missing, list the open que
 7. **Out of scope**: what is deliberately not included.
 
 ## Rules for the plan
+- Name the constants a step introduces (the `const` objects for states and kinds, the numbers with their units) and say which module owns them. No loose strings or magic numbers (skill `simple-code-conventions`, "Constants").
 - Prefer the simplest design that matches the prototype. No speculative props or variants.
 - Plan in KISS terms: when a step could be written as one clever expression, say how it splits into small named functions instead. Give every new component, hook, prop and type a simple plain-English name in the plan (no abbreviations, no vague words like `data`, `item`, `manager`, `handler`), so the implementer does not have to invent names.
 - Every new visual value is a token first. Call out any token that must be added.

@@ -2,7 +2,9 @@ import clsx from 'clsx'
 import { useId, type ComponentProps } from 'react'
 import { Field, getDescribedBy } from '@ds/atoms/Field'
 
-type TextareaProps = Omit<ComponentProps<'textarea'>, 'id'> & {
+const defaultRowCount = 3
+
+type TextareaProps = Omit<ComponentProps<'textarea'>, 'id' | 'aria-describedby'> & {
   label: string
   isLabelHidden?: boolean
   hint?: string
@@ -16,7 +18,7 @@ export function Textarea({
   hint,
   errorText,
   className,
-  rows = 3,
+  rows = defaultRowCount,
   ...textareaProps
 }: TextareaProps) {
   const textareaId = useId()
@@ -38,7 +40,7 @@ export function Textarea({
         className={clsx(
           'w-full resize-y rounded border bg-page px-3 py-3 font-ui text-input text-text',
           'placeholder:text-text-muted focus:border-text',
-          'disabled:cursor-not-allowed disabled:opacity-35',
+          'disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)',
           errorText ? 'border-danger' : 'border-text-muted',
           className,
         )}

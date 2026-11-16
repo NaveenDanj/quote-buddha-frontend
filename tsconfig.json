@@ -20,7 +20,9 @@
       "@templates/*": ["./src/templates/*"],
       "@pages/*": ["./src/pages/*"],
       "@api/*": ["./src/api/*"],
+      "@wording": ["./src/wording"],
       "@wording/*": ["./src/wording/*"],
+      "@domain": ["./src/domain"],
       "@domain/*": ["./src/domain/*"],
       "@test/*": ["./src/test/*"]
     }

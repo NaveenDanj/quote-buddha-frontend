@@ -1,3 +1,6 @@
+const defaultMaximum = 100
+const fullPercent = 100
+
 type MeterProps = {
   value: number
   // The value that counts as full. Defaults to 100.
@@ -10,14 +13,14 @@ function getPercent(value: number, max: number): number {
   if (max <= 0) {
     return 0
   }
-  const percent = (value / max) * 100
-  return Math.min(100, Math.max(0, percent))
+  const percent = (value / max) * fullPercent
+  return Math.min(fullPercent, Math.max(0, percent))
 }
 
 // A thin horizontal bar. The meaning must also be written next to it in numbers or words.
-export function Meter({ value, max = 100, label }: MeterProps) {
+export function Meter({ value, max = defaultMaximum, label }: MeterProps) {
   const percent = getPercent(value, max)
-  const safeMax = max > 0 ? max : 100
+  const safeMax = max > 0 ? max : defaultMaximum
   const safeValue = Math.min(safeMax, Math.max(0, value))
 
   return (

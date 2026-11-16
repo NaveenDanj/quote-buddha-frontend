@@ -1,0 +1,1 @@
+export { CoverageStrip } from './CoverageStrip'

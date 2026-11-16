@@ -12,9 +12,29 @@ Same spirit as the backend's `solid-kiss-conventions`. The goal: a new reader un
 - Short functions with names that say what happens. A reader should not need a comment to follow the flow.
 - Early returns instead of deep nesting.
 - **No clever one-liners.** No nested ternaries, no stacked `map`/`filter`/`reduce` chains, no `&&` chains that decide between several outcomes, no `a ? b : c ? d : e`, no destructuring-with-defaults puzzles, no one-line `reduce` that builds objects. Use a named variable, a small function, or a small component.
-- Explicit over implicit: named constants instead of magic numbers or strings; no hidden side effects; no surprising defaults.
+- Explicit over implicit: no hidden side effects; no surprising defaults; named constants instead of loose strings and magic numbers (next section).
 - Prefer a plain `for...of` loop or one simple `map` over a long chain. One simple `filter` or `map` on one line is fine when it has no nested condition.
-- Comments explain why, not what. If a comment explains what, rename the thing instead.
+- **Few comments.** Good names and small functions explain the code, so most code needs no comment. Write one only when the reason is not visible in the code: a browser or library quirk, a rule that comes from the backend or the evidence rules, a trade-off someone might undo by mistake. No comment that repeats the code, no section banners, no comment on every prop or type, no commented-out code. If a comment explains what the code does, rename or split the code instead.
+
+## Constants (no loose strings, no magic numbers)
+A value that carries meaning gets a name. A reader should never have to guess what `'dashed'` or `4000` stands for, and a typo in a string should be a type error, not a silent bug.
+
+- **Strings that name a state, kind, mode, status, size, key, event or backend code** are a `const` object with a type made from it. Same name for both, so they read as one thing:
+  ```ts
+  export const EvidenceState = { directQuote: 'directQuote', removed: 'removed' } as const
+  export type EvidenceState = (typeof EvidenceState)[keyof typeof EvidenceState]
+
+  if (state === EvidenceState.removed) { ... }   // not: state === 'removed'
+  const allStates = Object.values(EvidenceState)  // one list, never typed out twice
+  ```
+  The object key is plain English; the value is whatever the other side needs (the backend sends `'ANSWERED'`, so `AnswerStatus.answered` holds `'ANSWERED'`).
+- **Numbers other than 0 and 1** (and obvious array positions) get a name that includes the unit: `defaultDurationInMilliseconds = 4000`, `popupGapInPixels = 4`, `defaultRowCount = 3`. Numbers inside a formula get names too (see `contrast.ts`), so the formula reads like its definition.
+- **Where it lives:** used by one file, at the top of that file. Shared, in the module that owns the idea (`src/domain/evidence.ts`, `src/domain/answer.ts`). Never a catch-all `constants.ts`.
+- **What is not a constant here:**
+  - User-facing copy (labels, headings, abstention text) comes from `src/wording`, never inline. Atoms cannot import `@wording`, so an atom names its own default text at the top of its file (`defaultCloseLabel`).
+  - Colors, sizes, spacing and z-index are tokens in CSS, not numbers in TypeScript. The one exception is a number a library needs as a number (Radix `sideOffset`); name it.
+  - Tailwind class names in a variant map, HTML tags and ARIA roles (`'button'`, `'dialog'`), and sample text in stories and tests are fine as plain strings.
+- **In tests:** compare against the constants (`EvidenceState.removed`), not retyped strings. Sample text can stay a literal.
 
 ## Naming (simple English)
 Names say what the thing is or does, in plain words anyone can read.
@@ -95,4 +115,6 @@ return <NoteList notes={notes} />
 - [ ] Every name is a plain word a new reader understands without help; no abbreviations.
 - [ ] Booleans read as questions; callbacks start with `on`; functions start with a verb.
 - [ ] No `utils.ts`, `helpers.ts` or vague folder names.
+- [ ] No loose strings or magic numbers: states and codes are `const` objects, numbers are named with their unit, copy comes from `src/wording`.
+- [ ] Comments only where the reason is not visible in the code. None that repeat what the code says.
 - [ ] Nothing duplicated: reused or extracted.

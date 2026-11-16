@@ -23,6 +23,10 @@ export const WithIcon: Story = { args: { icon: 'attach', children: 'Attach file'
 
 export const Disabled: Story = { args: { disabled: true, children: 'Not in the corpus yet' } }
 
+export const Unavailable: Story = {
+  args: { children: 'MN 1', unavailableReason: 'not yet included' },
+}
+
 export const Row: Story = {
   render: () => (
     <div className="flex flex-wrap gap-2">
