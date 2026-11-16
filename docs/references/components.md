@@ -19,6 +19,10 @@ Every component has a story. Only atoms (and hooks and plain logic) have a test 
 | `CountBadge` | Small count on an icon button |
 | `Stamp` | Mono caption or key hint ("Ctrl K") |
 | `Divider` | Hairline rule |
+| `Surface` | The box that holds a group: a grid with a look (subtle, dashed, framed, inverse), padding and gap. Use it instead of a styled `div` |
+| `Field` | Label, hint and error text around one form control |
+| `GlyphSquare` | The square shown in front of evidence words: filled, hatched or dashed |
+| `RemovableChip` | Label with a remove button |
 | `Mark` | Accent underline for compared words |
 | `Skeleton` | Loading placeholder |
 | `LiveDot` | The blinking streaming indicator (respects reduced motion) |

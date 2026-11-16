@@ -1,4 +1,5 @@
 import { useId, type ReactNode } from 'react'
+import { Surface, SurfaceLook, SurfaceSpace } from '@ds/atoms/Surface'
 import { Text } from '@ds/atoms/Text'
 import { EvidenceState } from '@domain'
 import { wording } from '@wording'
@@ -15,7 +16,6 @@ type NoticeProps = {
   children?: ReactNode
 }
 
-// A finding that is not an error: dashed outline, calm words, never red, never an apology.
 export function Notice({
   state = EvidenceState.notEstablished,
   title,
@@ -26,9 +26,12 @@ export function Notice({
   const isAbstention = state === EvidenceState.notEstablished
 
   return (
-    <section
+    <Surface
+      as="section"
+      look={SurfaceLook.dashed}
+      padding={SurfaceSpace.large}
+      gap={SurfaceSpace.medium}
       aria-labelledby={titleId}
-      className="grid gap-3 rounded border border-dashed border-text-muted p-5"
     >
       <EvidenceTag state={state} />
       <Text variant="heading3" as={headingElement} id={titleId}>
@@ -40,6 +43,6 @@ export function Notice({
         </p>
       ) : null}
       {children}
-    </section>
+    </Surface>
   )
 }

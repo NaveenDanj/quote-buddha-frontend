@@ -1,4 +1,4 @@
-import { EvidenceLabel } from './answer'
+import { EvidenceLabel, type VerifiedClaim } from './answer'
 
 export const EvidenceState = {
   directQuote: 'directQuote',
@@ -42,4 +42,8 @@ export function getEvidenceShape(state: EvidenceState): EvidenceShape {
     case EvidenceState.notYetIncluded:
       return EvidenceShape.dashed
   }
+}
+
+export function countDirectQuotes(claims: VerifiedClaim[]): number {
+  return claims.filter((claim) => claim.evidenceLabel === EvidenceLabel.direct).length
 }

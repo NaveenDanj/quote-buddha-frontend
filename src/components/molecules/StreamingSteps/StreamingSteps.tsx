@@ -7,13 +7,13 @@ type StreamingStepsProps = {
   isStreaming: boolean
 }
 
+// This list is the picture of progress. The message above it holds the one status region that announces it.
 export function StreamingSteps({ steps, isStreaming }: StreamingStepsProps) {
   const lastPosition = steps.length - 1
 
   return (
     <ol
       aria-label={wording.stepsLabel}
-      aria-live="polite"
       className="m-0 grid list-none gap-2 p-0 font-ui text-caption text-text-muted"
     >
       {steps.map((step, position) => (

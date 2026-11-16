@@ -13,7 +13,7 @@ Component inventory and status: `docs/references/components.md`.
 | Tokens | `src/design-system/tokens/` | nothing | no |
 | Atoms (design system) | `src/design-system/atoms/` | tokens | **No.** Domain-neutral only |
 | Molecules | `src/components/molecules/` | atoms | yes (passages, claims, citations, notes) |
-| Organisms | `src/components/organisms/` | molecules, atoms | yes |
+| Organisms | `src/components/organisms/` | molecules, atoms, smaller organisms | yes |
 | Templates | `src/templates/` | organisms, molecules, atoms | no data, layout only |
 | Pages | `src/pages/` | templates | yes; the only place that fetches |
 
@@ -29,6 +29,7 @@ Component inventory and status: `docs/references/components.md`.
 - Organisms receive data and callbacks through props. They do not call `fetch` or query hooks. Pages (or page-level hooks in `src/pages/<page>/`) call `src/api` and pass data down.
 - One component per folder: `Button/Button.tsx`, `Button.stories.tsx`, `index.ts`, and `Button.test.tsx` for atoms only (molecules, organisms, templates and pages have no test file). Export from the layer's `index.ts`.
 - Variants are props (`variant`, `size`), not copies. Before adding a variant, check the prototype actually uses it.
+- Boxes that hold a group use `Surface` (look, padding, gap). Do not write a new styled `div` for a gray panel, a dashed notice or a framed card.
 - Compose before you create. Search `src/` for something that already does the job.
 - Simple plain-English names, no abbreviations, no vague words like `Wrapper`, `Container`, `Item`, `Manager`: `SectionStepper`, `VersionSwitcher`, `StreamingSteps`. Rules and examples: `simple-code-conventions`.
 

@@ -20,7 +20,7 @@ src/components/organisms/   larger domain sections built from molecules and atom
 src/templates/       page layouts, no data.
 src/pages/           the only place that fetches data.
 ```
-Imports go one way only: atoms import tokens; molecules import atoms; organisms import molecules and atoms; templates import organisms; pages import templates. ESLint enforces it. If a component knows what a passage, claim or citation is, it does not belong in `design-system/`. Details: skill `atomic-design-conventions`.
+Imports go one way only: atoms import tokens; molecules import atoms; organisms import molecules, atoms and smaller organisms; templates import organisms; pages import templates. ESLint enforces it. If a component knows what a passage, claim or citation is, it does not belong in `design-system/`. Details: skill `atomic-design-conventions`.
 
 ## Styling rules
 - Tokens only. No hex colors, no raw `px`/`rem` values, no `z-index` numbers outside `src/design-system/tokens`. Use semantic tokens (`--color-text`, `--space-4`), never the primitive palette. Skill: `design-tokens`, `tailwind-v4-theming`.
@@ -33,6 +33,7 @@ Imports go one way only: atoms import tokens; molecules import atoms; organisms 
 - **No tooltips.** Icon buttons rely on their accessible name only.
 - Anything the system wrote itself (simple answers, clarifications, AI-enhanced notes) is visibly labelled as the system's own wording.
 - Abstention ("not established") is a finding, not an error: dashed outline, calm copy, never red.
+- A box that holds a group (a gray panel, a dashed notice, a framed card) uses the `Surface` atom, not a styled `div`. Raw `div`s are for plain layout only.
 - Everything must work by keyboard and at phone width (about 400px) with no horizontal page scroll.
 
 ## Naming and code rules (strict, apply to every file)

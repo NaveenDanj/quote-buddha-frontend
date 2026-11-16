@@ -36,6 +36,7 @@ All fixed copy about answers, evidence and abstention comes from `src/wording` (
 | `previousVersionLabel` / `nextVersionLabel` | Previous version / Next version |
 | `previousSectionLabel` / `nextSectionLabel` | Previous section / Next section |
 | `stepsLabel` | Steps so far |
+| `askFailedText` | Something went wrong while answering. Please try again. |
 | `feedbackLabel` | Rate this answer |
 | `versionsLabel` / `sectionsLabel` | Question versions / Section |
 | `copyAnswerLabel`, `askAgainLabel`, `saveToNotebookLabel`, `shareLabel` | Copy answer, Ask again, Save to notebook, Share |
@@ -59,6 +60,28 @@ System-written text (notes, suggestions, clarifications) uses the hatched square
 | `verifyNoneText` | We could not find this quote or a close paraphrase in the included texts. |
 | `trustTitle` | Why should I trust this? |
 | `sampleMarker` | Layout sample |
+
+### Chat (plan 05, step B)
+| Key | Text |
+|---|---|
+| `productName` | Quote Buddha |
+| `youLabel` | You |
+| `sourceUnavailableText` | This source could not be loaded. |
+| `browseIncludedLabel` | Browse included texts |
+| `noSupportedAnswerText` | No supported answer found in the included texts. |
+| `answerToText(question)`, `answerReadyText(n)` | Answer to: …, Answer ready, 2 claims |
+| `attributedToBuddhaIn(work)`, `versionPositionText`, `sectionPositionText` | attributed to the Buddha in DN 1, Version 2 of 3, Section 2 of 12 |
+| `evidenceStateText` | The words next to each evidence shape (from the table above) |
+| `newChatHeading` | What would you like to research? |
+| `sourcesLabel` / `noSourcesUsed` | Sources / None used |
+| `sourceGraphLabel`, `evidenceMatrixLabel`, `openInReaderLabel`, `editAndBranchLabel` | Source graph, Evidence matrix, Open in Reader, Edit and branch |
+| `stoppedText` | Stopped. Nothing was saved. |
+| `whatWeSearchedLabel`, `corpusVersionLabel`, `passagesRetrievedLabel`, `whyNotLabel` | What we searched, Corpus version, Passages retrieved, Why not |
+| `continueHeading`, `coverageHeading` | Continue, What the database covers |
+| `coverageNote` | Answers can only draw on filled squares. Everything else is reported as not found in the included texts. |
+| `toolVerify*`, `toolReader*`, `toolTerms*`, `toolCompare*` | The four tool cards on the new chat page (title and one line each) |
+| `abstentionReasonText` | No passage matched closely enough. / Claims were drafted, but too few passed the check against the texts. |
+| `processSummaryText(...)` | Searched DN 1 · 5 passages · 1 claim verified · 1 not verified · 1 removed |
 
 ## Rules
 - Attribution: "attributed to the Buddha in DN 1". Never "the Buddha said" for unverified or system-written content.

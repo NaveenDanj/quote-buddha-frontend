@@ -1,4 +1,4 @@
-import { EvidenceState } from '@domain'
+import { AbstentionReason, EvidenceState } from '@domain'
 
 const fromBackend = {
   abstentionText: 'The early texts included in this database do not establish this.',
@@ -43,6 +43,36 @@ const fromFrontend = {
   previousSectionLabel: 'Previous section',
   nextSectionLabel: 'Next section',
   stepsLabel: 'Steps so far',
+  askFailedText: 'Something went wrong while answering. Please try again.',
+  productName: 'Quote Buddha',
+  youLabel: 'You',
+  sourceUnavailableText: 'This source could not be loaded.',
+  browseIncludedLabel: 'Browse included texts',
+  noSupportedAnswerText: 'No supported answer found in the included texts.',
+  newChatHeading: 'What would you like to research?',
+  sourcesLabel: 'Sources',
+  noSourcesUsed: 'None used',
+  sourceGraphLabel: 'Source graph',
+  evidenceMatrixLabel: 'Evidence matrix',
+  openInReaderLabel: 'Open in Reader',
+  editAndBranchLabel: 'Edit and branch',
+  stoppedText: 'Stopped. Nothing was saved.',
+  whatWeSearchedLabel: 'What we searched',
+  corpusVersionLabel: 'Corpus version',
+  passagesRetrievedLabel: 'Passages retrieved',
+  whyNotLabel: 'Why not',
+  continueHeading: 'Continue',
+  coverageHeading: 'What the database covers',
+  coverageNote:
+    'Answers can only draw on filled squares. Everything else is reported as not found in the included texts.',
+  toolVerifyTitle: 'Verify a quote',
+  toolVerifyText: 'Is this saying in the early texts?',
+  toolReaderTitle: 'Read DN 1',
+  toolReaderText: 'Pali and translation side by side',
+  toolTermsTitle: 'Look up a term',
+  toolTermsText: 'Glosses and where it occurs',
+  toolCompareTitle: 'Compare passages',
+  toolCompareText: 'Two passages, shared terms',
   feedbackLabel: 'Rate this answer',
   versionsLabel: 'Question versions',
   sectionsLabel: 'Section',
@@ -83,6 +113,51 @@ const fromFrontend = {
 export const wording = { ...fromBackend, ...fromFrontend }
 
 export type Wording = typeof wording
+
+function pluralize(count: number, singular: string, plural: string): string {
+  return `${count} ${count === 1 ? singular : plural}`
+}
+
+type ProcessFacts = {
+  works: string[]
+  retrievedCount: number
+  // Claims whose quoted words were found in the texts.
+  verifiedCount: number
+  // Claims that are shown but whose quote could not be checked.
+  notVerifiedCount: number
+  removedCount: number
+}
+
+// The one line above the steps, for example "Searched DN 1 · 5 passages · 2 claims verified · 1 removed".
+export function processSummaryText(facts: ProcessFacts): string {
+  const parts = [
+    `Searched ${facts.works.join(', ')}`,
+    pluralize(facts.retrievedCount, 'passage', 'passages'),
+    `${pluralize(facts.verifiedCount, 'claim', 'claims')} verified`,
+  ]
+  if (facts.notVerifiedCount > 0) {
+    parts.push(`${facts.notVerifiedCount} not verified`)
+  }
+  if (facts.removedCount > 0) {
+    parts.push(`${facts.removedCount} removed`)
+  }
+  return parts.join(' · ')
+}
+
+// Why the system did not answer, in plain words. Calm, never an apology.
+export const abstentionReasonText: Record<AbstentionReason, string> = {
+  [AbstentionReason.weakEvidence]: 'No passage matched closely enough.',
+  [AbstentionReason.notEnoughVerifiedClaims]:
+    'Claims were drafted, but too few passed the check against the texts.',
+}
+
+export function answerToText(question: string): string {
+  return `Answer to: ${question}`
+}
+
+export function answerReadyText(claimCount: number): string {
+  return `Answer ready, ${pluralize(claimCount, 'claim', 'claims')}`
+}
 
 export function versionPositionText(currentVersion: number, versionCount: number): string {
   return `Version ${currentVersion} of ${versionCount}`

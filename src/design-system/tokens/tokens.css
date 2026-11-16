@@ -136,6 +136,10 @@
   --layout-reader-side: 440px;
   --layout-reader-outline: 220px;
   --layout-chat-column: 920px;
+  --layout-tool-card: 160px;
+  --layout-hero-column: 860px;
+  --layout-composer: 760px;
+  --layout-message-user: min(var(--layout-dialog-small), 88%);
   --layout-dialog-small: 560px;
   --layout-dialog-palette: 620px;
   --layout-dialog-graph: 1280px;

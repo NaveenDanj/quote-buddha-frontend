@@ -66,7 +66,7 @@ Space (4px base): `--spacing-1` 4, `-2` 8, `-3` 12, `-4` 16, `-5` 24, `-6` 32, `
 ## Breakpoints
 `sm` 760 (stack everything) · `md` 900 (hide Reader outline) · `lg` 1100 (side panes become drawers below this).
 
-Other sizes: `--button-padding-x` 20 (button side padding), `--badge-size` 16, `--dot-size` 7 (streaming dot), `--meter-height` 6, `--glyph-size` 10 with `--glyph-outline` 1.5, `--text-stamp` 12, `--coverage-square-size` 12, `--control-field` 42, `--menu-min-width` 220, `--opacity-disabled` 0.35, `--focus-ring-inset-offset` -2 (a focus ring drawn inside the element; set as a variable because utility classes cannot override the global focus rule).
+Other sizes: `--button-padding-x` 20 (button side padding), `--badge-size` 16, `--dot-size` 7 (streaming dot), `--meter-height` 6, `--glyph-size` 10 with `--glyph-outline` 1.5, `--text-stamp` 12, `--coverage-square-size` 12, `--control-field` 42, `--layout-tool-card` 160 (smallest tool card on the new chat page), `--layout-hero-column` 860, `--layout-composer` 760, `--layout-message-user` min(560, 88%), `--menu-min-width` 220, `--opacity-disabled` 0.35, `--focus-ring-inset-offset` -2 (a focus ring drawn inside the element; set as a variable because utility classes cannot override the global focus rule).
 
 ## Motion
 `--motion-fast` 120ms, `--motion-base` 180ms, ease. Drawers and panel slides use base. `prefers-reduced-motion` removes transitions and the streaming blink.

@@ -14,8 +14,14 @@ export {
   evidenceStates,
   getEvidenceShape,
   getEvidenceStateFromLabel,
+  countDirectQuotes,
 } from './evidence'
 export { TextLanguage } from './language'
 export { FeedbackChoice } from './feedback'
-export { StreamStepKind } from './stream'
-export type { StreamStep } from './stream'
+export { deriveEvidenceMatrix, getMatrixCellState } from './evidenceMatrix'
+export type { EvidenceMatrix, EvidenceMatrixRow } from './evidenceMatrix'
+export { GraphNodeKind, answerNodeId, deriveSourceGraph, removedNodeId } from './sourceGraph'
+export type { GraphEdge, GraphNode, SourceGraph } from './sourceGraph'
+export { findSource, getCitationLabel, getSourceNumber, toTextLanguage } from './citation'
+export { StreamKind, StreamStepKind } from './stream'
+export type { AskError, StreamState, StreamStep } from './stream'

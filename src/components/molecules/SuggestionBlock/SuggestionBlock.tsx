@@ -1,5 +1,6 @@
 import { useId, type ReactNode } from 'react'
 import { Button } from '@ds/atoms/Button'
+import { Surface, SurfaceLook, SurfaceSpace } from '@ds/atoms/Surface'
 import { Tag, TagGlyph } from '@ds/atoms/Tag'
 import { wording } from '@wording'
 
@@ -9,15 +10,16 @@ type SuggestionBlockProps = {
   children: ReactNode
 }
 
-// Text the system wrote for the person to accept or throw away. Never styled like a quotation.
 export function SuggestionBlock({ onUse, onDiscard, children }: SuggestionBlockProps) {
   const tagId = useId()
 
   return (
-    <div
+    <Surface
+      look={SurfaceLook.dashed}
+      padding={SurfaceSpace.medium}
+      gap={SurfaceSpace.small}
       role="group"
       aria-labelledby={tagId}
-      className="grid gap-2 rounded border border-dashed border-text-muted px-4 py-3"
     >
       <span id={tagId}>
         <Tag glyph={TagGlyph.hatched}>{wording.suggestionLabel}</Tag>
@@ -32,6 +34,6 @@ export function SuggestionBlock({ onUse, onDiscard, children }: SuggestionBlockP
           {wording.discardSuggestionLabel}
         </Button>
       </div>
-    </div>
+    </Surface>
   )
 }

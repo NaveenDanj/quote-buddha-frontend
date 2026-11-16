@@ -1,14 +1,12 @@
 import js from '@eslint/js'
-import {
-  defineConfig,
-  globalIgnores
-} from 'eslint/config'
+import { defineConfig, globalIgnores } from 'eslint/config'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-const layerRules = [{
+const layerRules = [
+  {
     files: ['src/design-system/**/*.{ts,tsx}'],
     forbidden: [
       '@components/*',
@@ -22,7 +20,8 @@ const layerRules = [{
       'msw*',
     ],
     allowTypeImports: false,
-    reason: 'Design-system atoms may import tokens only. If it knows about passages or claims, move it to components/.',
+    reason:
+      'Design-system atoms may import tokens only. If it knows about passages or claims, move it to components/.',
   },
   {
     files: ['src/components/molecules/**/*.{ts,tsx}'],
@@ -34,7 +33,8 @@ const layerRules = [{
     files: ['src/components/organisms/**/*.{ts,tsx}'],
     forbidden: ['@templates/*', '@pages/*', '@api/*'],
     allowTypeImports: false,
-    reason: 'Organisms may import molecules and atoms only. Types come from @domain, data from pages.',
+    reason:
+      'Organisms may import molecules and atoms only. Types come from @domain, data from pages.',
   },
   {
     files: ['src/templates/**/*.{ts,tsx}'],
@@ -112,16 +112,19 @@ export default defineConfig([
       ],
       'id-denylist': ['error', ...crypticNames],
       // A scrollable region (a wide table) must be focusable so keyboard users can scroll it.
-      'jsx-a11y/no-noninteractive-tabindex': ['error', {
-        roles: ['tabpanel', 'region']
-      }],
+      'jsx-a11y/no-noninteractive-tabindex': [
+        'error',
+        {
+          roles: ['tabpanel', 'region'],
+        },
+      ],
     },
   },
   {
     // A test file is one long describe block on purpose: each test inside it stays short.
     files: ['**/*.test.{ts,tsx}'],
     rules: {
-      'max-lines-per-function': 'off'
+      'max-lines-per-function': 'off',
     },
   },
   {
@@ -133,10 +136,24 @@ export default defineConfig([
   {
     files: ['src/**/*.{ts,tsx}'],
     rules: {
-      '@typescript-eslint/no-restricted-imports': ['error', {
-        patterns: [noParentImports]
-      }],
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: [noParentImports],
+        },
+      ],
     },
   },
   ...layerRules.map(makeLayerConfig),
+  {
+    // Stories show components with the mock data, so they may import it. Parent-folder imports stay banned.
+    files: [
+      'src/components/**/*.stories.{ts,tsx}',
+      'src/templates/**/*.stories.{ts,tsx}',
+      'src/pages/**/*.stories.{ts,tsx}',
+    ],
+    rules: {
+      '@typescript-eslint/no-restricted-imports': ['error', { patterns: [noParentImports] }],
+    },
+  },
 ])
