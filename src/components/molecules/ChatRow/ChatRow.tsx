@@ -22,11 +22,13 @@ export function ChatRow({ title, isSelected = false, onOpen, menuLabel, menuItem
       <button
         type="button"
         onClick={onOpen}
-        aria-current={isSelected ? 'true' : undefined}
+        aria-current={isSelected ? 'page' : undefined}
         className={clsx(
           'min-w-0 cursor-pointer truncate border-y-0 border-r-0 border-l-2 bg-transparent px-3 py-3 text-left font-ui text-ui text-text',
           'transition-colors duration-(--motion-fast) hover:bg-surface-subtle',
-          isSelected ? 'border-l-text bg-surface-subtle' : 'border-l-transparent',
+          isSelected
+            ? 'border-l-text bg-surface-subtle forced-colors:border-l-4'
+            : 'border-l-transparent',
         )}
       >
         {title}

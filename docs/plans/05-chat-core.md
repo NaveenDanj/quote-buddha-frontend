@@ -77,3 +77,11 @@ Open after step C:
 - **Dialog fixed height** (`--layout-graph-height`) can nest a scroll with the overlay on short landscape screens.
 - **Line legend:** the graph's line styles (solid, dashed, dotted) are not shown in the key.
 - **Control size 28px vs 32px** is still undecided (close buttons, chips).
+- Step D done and reviewed (a11y, design-system): Composer (PromptBox, AttachmentChips, OptionsRow, `useSlashMenu` with 9 tests), SlashMenu, Rail (ToolLinks), ChatHistory, TopBar. Domain: `slashCommands` (name and label, tested). New `@keyboard` module for key names. `Surface` has an `outlined` look. Composer decisions: the text box is a plain textarea (not a combobox), Enter sends on a keyboard and adds a line on a touch screen, Tab never chooses a command, a status line announces the slash menu and the answer starting, Escape stops at the menu.
+
+Open after step D:
+- **`SelectableRow` atom:** the left-bar row look is written four times (Rail tool links, ChatRow, ListRow, CommandItem). Share it when step E is done.
+- **Tool links and recent chats** are buttons. Make them links once the router exists (step E).
+- **Template duties for step E:** hide the closed rail from the tab order (`hidden` or `inert`, not only translated) and give the drawer a scrim, Escape, focus in and focus back to the Menu button; place the TopBar `header` as a sibling of `main`; give the scroll container `scroll-padding-top` for the sticky top bar.
+- **Control size** 28px vs 32px is still undecided.
+- **Inline edit** of a user message is not built.

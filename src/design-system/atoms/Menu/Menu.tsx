@@ -10,12 +10,10 @@ export type MenuItem = {
 }
 
 type MenuProps = {
-  // The button that opens the menu, for example an IconButton. It must pass its ref on (the atoms do).
   trigger: ReactElement
   items: MenuItem[]
 }
 
-// A popup menu. Radix handles the arrow keys, Home and End, type-to-jump, Escape, and focus return.
 export function Menu({ trigger, items }: MenuProps) {
   return (
     <RadixMenu.Root>

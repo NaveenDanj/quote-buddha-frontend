@@ -6,6 +6,7 @@ export const SurfaceLook = {
   subtle: 'subtle',
   dashed: 'dashed',
   framed: 'framed',
+  outlined: 'outlined',
   inverse: 'inverse',
 } as const
 export type SurfaceLook = (typeof SurfaceLook)[keyof typeof SurfaceLook]
@@ -25,6 +26,7 @@ const lookClass: Record<SurfaceLook, string> = {
   subtle: 'rounded bg-surface-subtle forced-colors:border',
   dashed: 'rounded border border-dashed border-text-muted',
   framed: 'rounded border border-text-muted bg-page',
+  outlined: 'rounded border border-text bg-page',
   inverse: 'rounded bg-inverse-bg text-inverse-text forced-colors:border',
 }
 

@@ -153,6 +153,7 @@
 
   /* Popup menus are at least this wide */
   --menu-min-width: 220px;
+  --menu-max-height: 280px;
 
   /* Control heights */
   --control-small: 28px;

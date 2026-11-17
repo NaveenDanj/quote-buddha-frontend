@@ -22,6 +22,7 @@
       "@api/*": ["./src/api/*"],
       "@wording": ["./src/wording"],
       "@wording/*": ["./src/wording/*"],
+      "@keyboard": ["./src/keyboard"],
       "@domain": ["./src/domain"],
       "@domain/*": ["./src/domain/*"],
       "@test/*": ["./src/test/*"]

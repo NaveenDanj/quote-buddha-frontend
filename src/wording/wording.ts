@@ -45,6 +45,39 @@ const fromFrontend = {
   stepsLabel: 'Steps so far',
   askFailedText: 'Something went wrong while answering. Please try again.',
   productName: 'Quote Buddha',
+  composerLabel: 'Ask a question',
+  composerPlaceholder: 'Ask about the early texts. Type / for tools.',
+  askLabel: 'Ask',
+  stopLabel: 'Stop',
+  attachLabel: 'Attach a file',
+  depthLabel: 'Answer depth',
+  depthQuickLabel: 'Quick',
+  depthDeepLabel: 'Deep research',
+  earlyTextsLabel: 'Early texts',
+  commentariesLabel: 'Commentaries',
+  slashMenuLabel: 'Commands',
+  workspaceLabel: 'Chats and tools',
+  chatsLabel: 'Chats',
+  searchShortcutText: 'Ctrl K',
+  answerWritingText: 'The answer is being written.',
+  composerHintText: 'Enter sends. Shift and Enter adds a line. Type / for commands.',
+  newChatLabel: 'New chat',
+  searchChatsLabel: 'Search chats and texts',
+  toolsGroupLabel: 'Research tools',
+  settingsLabel: 'Settings',
+  chatOptionsLabel: 'Chat options',
+  menuLabel: 'Menu',
+  searchLabel: 'Search (Ctrl K)',
+  shareChatLabel: 'Share this chat',
+  navReaderLabel: 'Reader',
+  navTermsLabel: 'Terms',
+  navCompareLabel: 'Compare',
+  navNotebookLabel: 'Notebook',
+  navVerifyLabel: 'Verify a quote',
+  navCheckLabel: 'Check a document',
+  todayLabel: 'Today',
+  earlierLabel: 'Earlier',
+  pinnedLabel: 'Pinned',
   researchPanelLabel: 'Research panel',
   researchTabsLabel: 'Research tabs',
   graphDetailsLabel: 'Details',
@@ -185,6 +218,18 @@ export function graphShowingText(nodeName: string): string {
 
 export function graphRelationText(fromLabel: string, toLabel: string, stateText: string): string {
   return `${fromLabel} to ${toLabel}: ${stateText}`
+}
+
+export function slashMenuStatusText(commandCount: number): string {
+  return `${pluralize(commandCount, 'command', 'commands')}. Use the up and down arrows.`
+}
+
+export function chatOptionsText(chatTitle: string): string {
+  return `Options for ${chatTitle}`
+}
+
+export function removeFileText(fileName: string): string {
+  return `Remove ${fileName}`
 }
 
 export function answerToText(question: string): string {

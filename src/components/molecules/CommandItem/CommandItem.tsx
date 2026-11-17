@@ -5,12 +5,21 @@ type CommandItemProps = {
   // The palette points at the highlighted item by this id (aria-activedescendant).
   id: string
   label: string
+  // Says what the command does, in quiet text after the label.
+  description?: string
   shortcut?: string
   isHighlighted: boolean
   onSelect: () => void
 }
 
-export function CommandItem({ id, label, shortcut, isHighlighted, onSelect }: CommandItemProps) {
+export function CommandItem({
+  id,
+  label,
+  description,
+  shortcut,
+  isHighlighted,
+  onSelect,
+}: CommandItemProps) {
   return (
     <li role="presentation" className="border-b border-border">
       <button
@@ -29,6 +38,7 @@ export function CommandItem({ id, label, shortcut, isHighlighted, onSelect }: Co
         )}
       >
         <span>{label}</span>
+        {description ? <span className="text-caption text-text-muted">{description}</span> : null}
         {shortcut ? <Stamp isKey>{shortcut}</Stamp> : null}
       </button>
     </li>

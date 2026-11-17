@@ -65,6 +65,15 @@ System-written text (notes, suggestions, clarifications) uses the hatched square
 | Key | Text |
 |---|---|
 | `productName` | Quote Buddha |
+| `composerLabel`, `composerPlaceholder`, `askLabel`, `stopLabel`, `attachLabel` | Ask a question, Ask about the early texts. Type / for tools., Ask, Stop, Attach a file |
+| `depthLabel`, `depthQuickLabel`, `depthDeepLabel`, `earlyTextsLabel`, `commentariesLabel`, `slashMenuLabel` | Answer depth, Quick, Deep research, Early texts, Commentaries, Commands |
+| `chatsLabel`, `searchShortcutText`, `answerWritingText`, `composerHintText` | Chats, Ctrl K, The answer is being written., Enter sends. Shift and Enter adds a line. Type / for commands. |
+| `slashMenuStatusText(n)`, `chatOptionsText(title)` | 3 commands. Use the up and down arrows. / Options for … |
+| `workspaceLabel`, `newChatLabel`, `searchChatsLabel`, `toolsGroupLabel`, `settingsLabel`, `chatOptionsLabel` | Workspace, New chat, Search chats and texts, Research tools, Settings, Chat options |
+| `menuLabel`, `searchLabel`, `shareChatLabel` | Menu, Search (Ctrl K), Share this chat |
+| `navReaderLabel`, `navTermsLabel`, `navCompareLabel`, `navNotebookLabel`, `navVerifyLabel`, `navCheckLabel` | Reader, Terms, Compare, Notebook, Verify a quote, Check a document |
+| `todayLabel`, `earlierLabel`, `pinnedLabel` | Today, Earlier, Pinned |
+| `removeFileText(name)` | Remove notes.pdf |
 | `researchPanelLabel`, `researchTabsLabel`, `closePanelLabel`, `graphDetailsLabel` | Research panel, Research tabs, Close research panel, Details |
 | `graphShowingText(name)` | Showing: Passage: Sample work · 44.5 |
 | `evidenceTabLabel`, `termsTabLabel`, `notesTabLabel`, `noTermsText` | Evidence, Terms, Notes, No terms in this answer. |

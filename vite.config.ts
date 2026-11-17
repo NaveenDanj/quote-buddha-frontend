@@ -17,6 +17,7 @@ export default defineConfig({
       '@pages': fromProjectRoot('./src/pages'),
       '@api': fromProjectRoot('./src/api'),
       '@wording': fromProjectRoot('./src/wording'),
+      '@keyboard': fromProjectRoot('./src/keyboard'),
       '@domain': fromProjectRoot('./src/domain'),
       '@test': fromProjectRoot('./src/test'),
     },
