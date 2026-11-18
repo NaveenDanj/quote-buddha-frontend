@@ -4,20 +4,38 @@ import { useState, type ChangeEvent, type DragEvent } from 'react'
 type DropZoneProps = {
   title: string
   hint?: string
+  // A third line for what just happened, for example the name of the chosen file.
+  note?: string
   accept?: string
   isMultiple?: boolean
   disabled?: boolean
   onFilesChosen: (files: File[]) => void
 }
 
+const focusRingClass =
+  'has-[:focus-visible]:outline-(length:--focus-ring-width) has-[:focus-visible]:outline-offset-(--focus-ring-offset) has-[:focus-visible]:outline-focus has-[:focus-visible]:outline-solid'
+
 function pickFiles(fileList: FileList | null, isMultiple: boolean): File[] {
   const files = Array.from(fileList ?? [])
   return isMultiple ? files : files.slice(0, 1)
 }
 
+type DropZoneWordsProps = Pick<DropZoneProps, 'title' | 'hint' | 'note'>
+
+function DropZoneWords({ title, hint, note }: DropZoneWordsProps) {
+  return (
+    <>
+      <span className="pointer-events-none text-ui font-medium">{title}</span>
+      {hint ? <span className="pointer-events-none text-caption">{hint}</span> : null}
+      {note ? <span className="pointer-events-none text-caption">{note}</span> : null}
+    </>
+  )
+}
+
 export function DropZone({
   title,
   hint,
+  note,
   accept,
   isMultiple = false,
   disabled = false,
@@ -60,15 +78,14 @@ export function DropZone({
       onDrop={onDrop}
       className={clsx(
         'relative grid place-items-center gap-1 rounded border border-dashed px-4 py-6 text-center font-ui',
-        'has-[:focus-visible]:outline-(length:--focus-ring-width) has-[:focus-visible]:outline-offset-(--focus-ring-offset) has-[:focus-visible]:outline-focus has-[:focus-visible]:outline-solid',
+        focusRingClass,
         isDraggingOver ? 'border-text text-text' : 'border-text-muted text-text-muted',
         disabled
           ? 'cursor-not-allowed opacity-(--opacity-disabled)'
           : 'cursor-pointer hover:border-text hover:text-text',
       )}
     >
-      <span className="pointer-events-none text-ui font-medium">{title}</span>
-      {hint ? <span className="pointer-events-none text-caption">{hint}</span> : null}
+      <DropZoneWords title={title} hint={hint} note={note} />
       <input
         type="file"
         className="sr-only"

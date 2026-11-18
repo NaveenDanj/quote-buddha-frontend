@@ -30,7 +30,7 @@ function getLookClass(look: IconButtonLook, isPressed: boolean | undefined): str
     case IconButtonLook.solid:
       return 'border-inverse-bg bg-inverse-bg text-inverse-text enabled:hover:border-accent enabled:hover:bg-accent'
     case IconButtonLook.onInverse:
-      return 'border-transparent bg-transparent text-inverse-text enabled:hover:bg-inverse-text/20 [--color-focus:var(--color-inverse-focus)] [--focus-ring-offset:var(--focus-ring-inset-offset)]'
+      return 'border-transparent bg-transparent text-inverse-text enabled:hover:bg-inverse-text/20 [--color-focus:var(--color-inverse-focus)] focus-ring-inset'
     case IconButtonLook.plain:
       return isPressed
         ? 'border-text bg-surface-subtle text-text forced-colors:border-2'
@@ -55,7 +55,7 @@ export function IconButton({
       aria-label={label}
       aria-pressed={isPressed}
       className={clsx(
-        'relative inline-grid shrink-0 cursor-pointer place-items-center rounded border p-0',
+        'relative inline-grid shrink-0 cursor-pointer place-items-center rounded border ',
         'transition-colors duration-(--motion-fast)',
         'disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)',
         'aria-disabled:cursor-not-allowed aria-disabled:opacity-(--opacity-disabled)',

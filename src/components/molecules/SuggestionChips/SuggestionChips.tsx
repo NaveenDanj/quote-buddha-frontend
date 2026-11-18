@@ -18,7 +18,7 @@ export function SuggestionChips({
     <div
       role="group"
       aria-label={label}
-      className={clsx('flex flex-wrap gap-2', isCentered && 'justify-center')}
+      className={clsx('flex flex-wrap gap-group', isCentered && 'justify-center')}
     >
       {suggestions.map((suggestion) => (
         <Chip key={suggestion} canWrap onClick={() => onChoose(suggestion)}>

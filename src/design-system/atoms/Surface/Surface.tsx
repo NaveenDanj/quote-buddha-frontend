@@ -19,7 +19,18 @@ export const SurfaceSpace = {
 } as const
 export type SurfaceSpace = (typeof SurfaceSpace)[keyof typeof SurfaceSpace]
 
-type SurfaceElement = 'div' | 'section' | 'article' | 'aside'
+// How the rows share the height. Used when the Surface has a set height, for example the whole window.
+// "fill" rows may shrink below their content, which is what lets an inner area scroll instead of stretching the page.
+export const SurfaceRows = {
+  fill: 'fill',
+  headerThenFill: 'headerThenFill',
+  fillThenFooter: 'fillThenFooter',
+  headerThenFillThenFooter: 'headerThenFillThenFooter',
+  contentThenFooter: 'contentThenFooter',
+} as const
+export type SurfaceRows = (typeof SurfaceRows)[keyof typeof SurfaceRows]
+
+type SurfaceElement = 'div' | 'section' | 'article' | 'aside' | 'main'
 
 const lookClass: Record<SurfaceLook, string> = {
   plain: '',
@@ -32,17 +43,29 @@ const lookClass: Record<SurfaceLook, string> = {
 
 const paddingClass: Record<SurfaceSpace, string> = {
   none: '',
-  small: 'p-3',
-  medium: 'p-4',
-  large: 'p-5',
+  small: 'p-card-tight',
+  medium: 'p-card',
+  large: 'p-page',
 }
 
 const gapClass: Record<SurfaceSpace, string> = {
   none: '',
-  small: 'gap-2',
-  medium: 'gap-3',
-  large: 'gap-4',
+  small: 'gap-group',
+  medium: 'gap-block',
+  large: 'gap-section',
 }
+
+const rowsClass: Record<SurfaceRows, string> = {
+  fill: 'grid-rows-[minmax(0,1fr)]',
+  headerThenFill: 'grid-rows-[auto_minmax(0,1fr)]',
+  fillThenFooter: 'grid-rows-[minmax(0,1fr)_auto]',
+  headerThenFillThenFooter: 'grid-rows-[auto_minmax(0,1fr)_auto]',
+  contentThenFooter: 'grid-rows-[1fr_auto]',
+}
+
+// A scroll area is the positioned parent of the visually hidden text inside it. That text is absolutely
+// positioned, and without a positioned parent it escapes the clip and makes the whole page scroll.
+const scrollAreaClass = 'relative min-h-0 overflow-y-auto'
 
 type SurfaceProps = HTMLAttributes<HTMLElement> & {
   ref?: Ref<HTMLDivElement>
@@ -51,6 +74,9 @@ type SurfaceProps = HTMLAttributes<HTMLElement> & {
   padding?: SurfaceSpace
   // The space between the things inside.
   gap?: SurfaceSpace
+  rows?: SurfaceRows
+  // This Surface scrolls its own content, so the page does not.
+  isScrollArea?: boolean
 }
 
 // The box that holds a group of things: a grid with a look, padding and a gap. Use it instead of a styled div.
@@ -60,6 +86,8 @@ export function Surface({
   look = SurfaceLook.plain,
   padding = SurfaceSpace.none,
   gap = SurfaceSpace.none,
+  rows,
+  isScrollArea = false,
   className,
   children,
   ...elementProps
@@ -71,6 +99,8 @@ export function Surface({
         lookClass[look],
         paddingClass[padding],
         gapClass[gap],
+        rows ? rowsClass[rows] : '',
+        isScrollArea ? scrollAreaClass : '',
         className,
       )}
       {...elementProps}

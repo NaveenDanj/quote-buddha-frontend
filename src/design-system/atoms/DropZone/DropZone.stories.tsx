@@ -30,3 +30,5 @@ export const Several: Story = {
 }
 
 export const Disabled: Story = { args: { disabled: true } }
+
+export const WithNote: Story = { args: { note: 'Chosen: essay.pdf' } }

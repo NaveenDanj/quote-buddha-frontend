@@ -25,7 +25,7 @@ const variantClass: Record<TextVariant, string> = {
   pali: 'font-reading text-pali',
   ui: 'font-ui text-ui',
   label: 'font-ui text-label font-semibold',
-  groupLabel: 'font-ui text-stamp font-semibold uppercase tracking-[0.04em]',
+  groupLabel: 'font-ui text-stamp font-semibold uppercase tracking-group',
   caption: 'font-ui text-caption',
   code: 'font-code text-code',
 }
@@ -50,15 +50,28 @@ type TextProps = HTMLAttributes<HTMLElement> & {
   variant?: TextVariant
   // Pick the element that fits the page outline, for example a heading2 look on an h3.
   as?: ElementType
+  // Quiet text, for example a note under a field.
+  isMuted?: boolean
 }
 
-export function Text({ variant = 'ui', as, className, children, ...elementProps }: TextProps) {
+export function Text({
+  variant = 'ui',
+  as,
+  isMuted = false,
+  className,
+  children,
+  ...elementProps
+}: TextProps) {
   const Element = as ?? defaultElement[variant]
   // Pali text is marked with its language so screen readers pronounce it and the browser picks the right font.
   const language = variant === 'pali' ? 'pi' : undefined
 
   return (
-    <Element lang={language} className={clsx(variantClass[variant], className)} {...elementProps}>
+    <Element
+      lang={language}
+      className={clsx(variantClass[variant], isMuted && 'text-text-muted', className)}
+      {...elementProps}
+    >
       {children}
     </Element>
   )

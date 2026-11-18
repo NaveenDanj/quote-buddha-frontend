@@ -23,7 +23,8 @@ src/pages/           the only place that fetches data.
 Imports go one way only: atoms import tokens; molecules import atoms; organisms import molecules, atoms and smaller organisms; templates import organisms; pages import templates. ESLint enforces it. If a component knows what a passage, claim or citation is, it does not belong in `design-system/`. Details: skill `atomic-design-conventions`.
 
 ## Styling rules
-- Tokens only. No hex colors, no raw `px`/`rem` values, no `z-index` numbers outside `src/design-system/tokens`. Use semantic tokens (`--color-text`, `--space-4`), never the primitive palette. Skill: `design-tokens`, `tailwind-v4-theming`.
+- Tokens only. No hex colors, no raw `px`/`rem` values, no `z-index` numbers outside `src/design-system/tokens`. Use semantic tokens (`--color-text`), never the primitive palette. Skill: `design-tokens`, `tailwind-v4-theming`.
+- **Spacing is named by purpose outside atoms.** Use `gap-related` (4px), `gap-group` (8), `gap-block` (12), `gap-section` (16), `gap-page` (24), `p-card-tight` (12), `p-card` (16), `p-page` (24), `py-area` (32), never `gap-3` or `p-6`. They are defined once in `tokens.css`, so one edit moves every box. Atoms and the token docs may use the numbered steps. `check:tokens` fails on numbered spacing anywhere else. Prefer `Surface` props (`padding`, `gap`, `rows`, `isScrollArea`) over spacing classes, and `Text isMuted` over `text-text-muted`.
 - Look: near-monochrome, IBM Plex, one accent (quotes, the verified evidence path, focus), 2px corners, no shadows, hairline rules.
 - State is never carried by color alone: use the evidence glyphs (filled, hatched, dashed) plus text.
 - Light and dark themes must both work; check both in Storybook.
@@ -35,7 +36,7 @@ Imports go one way only: atoms import tokens; molecules import atoms; organisms 
 - Abstention ("not established") is a finding, not an error: dashed outline, calm copy, never red.
 - A box that holds a group (a gray panel, a dashed notice, a framed card) uses the `Surface` atom, not a styled `div`. Raw `div`s are for plain layout only.
 - **Layout never scrolls as a page.** The app fills the window (`#root` is `100dvh`, `overflow: hidden`, `position: relative`). Only named areas scroll: the chat messages, the research panel content, the rail. The composer, the top bar, the panel header and tabs sit outside every scroll area. Every scroll area is `relative`, because visually hidden text (`sr-only`) is absolutely positioned and otherwise escapes the clip and scrolls the whole page. Never use `min-h-screen` or `h-screen` for the shell, and check long content, an open panel and phone width before saying a layout is done.
-- **Tailwind only makes a utility if its value is a token.** Spacing steps are named (`--spacing-0` to `--spacing-8`). A class like `p-12` or `top-2.5` is silently not generated, and nothing warns you. After adding classes, search the built CSS (`npm run build`, then `dist/assets/*.css`) for them. A missing `min-w-0`, `inset-0` or `translate-x-0` looks like a layout bug, not a missing class.
+- **Tailwind only makes a utility if its value is a token.** Spacing steps are named (`--spacing-0` to `--spacing-8`). A class like `p-12` or `top-2.5` is silently not generated, and nothing warns you. After adding classes, search the built CSS (`npm run build`, then `dist/assets/*.css`) for them. A missing `min-w-0`, `inset-0` or `translate-x-0` looks like a layout bug, not a missing class. `npm run build && npm run check:classes` fails on any class used in the code that is not in the built CSS.
 - Everything must work by keyboard and at phone width (about 400px) with no horizontal page scroll.
 
 ## Naming and code rules (strict, apply to every file)
@@ -63,4 +64,4 @@ Workflow: `frontend-planner` writes a plan to `docs/plans/<feature>.md`; `fronte
 `docs/references/brand.md` (token values), `components.md` (the full component list and status), `api-contract.md` (what the backend sends), `wording.md` (fixed copy).
 
 ## Commands (once the project is scaffolded)
-`npm run dev`, `npm run storybook`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run build-storybook`.
+`npm run dev`, `npm run storybook`, `npm run lint`, `npm run typecheck`, `npm run test`, `npm run build`, `npm run check:classes` (after a build), `npm run build-storybook`.

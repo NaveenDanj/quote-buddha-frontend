@@ -16,7 +16,7 @@ export function SourceRow({ sources, onOpenSource, onOpenGraph }: SourceRowProps
     <div
       role="group"
       aria-label={wording.sourcesLabel}
-      className="flex flex-wrap items-center gap-2 font-ui"
+      className="flex flex-wrap items-center gap-group font-ui"
     >
       <span aria-hidden="true" className="text-caption text-text-muted">
         {wording.sourcesLabel}

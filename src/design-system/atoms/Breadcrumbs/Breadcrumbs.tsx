@@ -10,7 +10,7 @@ export function Breadcrumbs({ crumbs, label = 'Breadcrumb' }: { crumbs: Crumb[];
 
   return (
     <nav aria-label={label}>
-      <ol className="m-0 flex list-none flex-wrap gap-2 p-0 font-ui text-caption text-text-muted">
+      <ol className="flex list-none flex-wrap gap-2 font-ui text-caption text-text-muted">
         {crumbs.map((crumb, position) => {
           const isCurrent = position === lastIndex
           return (

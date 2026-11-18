@@ -38,7 +38,7 @@ export function Notice({
         {title}
       </Text>
       {isAbstention ? (
-        <p className="m-0 max-w-(--measure-reading) font-ui text-caption text-text-muted">
+        <p className="max-w-(--measure-reading) font-ui text-caption text-text-muted">
           {wording.abstentionScope}
         </p>
       ) : null}

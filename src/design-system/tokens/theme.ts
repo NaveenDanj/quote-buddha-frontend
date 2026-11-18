@@ -17,9 +17,7 @@ export function readSavedTheme(): ThemeChoice {
     if (saved === 'light' || saved === 'dark') {
       return saved
     }
-  } catch {
-
-  }
+  } catch {}
   return 'system'
 }
 
@@ -30,9 +28,7 @@ function saveTheme(choice: ThemeChoice) {
     } else {
       localStorage.setItem(storageKey, choice)
     }
-  } catch {
-
-  }
+  } catch {}
 }
 
 export function applyTheme(choice: ThemeChoice) {

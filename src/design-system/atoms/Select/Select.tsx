@@ -30,7 +30,7 @@ function SelectChoices({ options }: { options: SelectOption[] }) {
     <RadixSelect.Item
       key={option.value}
       value={option.value}
-      className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2 font-ui text-ui text-text [--focus-ring-offset:var(--focus-ring-inset-offset)] data-[highlighted]:bg-surface-subtle data-[disabled]:opacity-(--opacity-disabled)"
+      className="flex cursor-pointer items-center justify-between gap-3 px-3 py-2 font-ui text-ui text-text focus-ring-inset data-[highlighted]:bg-surface-subtle data-[disabled]:opacity-(--opacity-disabled)"
     >
       <RadixSelect.ItemText>{option.label}</RadixSelect.ItemText>
       <RadixSelect.ItemIndicator>
@@ -40,7 +40,6 @@ function SelectChoices({ options }: { options: SelectOption[] }) {
   ))
 }
 
-// A styled select. Radix handles the keyboard (arrows, type to jump, Escape) and focus.
 export function Select({
   label,
   isLabelHidden,

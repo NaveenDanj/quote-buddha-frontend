@@ -1,0 +1,1 @@
+export { CheckDocument } from './CheckDocument'

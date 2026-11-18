@@ -23,12 +23,12 @@ export function CoverageStrip({ title, summary, includedCount, totalCount }: Cov
   const squarePositions = Array.from({ length: totalCount }, (_, position) => position)
 
   return (
-    <div className="grid gap-2 font-ui">
-      <div className="flex items-baseline justify-between gap-3">
+    <div className="grid gap-group font-ui">
+      <div className="flex items-baseline justify-between gap-block">
         <span className="text-caption text-text">{title}</span>
         <span className="font-code text-stamp text-text-muted">{summary}</span>
       </div>
-      <div aria-hidden="true" className="flex flex-wrap gap-1">
+      <div aria-hidden="true" className="flex flex-wrap gap-related">
         {squarePositions.map((position) => (
           <span
             key={position}
@@ -40,7 +40,7 @@ export function CoverageStrip({ title, summary, includedCount, totalCount }: Cov
         ))}
       </div>
       {notYetIncludedCount > 0 ? (
-        <p className="m-0 text-stamp text-text-muted">{`${notYetIncludedCount} ${wording.notYetIncluded}`}</p>
+        <p className="text-stamp text-text-muted">{`${notYetIncludedCount} ${wording.notYetIncluded}`}</p>
       ) : null}
     </div>
   )

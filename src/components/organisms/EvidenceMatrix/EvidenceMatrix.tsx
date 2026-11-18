@@ -61,14 +61,14 @@ export function EvidenceMatrix({ answer }: EvidenceMatrixProps) {
 
   if (matrix.rows.length === 0) {
     return (
-      <Text variant="caption" as="p" className="text-text-muted">
+      <Text variant="caption" as="p" isMuted>
         {wording.noSupportedAnswerText}
       </Text>
     )
   }
 
   return (
-    <div className="grid gap-3">
+    <div className="grid gap-block">
       <DataTable
         caption={wording.evidenceMatrixLabel}
         columns={getColumns(matrix)}
@@ -77,7 +77,7 @@ export function EvidenceMatrix({ answer }: EvidenceMatrixProps) {
       />
       <Legend label={wording.evidenceKeyLabel} states={legendStates} />
       {matrix.removedCount > 0 ? (
-        <Text variant="caption" as="p" className="text-text-muted">
+        <Text variant="caption" as="p" isMuted>
           {removedClaimsText(matrix.removedCount)}
         </Text>
       ) : null}

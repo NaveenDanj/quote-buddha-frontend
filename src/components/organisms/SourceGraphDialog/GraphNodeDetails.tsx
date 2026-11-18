@@ -87,7 +87,7 @@ export function GraphNodeDetails({
 }: GraphNodeDetailsProps) {
   if (!selectedNode) {
     return (
-      <Text variant="caption" as="p" className="text-text-muted">
+      <Text variant="caption" as="p" isMuted>
         {wording.graphHintText}
       </Text>
     )
@@ -114,7 +114,7 @@ export function GraphNodeDetails({
       return (
         <>
           <DetailsHeading>{wording.removed}</DetailsHeading>
-          <Text variant="caption" as="p" className="text-text-muted">
+          <Text variant="caption" as="p" isMuted>
             {removedClaimsText(selectedNode.count)}
           </Text>
         </>

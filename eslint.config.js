@@ -100,6 +100,8 @@ export default defineConfig([
     },
     rules: {
       'no-nested-ternary': 'error',
+      // Reading a saved setting can fail when storage is blocked. Then the default is used, so the catch can be empty.
+      'no-empty': ['error', { allowEmptyCatch: true }],
       'max-depth': ['error', 3],
       complexity: ['warn', 8],
       'max-lines-per-function': [

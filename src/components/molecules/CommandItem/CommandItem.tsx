@@ -31,7 +31,7 @@ export function CommandItem({
         onMouseDown={(event) => event.preventDefault()}
         onClick={onSelect}
         className={clsx(
-          'flex w-full cursor-pointer items-center justify-between gap-4 border-y-0 border-r-0 border-l-2 px-4 py-3 text-left font-ui text-ui text-text',
+          'flex w-full cursor-pointer items-center justify-between gap-section border-y-0 border-r-0 border-l-2 px-card py-card-tight text-left font-ui text-ui text-text',
           isHighlighted
             ? 'border-l-text bg-surface-subtle forced-colors:outline'
             : 'border-l-transparent bg-transparent',

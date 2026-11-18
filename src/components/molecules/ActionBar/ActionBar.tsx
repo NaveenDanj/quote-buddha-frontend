@@ -15,7 +15,7 @@ type ActionBarProps = {
 
 export function ActionBar({ label, actions }: ActionBarProps) {
   return (
-    <div role="group" aria-label={label} className="flex flex-wrap items-center gap-2">
+    <div role="group" aria-label={label} className="flex flex-wrap items-center gap-group">
       {actions.map((action) => (
         <IconButton
           key={action.label}

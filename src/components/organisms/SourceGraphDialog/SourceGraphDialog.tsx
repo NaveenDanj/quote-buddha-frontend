@@ -42,8 +42,8 @@ export function SourceGraphDialog({
 
   return (
     <Dialog isOpen={isOpen} onOpenChange={changeOpen} title={wording.sourceGraphLabel} size="graph">
-      <div className="grid gap-5 md:h-(--layout-graph-height) md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
-        <div className="grid min-h-0 gap-3 md:grid-rows-[minmax(0,1fr)_auto]">
+      <div className="grid gap-page md:h-(--layout-graph-height) md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+        <div className="grid min-h-0 gap-block md:grid-rows-[minmax(0,1fr)_auto]">
           <StarGraph
             graph={graph}
             selectedNodeId={selectedNodeId}
@@ -57,7 +57,7 @@ export function SourceGraphDialog({
           role="region"
           aria-label={wording.graphDetailsLabel}
           tabIndex={0}
-          className="grid min-h-0 content-start gap-3 overflow-y-auto md:border-l md:border-border md:pl-5"
+          className="grid min-h-0 content-start gap-block overflow-y-auto md:border-l md:border-border md:pl-page"
         >
           <p role="status" className="sr-only">
             {selectedNode ? graphShowingText(getNodeName(selectedNode)) : ''}

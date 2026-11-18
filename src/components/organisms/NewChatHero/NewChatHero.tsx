@@ -28,13 +28,13 @@ type NewChatHeroProps = {
 
 function ToolCards({ tools }: { tools: HeroTool[] }) {
   return (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(var(--layout-tool-card),1fr))] gap-3">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(var(--layout-tool-card),1fr))] gap-block">
       {tools.map((tool) => (
         <button
           key={tool.title}
           type="button"
           onClick={tool.onOpen}
-          className="grid cursor-pointer gap-1 rounded border border-border bg-transparent px-4 py-3 text-left text-text hover:border-text"
+          className="grid cursor-pointer gap-related rounded border border-border bg-transparent px-card py-card-tight text-left text-text hover:border-text"
         >
           <span className="font-ui text-ui font-medium">{tool.title}</span>
           <span className="font-ui text-caption text-text-muted">{tool.description}</span>
@@ -52,17 +52,17 @@ function RecentChats({ chats }: { chats: HeroChat[] }) {
   }
 
   return (
-    <section aria-labelledby={headingId} className="grid content-start gap-2">
-      <Text variant="label" as="h2" id={headingId} className="text-text-muted">
+    <section aria-labelledby={headingId} className="grid content-start gap-group">
+      <Text variant="label" as="h2" id={headingId} isMuted>
         {wording.continueHeading}
       </Text>
-      <ul className="m-0 grid list-none gap-1 p-0">
+      <ul className="grid list-none gap-related">
         {chats.map((chat) => (
           <li key={chat.id}>
             <button
               type="button"
               onClick={chat.onOpen}
-              className="w-full cursor-pointer border-0 bg-transparent px-0 py-2 text-left font-ui text-ui text-text underline decoration-1 underline-offset-4 hover:text-accent"
+              className="w-full cursor-pointer border-0 bg-transparent px-0 py-group text-left font-ui text-ui text-text underline decoration-1 underline-offset-4 hover:text-accent"
             >
               {chat.title}
             </button>
@@ -77,12 +77,12 @@ function CoverageSection({ coverage }: { coverage: ReactNode }) {
   const headingId = useId()
 
   return (
-    <section aria-labelledby={headingId} className="grid content-start gap-3">
-      <Text variant="label" as="h2" id={headingId} className="text-text-muted">
+    <section aria-labelledby={headingId} className="grid content-start gap-block">
+      <Text variant="label" as="h2" id={headingId} isMuted>
         {wording.coverageHeading}
       </Text>
       {coverage}
-      <Text variant="caption" as="p" className="text-text-muted">
+      <Text variant="caption" as="p" isMuted>
         {wording.coverageNote}
       </Text>
     </section>
@@ -98,7 +98,7 @@ export function NewChatHero({
   coverage,
 }: NewChatHeroProps) {
   return (
-    <div className="mx-auto grid min-h-full w-full max-w-(--layout-hero-column) content-center gap-5 px-(--gutter) py-6">
+    <div className="mx-auto grid min-h-full w-full max-w-(--layout-hero-column) content-center gap-page px-(--gutter) py-area">
       <Text variant="display" as="h1" className="text-center">
         {wording.newChatHeading}
       </Text>
@@ -110,7 +110,7 @@ export function NewChatHero({
         isCentered
       />
       <ToolCards tools={tools} />
-      <div className="grid gap-5 md:grid-cols-2">
+      <div className="grid gap-page md:grid-cols-2">
         <RecentChats chats={recentChats} />
         <CoverageSection coverage={coverage} />
       </div>

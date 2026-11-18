@@ -30,9 +30,7 @@ export function readSavedReadingSize(): ReadingSize {
 function saveReadingSize(size: ReadingSize) {
   try {
     localStorage.setItem(storageKey, size)
-  } catch {
-
-  }
+  } catch {}
 }
 
 export function applyReadingSize(size: ReadingSize) {

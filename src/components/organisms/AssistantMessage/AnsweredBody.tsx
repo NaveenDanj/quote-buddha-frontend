@@ -58,7 +58,7 @@ export function AnsweredBody({
         ]}
       />
       <FeedbackActions choice={feedbackChoice} onChoose={actions.onChooseFeedback} />
-      <Text variant="caption" as="p" className="max-w-(--measure-reading) text-text-muted">
+      <Text variant="caption" as="p" isMuted className="max-w-(--measure-reading)">
         {wording.scopeNote}
       </Text>
       <FollowUpQuestions questions={followUpQuestions} onChoose={actions.onChooseQuestion} />

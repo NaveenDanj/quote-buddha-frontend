@@ -40,7 +40,7 @@ export function UserMessage({
           {text}
         </span>
       </Surface>
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-block">
         <span className={editVisibilityClass}>
           <IconButton
             icon="edit"

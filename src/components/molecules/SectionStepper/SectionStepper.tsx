@@ -21,7 +21,7 @@ export function SectionStepper({
   const isLast = sectionNumber >= sectionCount
 
   return (
-    <div role="group" aria-label={wording.sectionsLabel} className="flex items-center gap-2">
+    <div role="group" aria-label={wording.sectionsLabel} className="flex items-center gap-group">
       <IconButton
         icon="previous"
         label={wording.previousSectionLabel}

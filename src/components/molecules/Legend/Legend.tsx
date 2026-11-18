@@ -8,7 +8,7 @@ type LegendProps = {
 
 export function Legend({ label, states }: LegendProps) {
   return (
-    <ul aria-label={label} className="m-0 flex list-none flex-wrap gap-4 p-0">
+    <ul aria-label={label} className="flex list-none flex-wrap gap-section">
       {states.map((state) => (
         <li key={state}>
           <EvidenceTag state={state} />

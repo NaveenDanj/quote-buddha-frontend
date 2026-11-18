@@ -39,7 +39,7 @@ type SearchResultsProps = {
 function SearchResults({ listId, matches, highlightedItemId }: SearchResultsProps) {
   if (matches.length === 0) {
     return (
-      <Text variant="caption" as="p" className="p-4 text-text-muted">
+      <Text variant="caption" as="p" isMuted className="p-card">
         {wording.noResultsText}
       </Text>
     )
@@ -49,7 +49,7 @@ function SearchResults({ listId, matches, highlightedItemId }: SearchResultsProp
       id={listId}
       role="listbox"
       aria-label={wording.searchResultsLabel}
-      className="m-0 max-h-[50vh] list-none overflow-y-auto p-0"
+      className="max-h-(--menu-results-max-height) list-none overflow-y-auto"
     >
       {matches.map((item) => (
         <CommandItem
@@ -113,14 +113,14 @@ function SearchBox({ items }: { items: SearchItem[] }) {
           placeholder={wording.searchPlaceholder}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={handleKeyDown}
-          className="w-full border-0 border-b border-border bg-page p-4 font-ui text-input text-text [--focus-ring-offset:var(--focus-ring-inset-offset)] placeholder:text-text-muted"
+          className="w-full border-0 border-b border-border bg-page p-card font-ui text-input text-text focus-ring-inset placeholder:text-text-muted"
         />
       </label>
       <span role="status" className="sr-only">
         {searchResultsText(matches.length)}
       </span>
       <SearchResults listId={listId} matches={matches} highlightedItemId={highlightedItem?.id} />
-      <Text variant="caption" as="p" className="border-t border-border px-4 py-2 text-text-muted">
+      <Text variant="caption" as="p" isMuted className="border-t border-border px-card py-group">
         {wording.searchHintText}
       </Text>
     </>

@@ -1,1 +1,1 @@
-export { Surface, SurfaceLook, SurfaceSpace } from './Surface'
+export { Surface, SurfaceLook, SurfaceRows, SurfaceSpace } from './Surface'

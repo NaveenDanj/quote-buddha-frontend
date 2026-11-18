@@ -41,7 +41,7 @@ function ClaimRow({ claim, sources, onOpenSource }: ClaimRowProps) {
           onOpen={onOpenSource}
         />
       ) : (
-        <Text variant="caption" className="text-text-muted">
+        <Text variant="caption" isMuted>
           {wording.sourceUnavailableText}
         </Text>
       )}
@@ -67,7 +67,7 @@ function ClaimRow({ claim, sources, onOpenSource }: ClaimRowProps) {
           source={citation}
         />
       ) : (
-        <div className="flex flex-wrap items-center gap-4">{citation}</div>
+        <div className="flex flex-wrap items-center gap-section">{citation}</div>
       )}
     </>
   )
@@ -77,12 +77,12 @@ function ClaimRow({ claim, sources, onOpenSource }: ClaimRowProps) {
 // its citation and "Not verified", and never its quote text.
 export function ClaimList({ claims, sources, onOpenSource }: ClaimListProps) {
   return (
-    <ol className="m-0 grid list-none gap-5 p-0">
+    <ol className="grid list-none gap-page">
       {claims.map((claim, position) => (
         // The same passage can back several claims, so the position keeps each key unique.
         <li
           key={`${claim.quoteCitationId}-${position}`}
-          className="grid gap-3 border-t border-border pt-4"
+          className="grid gap-block border-t border-border pt-card"
         >
           <ClaimRow claim={claim} sources={sources} onOpenSource={onOpenSource} />
         </li>

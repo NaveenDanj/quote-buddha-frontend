@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { EmptyState } from '@ds/atoms/EmptyState'
 import type { MenuItem } from '@ds/atoms/Menu'
 import { Text } from '@ds/atoms/Text'
 import { chatOptionsText, wording } from '@wording'
@@ -26,16 +27,15 @@ type ChatGroupProps = Omit<ChatHistoryProps, 'groups'> & {
   group: ChatHistoryGroup
 }
 
-// The group name labels its list. It is not a heading, so the page keeps one clear heading order.
 function ChatGroup({ group, selectedChatId, onOpenChat, getMenuItems }: ChatGroupProps) {
   const labelId = useId()
 
   return (
-    <div className="mt-2 grid gap-1">
-      <Text variant="groupLabel" as="p" id={labelId} className="text-text-muted">
+    <div className="mt-group grid gap-related">
+      <Text variant="groupLabel" as="p" id={labelId} isMuted>
         {group.label}
       </Text>
-      <ul aria-labelledby={labelId} className="m-0 grid list-none gap-px p-0">
+      <ul aria-labelledby={labelId} className="grid list-none gap-px">
         {group.chats.map((chat) => (
           <ChatRow
             key={chat.id}
@@ -51,15 +51,19 @@ function ChatGroup({ group, selectedChatId, onOpenChat, getMenuItems }: ChatGrou
   )
 }
 
-// Past chats in groups, such as Pinned, Today and Earlier. An empty group is not shown.
 export function ChatHistory({ groups, ...groupProps }: ChatHistoryProps) {
   const visibleGroups = groups.filter((group) => group.chats.length > 0)
+  const hasNoChats = visibleGroups.length === 0
+  const alignClass = hasNoChats ? 'content-center' : 'content-start'
 
   return (
-    <div className="grid gap-1">
+    <div className={`grid h-full gap-related ${alignClass}`}>
       <Text variant="ui" as="h2" className="sr-only">
         {wording.chatsLabel}
       </Text>
+      {hasNoChats ? (
+        <EmptyState icon="ask" title={wording.noChatsTitle} description={wording.noChatsText} />
+      ) : null}
       {visibleGroups.map((group) => (
         <ChatGroup key={group.id} group={group} {...groupProps} />
       ))}

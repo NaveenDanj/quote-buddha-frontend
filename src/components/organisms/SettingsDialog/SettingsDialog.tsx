@@ -37,7 +37,7 @@ type SettingProps = {
 // The name is shown above the choices. The group inside carries it for screen readers.
 function Setting({ label, children }: SettingProps) {
   return (
-    <div className="grid gap-2">
+    <div className="grid gap-group">
       <Text variant="label" as="span" aria-hidden="true">
         {label}
       </Text>
@@ -49,7 +49,7 @@ function Setting({ label, children }: SettingProps) {
 // Other languages are planned, so they are shown, but they cannot be chosen yet.
 function LanguageChoices() {
   return (
-    <div role="group" aria-label={wording.languageLabel} className="flex flex-wrap gap-2">
+    <div role="group" aria-label={wording.languageLabel} className="flex flex-wrap gap-group">
       <Chip isPressed>{wording.englishLabel}</Chip>
       <Chip unavailableReason={wording.soonText}>{wording.sinhalaNativeLabel}</Chip>
       <Chip unavailableReason={wording.soonText}>{wording.paliLabel}</Chip>
@@ -92,7 +92,7 @@ export function SettingsDialog({
         <Setting label={wording.languageLabel}>
           <LanguageChoices />
         </Setting>
-        <Text variant="caption" as="p" className="text-text-muted">
+        <Text variant="caption" as="p" isMuted>
           {wording.settingsNote}
         </Text>
       </Surface>

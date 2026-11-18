@@ -52,7 +52,7 @@ export function NewChat() {
     <WorkspaceFrame title={wording.newChatLabel}>
       <CenteredHeroLayout
         footer={
-          <Text variant="caption" as="p" className="text-text-muted">
+          <Text variant="caption" as="p" isMuted>
             {wording.answersCanBeWrong}
           </Text>
         }

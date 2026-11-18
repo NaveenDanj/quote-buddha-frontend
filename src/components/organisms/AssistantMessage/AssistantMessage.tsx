@@ -82,7 +82,7 @@ function MessageBody({ state, actions, feedbackChoice, followUpQuestions = [] }:
       return (
         <>
           <StreamingSteps steps={state.steps} isStreaming={false} />
-          <Text variant="caption" as="p" className="text-text-muted">
+          <Text variant="caption" as="p" isMuted>
             {wording.stoppedText}
           </Text>
         </>

@@ -26,7 +26,7 @@ export function VersionSwitcher({
     <div
       role="group"
       aria-label={wording.versionsLabel}
-      className="inline-flex items-center gap-1 font-code text-stamp text-text-muted"
+      className="inline-flex items-center gap-related font-code text-stamp text-text-muted"
     >
       <IconButton
         icon="previous"

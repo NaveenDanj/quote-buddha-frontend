@@ -24,7 +24,7 @@ export function ConversationPanel({ research }: ConversationPanelProps) {
       onSave={doNothingYet}
       onOpenTerm={doNothingYet}
       notes={
-        <Text variant="caption" as="p" className="text-text-muted">
+        <Text variant="caption" as="p" isMuted>
           {wording.noNotesText}
         </Text>
       }

@@ -138,11 +138,11 @@ function GraphBox({ node, isSelected, onSelect }: GraphBoxProps) {
         height: graphBoxHeightInUnits,
       }}
       className={clsx(
-        'absolute grid cursor-pointer content-center gap-1 overflow-hidden rounded bg-page px-3 text-left',
+        'absolute grid cursor-pointer content-center gap-related overflow-hidden rounded bg-page px-card-tight text-left',
         getBoxClass(node, isSelected),
       )}
     >
-      <span className="flex items-center gap-1 font-code text-stamp text-text-muted">
+      <span className="flex items-center gap-related font-code text-stamp text-text-muted">
         {node.state ? <EvidenceGlyph state={node.state} /> : null}
         {`${getKindLabel(node)}${stateText}`}
       </span>

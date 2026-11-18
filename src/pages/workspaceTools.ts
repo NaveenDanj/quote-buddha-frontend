@@ -1,6 +1,7 @@
 import type { IconName } from '@ds/atoms/Icon'
 import type { SlashCommand } from '@domain'
 import { wording } from '@wording'
+import { AppPath } from '@pages/routes'
 
 export const ToolId = {
   reader: 'reader',
@@ -26,6 +27,14 @@ export const railToolDefinitions: RailToolDefinition[] = [
   { id: ToolId.verify, label: wording.navVerifyLabel, icon: 'verify' },
   { id: ToolId.checkDocument, label: wording.navCheckLabel, icon: 'checkDocument' },
 ]
+
+// Only the tools that have a page yet. The others open nothing for now.
+export function getToolPath(toolId: ToolId): string | undefined {
+  if (toolId === ToolId.checkDocument) {
+    return AppPath.checkDocument
+  }
+  return undefined
+}
 
 type ToolCardDefinition = {
   id: ToolId

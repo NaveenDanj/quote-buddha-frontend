@@ -92,7 +92,7 @@ export function Dialog({
             onCloseAutoFocus={returnFocusToOpener}
             className={clsx(
               'relative w-full rounded border border-text-muted bg-page text-text',
-              isFlush ? 'p-0' : 'p-5',
+              isFlush ? '' : 'p-5',
               sizeClass[size],
             )}
           >

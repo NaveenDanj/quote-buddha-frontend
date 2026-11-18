@@ -104,7 +104,7 @@ function PromptBox({
         aria-autocomplete="list"
         aria-controls={isMenuOpen ? listId : undefined}
         aria-activedescendant={highlightedId}
-        className="w-full resize-none border-0 bg-transparent px-4 pt-3 pb-2 font-reading text-input text-text placeholder:text-text-muted focus-visible:outline-0"
+        className="w-full resize-none border-0 bg-transparent px-card pt-card-tight pb-group font-reading text-input text-text placeholder:text-text-muted focus-visible:outline-0"
       />
     </label>
   )
@@ -135,7 +135,7 @@ function AttachmentChips({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 px-4">
+    <div className="flex flex-wrap items-center gap-group px-card">
       {contextLabel ? (
         <ContextChip
           label={contextLabel}
@@ -180,8 +180,8 @@ function OptionsRow({
   }
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 pt-2 pr-3 pb-3 pl-4">
-      <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center justify-between gap-group pt-group pr-card-tight pb-card-tight pl-card">
+      <div className="flex flex-wrap items-center gap-group">
         <SegmentedControl
           label={wording.depthLabel}
           options={depthOptions}

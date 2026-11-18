@@ -60,6 +60,8 @@ const fromFrontend = {
   slashMenuLabel: 'Commands',
   workspaceLabel: 'Chats and tools',
   chatsLabel: 'Chats',
+  noChatsTitle: 'No chats yet',
+  noChatsText: 'Your questions will be kept here.',
   searchShortcutText: 'Ctrl K',
   answerWritingText: 'The answer is being written.',
   composerHintText: 'Enter sends. Shift and Enter adds a line. Type / for commands.',
@@ -193,6 +195,25 @@ const fromFrontend = {
     'The wording differs from the passage. This is not the exact wording preserved in the included texts.',
   verifyNone: 'Not found in the included texts',
   verifyNoneText: 'We could not find this quote or a close paraphrase in the included texts.',
+  checkDocumentIntro:
+    'Upload or paste an article, essay or PDF. We find the sayings attributed to the Buddha and check each one against the included texts.',
+  documentDropTitle: 'Drop a file here, or choose one',
+  documentDropHint: '.txt, .pdf or .docx, up to 10 MB',
+  documentTextLabel: 'Or paste text',
+  documentTextPlaceholder: 'Paste the text you want checked.',
+  documentSearchScope: 'Searches the included texts only (DN 1).',
+  checkQuotesLabel: 'Check quotes',
+  checkingQuotesLabel: 'Checking…',
+  documentResultHeading: 'Result (sample)',
+  documentResultLabel: 'Result of the document check',
+  exportReportLabel: 'Export report',
+  sayingColumnHeader: 'Saying in your text',
+  resultColumnHeader: 'Result',
+  closestPassageColumnHeader: 'Closest passage',
+  outcomeVerbatimLabel: 'Verbatim',
+  outcomeCloseParaphraseLabel: 'Close paraphrase',
+  outcomeNotFoundLabel: 'Not found in the included texts',
+  noClosestPassageText: 'None in DN 1',
   trustTitle: 'Why should I trust this?',
   sampleMarker: 'Layout sample',
 }
@@ -307,3 +328,19 @@ export const evidenceStateText: Record<EvidenceState, string> = {
 
 // Used by the test that compares the backend group with the backend file.
 export const backendWordingKeys = Object.keys(fromBackend) as (keyof typeof fromBackend)[]
+
+export function documentFileChosenText(fileName: string): string {
+  return `Chosen: ${fileName}`
+}
+
+export function foundVerbatimCountText(count: number): string {
+  return `${count} found verbatim`
+}
+
+export function closeParaphraseCountText(count: number): string {
+  return `${count} close ${count === 1 ? 'paraphrase' : 'paraphrases'}`
+}
+
+export function notFoundCountText(count: number): string {
+  return `${count} not found in the included texts`
+}

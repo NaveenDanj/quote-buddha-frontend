@@ -1,12 +1,13 @@
 import { useState, type ReactNode } from 'react'
 import { useNavigate } from 'react-router'
 import { wording } from '@wording'
-import { Rail, type RailTool } from '@components/organisms/Rail'
+import { Rail } from '@components/organisms/Rail'
 import { TopBar } from '@components/organisms/TopBar'
 import { AppShell } from '@templates/AppShell'
 import { doNothingYet } from '@pages/doNothingYet'
 import { AppPath, getChatPath } from '@pages/routes'
-import { openTool, railToolDefinitions } from '@pages/workspaceTools'
+import type { ToolId } from '@pages/workspaceTools'
+import { getRailTools } from './getRailTools'
 import { useRailChats } from './useRailChats'
 import { useWorkspaceDialogs } from './useWorkspaceDialogs'
 import { WorkspaceDialogs } from './WorkspaceDialogs'
@@ -14,6 +15,8 @@ import { WorkspaceDialogs } from './WorkspaceDialogs'
 type WorkspaceFrameProps = {
   title: string
   selectedChatId?: string
+  // The research tool this page is, so the rail can show it as the current one.
+  currentToolId?: ToolId
   // Give a panel to dock it on the right. Leave it out when the panel is closed.
   panel?: ReactNode
   onTogglePanel?: () => void
@@ -26,6 +29,7 @@ const railId = 'workspace-rail'
 export function WorkspaceFrame({
   title,
   selectedChatId,
+  currentToolId,
   panel,
   onTogglePanel = doNothingYet,
   onClosePanel = doNothingYet,
@@ -37,16 +41,12 @@ export function WorkspaceFrame({
 
   const railChats = useRailChats(selectedChatId, openedAtInMilliseconds)
   const dialogs = useWorkspaceDialogs()
-  const railTools: RailTool[] = railToolDefinitions.map((tool) => ({
-    ...tool,
-    isCurrent: false,
-    onOpen: () => openTool(tool.id),
-  }))
-
   function goTo(path: string) {
     setIsRailOpen(false)
     navigate(path)
   }
+
+  const railTools = getRailTools(currentToolId, goTo)
 
   return (
     <AppShell

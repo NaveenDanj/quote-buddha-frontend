@@ -26,8 +26,8 @@ export function TopBar({
   onShare,
 }: TopBarProps) {
   return (
-    <header className="sticky top-0 z-(--z-topbar) flex h-(--layout-topbar) items-center justify-between gap-3 border-b border-border bg-page px-(--gutter)">
-      <div className="flex min-w-0 items-center gap-3">
+    <header className="sticky top-0 z-(--z-topbar) flex h-(--layout-topbar) items-center justify-between gap-block border-b border-border bg-page px-(--gutter)">
+      <div className="flex min-w-0 items-center gap-block">
         <IconButton
           icon="menu"
           label={wording.menuLabel}
@@ -40,7 +40,7 @@ export function TopBar({
           {title}
         </Text>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-group">
         <Chip icon="search" aria-label={wording.searchLabel} onClick={onOpenSearch}>
           <span className="hidden sm:inline">
             <Stamp isKey>{wording.searchShortcutText}</Stamp>

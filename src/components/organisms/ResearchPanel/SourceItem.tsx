@@ -27,12 +27,12 @@ export function SourceItem({
   onSave,
 }: SourceItemProps) {
   return (
-    <details open={isOpenAtStart} className="border-t border-border pt-3">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 font-ui text-ui font-medium text-text [&::-webkit-details-marker]:hidden">
+    <details open={isOpenAtStart} className="border-t border-border pt-card-tight">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-block font-ui text-ui font-medium text-text [&::-webkit-details-marker]:hidden">
         <span>{`[${number}] ${label}`}</span>
         <EvidenceTag state={state} />
       </summary>
-      <Surface className="pt-3">
+      <Surface className="pt-card-tight">
         <SourceDetails
           source={source}
           onOpenInReader={onOpenInReader}

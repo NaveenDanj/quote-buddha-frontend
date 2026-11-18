@@ -24,7 +24,7 @@ function getSearchFacts(answer: Answer): Fact[] {
 export function AbstainNotice({ answer }: AbstainNoticeProps) {
   return (
     <Notice title={wording.abstentionText}>
-      <Text variant="caption" as="p" className="max-w-(--measure-reading) text-text-muted">
+      <Text variant="caption" as="p" isMuted className="max-w-(--measure-reading)">
         {wording.partialCorpusNote}
       </Text>
       <Disclosure summary={wording.whatWeSearchedLabel}>

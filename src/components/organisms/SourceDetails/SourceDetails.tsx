@@ -39,7 +39,7 @@ function PassageRow({ label, text, language }: PassageRowProps) {
   const isPali = language === TextLanguage.pali
 
   return (
-    <div className="grid gap-1">
+    <div className="grid gap-related">
       <Text variant="label" as="span">
         {label}
       </Text>
@@ -54,7 +54,7 @@ type SourceActionsProps = Omit<SourceDetailsProps, 'source'> & { citationId: str
 
 function SourceActions({ citationId, onOpenInReader, onCompare, onSave }: SourceActionsProps) {
   return (
-    <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+    <div className="flex flex-wrap items-center gap-x-page gap-y-group">
       {onOpenInReader ? (
         <Button variant="secondary" size="small" onClick={() => onOpenInReader(citationId)}>
           {wording.openInReaderLabel}

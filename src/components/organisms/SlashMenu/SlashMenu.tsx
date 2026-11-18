@@ -19,13 +19,13 @@ export function SlashMenu({ listId, commands, highlightedId, onChoose }: SlashMe
   return (
     <Surface
       look={SurfaceLook.outlined}
-      className="absolute inset-x-0 bottom-full z-(--z-menu) mb-1"
+      className="absolute inset-x-0 bottom-full z-(--z-menu) mb-related"
     >
       <ul
         id={listId}
         role="listbox"
         aria-label={wording.slashMenuLabel}
-        className="m-0 max-h-(--menu-max-height) list-none overflow-y-auto p-0"
+        className="max-h-(--menu-max-height) list-none overflow-y-auto"
       >
         {commands.map((command) => {
           const itemId = getCommandItemId(listId, command)

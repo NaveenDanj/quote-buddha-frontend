@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { IconButton } from '@ds/atoms/IconButton'
-import { Surface } from '@ds/atoms/Surface'
+import { Surface, SurfaceRows } from '@ds/atoms/Surface'
 import { Tabs, type TabItem } from '@ds/atoms/Tabs'
 import { Text } from '@ds/atoms/Text'
 import { getCitationLabel, getSourceEvidenceState, type Answer } from '@domain'
@@ -47,7 +47,7 @@ function isOpenAtStart(position: number, citationId: string, selectedCitationId?
 
 function SourcesTab({ answer, selectedCitationId, ...actions }: SourcesTabProps) {
   return (
-    <ol className="m-0 grid list-none gap-4 p-0">
+    <ol className="grid list-none gap-section">
       {answer.sources.map((source, position) => {
         const isOpen = isOpenAtStart(position, source.citationId, selectedCitationId)
         return (
@@ -73,13 +73,13 @@ function SourcesTab({ answer, selectedCitationId, ...actions }: SourcesTabProps)
 function TermsTab({ answer, onOpenTerm }: Pick<ResearchPanelProps, 'answer' | 'onOpenTerm'>) {
   if (answer.terms.length === 0) {
     return (
-      <Text variant="caption" as="p" className="text-text-muted">
+      <Text variant="caption" as="p" isMuted>
         {wording.noTermsText}
       </Text>
     )
   }
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-group">
       {answer.terms.map((term) => (
         <GlossChip key={term.pali} pali={term.pali} gloss={term.gloss} onOpen={onOpenTerm} />
       ))}
@@ -125,10 +125,11 @@ export function ResearchPanel(props: ResearchPanelProps) {
     <Surface
       as="aside"
       aria-label={wording.researchPanelLabel}
-      className="h-full grid-rows-[auto_minmax(0,1fr)]"
+      rows={SurfaceRows.headerThenFill}
+      className="h-full"
     >
-      <div className="flex items-center justify-between gap-3 pt-3 pr-4 pb-2 pl-4">
-        <Text variant="label" as="h2" className="tracking-[0.02em]">
+      <div className="flex items-center justify-between gap-block pt-card-tight pr-card pb-group pl-card">
+        <Text variant="label" as="h2" className="tracking-label">
           {wording.researchPanelLabel}{' '}
           <span className="font-normal text-text-muted">{wording.latestAnswerNote}</span>
         </Text>
@@ -140,8 +141,8 @@ export function ResearchPanel(props: ResearchPanelProps) {
         value={activeTab}
         onValueChange={(value) => onTabChange(toResearchTab(value))}
         className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)]"
-        listClassName="px-4"
-        contentClassName="relative overflow-y-auto px-4 pb-6"
+        listClassName="px-card"
+        contentClassName="relative overflow-y-auto px-card pb-area"
       />
     </Surface>
   )

@@ -25,8 +25,8 @@ export function SuggestionBlock({ onUse, onDiscard, children }: SuggestionBlockP
         <Tag glyph={TagGlyph.hatched}>{wording.suggestionLabel}</Tag>
       </span>
       <div className="font-reading text-ui text-text">{children}</div>
-      <p className="m-0 font-ui text-stamp text-text-muted">{wording.systemLabel}</p>
-      <div className="flex flex-wrap gap-2">
+      <p className="font-ui text-stamp text-text-muted">{wording.systemLabel}</p>
+      <div className="flex flex-wrap gap-group">
         <Button size="small" onClick={onUse}>
           {wording.useSuggestionLabel}
         </Button>

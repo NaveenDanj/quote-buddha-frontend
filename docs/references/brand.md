@@ -80,3 +80,20 @@ Icon-only buttons need an `aria-label`. There are no tooltips.
 A 10px square with 1.5px outline. **Filled** = direct quote. **Hatched** (45°, 2px lines) = not verified. **Dashed outline** = no support, removed, not used, abstained, or planned (not yet included). One pattern token, `--pattern-hatch`, plus an SVG `<pattern>` helper for the graph.
 
 Lines in the source graph: solid accent 2.25px = verified path; dashed 1.25px = not verified; dotted 1px = removed; faint dashed = not yet in the database.
+
+
+## Spacing named by purpose
+Outside atoms, use these names, not the numbered steps. They are defined once in `src/design-system/tokens/tokens.css` and point at the numbered scale, so changing one moves every box that uses it.
+
+| Name | Value now | Use |
+|---|---|---|
+| `related` | 4px | parts of one thing, such as a label over its value |
+| `group` | 8px | chips or buttons in a row |
+| `block` | 12px | parts inside a card or section (gaps) |
+| `card-tight` | 12px | padding of a small box |
+| `card` | 16px | padding of a box |
+| `section` | 16px | gaps between sections |
+| `page` | 24px | between big areas, and large padding |
+| `area` | 32px | the outer padding of a whole screen area |
+
+Classes read like `gap-group`, `p-card`, `px-card-tight`, `py-area`. Letter spacing is `tracking-label` and `tracking-group`. `focus-ring-inset` draws the focus ring just inside a box.

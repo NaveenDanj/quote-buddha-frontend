@@ -1,0 +1,1 @@
+export { useCheckDocumentMutation } from './useCheckDocumentMutation'

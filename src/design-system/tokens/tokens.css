@@ -65,6 +65,17 @@
   --spacing-7: 48px;
   --spacing-8: 72px;
 
+  /* Spacing named by purpose. Outside atoms, use these (gap-group, p-card), not the numbered steps. */
+  --spacing-related: var(--spacing-1);
+  --spacing-group: var(--spacing-2);
+  --spacing-block: var(--spacing-3);
+  --spacing-card-tight: var(--spacing-3);
+  --spacing-card: var(--spacing-4);
+  --spacing-section: var(--spacing-4);
+  --spacing-page: var(--spacing-5);
+  --spacing-area: var(--spacing-6);
+  --spacing-page-end: var(--spacing-8);
+
   /* Shape: one radius, no shadows */
   --radius-*: initial;
   --radius: 2px;
@@ -76,6 +87,8 @@
   /* Switch off the rest of Tailwind's defaults. Only these weights exist. */
   --leading-*: initial;
   --tracking-*: initial;
+  --tracking-label: 0.02em;
+  --tracking-group: 0.04em;
   --container-*: initial;
   --blur-*: initial;
   --perspective-*: initial;
@@ -145,6 +158,7 @@
   --layout-drawer-max: 88vw;
   --layout-graph-height: 520px;
   --layout-composer: 760px;
+  --composer-text-min-height: 56px;
   --layout-message-user: min(var(--layout-dialog-small), 88%);
   --layout-dialog-small: 560px;
   --layout-dialog-palette: 620px;
@@ -158,6 +172,7 @@
   /* Popup menus are at least this wide */
   --menu-min-width: 220px;
   --menu-max-height: 280px;
+  --menu-results-max-height: 50vh;
 
   /* Vertical padding of a row in the rail: a chat or a tool */
   --nav-row-padding-y: 6px;
@@ -208,6 +223,11 @@
 
   /* Side gutter, never below 16px, grows with phone safe areas */
   --gutter: max(16px, env(safe-area-inset-left));
+}
+
+/* For a control inside a box that has no room for the outside ring: the ring is drawn just inside. */
+@utility focus-ring-inset {
+  --focus-ring-offset: var(--focus-ring-inset-offset);
 }
 
 /* Dark theme, following the system unless the page says light */

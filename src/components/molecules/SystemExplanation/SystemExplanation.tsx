@@ -31,7 +31,7 @@ export function SystemExplanation({
         {heading}
       </Text>
       <div className="font-reading text-reading text-text">{children}</div>
-      <p className="m-0 font-ui text-caption text-text-muted">{label}</p>
+      <p className="font-ui text-caption text-text-muted">{label}</p>
     </Surface>
   )
 }

@@ -21,6 +21,12 @@ const rules = [
   { name: 'numeric z-index', pattern: /z-?index['"]?\s*[:=]\s*\d+/i },
 ]
 
+// Outside atoms, spacing is named by purpose (gap-group, p-card), so one edit in tokens.css moves every box.
+// Atoms and the token docs pages may use the numbered steps. Stories are not checked.
+const numberedSpacingPattern =
+  /(?<![\w-])(?:[a-z-]+:)*-?(?:gap-x|gap-y|gap|space-x|space-y|px|py|pt|pr|pb|pl|mx|my|mt|mr|mb|ml|p|m)-[1-8](?![\w.\-/])/
+const numberedSpacingMayBeUsedIn = [join('src', 'design-system'), '.stories.']
+
 function listFiles(folder) {
   const files = []
   for (const name of readdirSync(folder)) {
@@ -50,6 +56,12 @@ function findProblems(path) {
         problems.push(`${path}:${index + 1}  ${rule.name}: ${line.trim()}`)
       }
     }
+    const mayUseNumberedSpacing = numberedSpacingMayBeUsedIn.some((part) => path.includes(part))
+    if (!mayUseNumberedSpacing && numberedSpacingPattern.test(line)) {
+      problems.push(
+        `${path}:${index + 1}  numbered spacing, use a purpose name (gap-group, p-card, ...): ${line.trim()}`,
+      )
+    }
   })
   return problems
 }
@@ -64,5 +76,5 @@ if (problems.length > 0) {
 }
 
 console.log(
-  'Token check passed: no raw colors, sizes or z-index numbers outside the token CSS files.',
+  'Token check passed: no raw colors, sizes or z-index numbers, and no numbered spacing outside atoms.',
 )

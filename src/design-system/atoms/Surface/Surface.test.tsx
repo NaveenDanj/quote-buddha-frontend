@@ -50,7 +50,7 @@ describe('Surface', () => {
         Content
       </Surface>,
     )
-    expect(container.firstElementChild).toHaveClass('p-5', 'gap-3')
+    expect(container.firstElementChild).toHaveClass('p-page', 'gap-block')
   })
 
   it('has no accessibility violations', async () => {

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Surface } from '@ds/atoms/Surface'
+import { Surface, SurfaceRows } from '@ds/atoms/Surface'
 
 type CenteredHeroLayoutProps = {
   children: ReactNode
@@ -10,9 +10,9 @@ type CenteredHeroLayoutProps = {
 // Fills the space it is given. If the content is taller than the window, this part scrolls, not the page.
 export function CenteredHeroLayout({ children, footer }: CenteredHeroLayoutProps) {
   return (
-    <Surface className="relative min-h-0 grid-rows-[1fr_auto] overflow-y-auto">
+    <Surface isScrollArea rows={SurfaceRows.contentThenFooter}>
       <Surface className="content-center">{children}</Surface>
-      {footer ? <Surface className="px-(--gutter) pb-4 text-center">{footer}</Surface> : null}
+      {footer ? <Surface className="px-(--gutter) pb-card text-center">{footer}</Surface> : null}
     </Surface>
   )
 }

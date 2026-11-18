@@ -38,7 +38,7 @@ export function AbstainedBody({
       />
       <ProcessSummary answer={answer} steps={steps} />
       <FeedbackActions choice={feedbackChoice} onChoose={actions.onChooseFeedback} />
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-group">
         <Chip icon="reader" onClick={actions.onShowCoverage}>
           {wording.browseIncludedLabel}
         </Chip>
