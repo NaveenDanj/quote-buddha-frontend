@@ -86,6 +86,9 @@ const noTextStyleClasses = [
   },
 ]
 
+const noRawButtonMessage =
+  'Use the Button, IconButton, Chip, SelectableRow or ListRow atom, or the CiteLink molecule. Do not write a raw button here.'
+
 const crypticNames = [
   'e',
   'evt',
@@ -168,6 +171,18 @@ export default defineConfig([
     ignores: ['**/*.stories.tsx', '**/*.test.tsx'],
     rules: {
       'no-restricted-syntax': ['error', ...noTextStyleClasses],
+    },
+  },
+  {
+    // A clickable thing is made from an atom, so its look, focus ring and states are the same everywhere.
+    files: ['src/components/**/*.tsx', 'src/pages/**/*.tsx', 'src/templates/**/*.tsx'],
+    ignores: ['**/*.stories.tsx', '**/*.test.tsx'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        ...noTextStyleClasses,
+        { selector: "JSXOpeningElement[name.name='button']", message: noRawButtonMessage },
+      ],
     },
   },
   ...layerRules.map(makeLayerConfig),

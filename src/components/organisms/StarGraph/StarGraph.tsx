@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { CardButton } from '@ds/atoms/CardButton'
 import { Text } from '@ds/atoms/Text'
 import {
   EvidenceState,
@@ -128,8 +129,7 @@ function GraphBox({ node, isSelected, onSelect }: GraphBoxProps) {
   const stateText = node.state ? ` · ${evidenceStateText[node.state]}` : ''
 
   return (
-    <button
-      type="button"
+    <CardButton
       aria-current={isSelected ? 'true' : undefined}
       onClick={onSelect}
       style={{
@@ -139,7 +139,7 @@ function GraphBox({ node, isSelected, onSelect }: GraphBoxProps) {
         height: graphBoxHeightInUnits,
       }}
       className={clsx(
-        'absolute grid cursor-pointer content-center gap-related overflow-hidden rounded bg-page px-card-tight text-left',
+        'absolute content-center gap-related overflow-hidden bg-page px-card-tight',
         getBoxClass(node, isSelected),
       )}
     >
@@ -150,7 +150,7 @@ function GraphBox({ node, isSelected, onSelect }: GraphBoxProps) {
       <Text variant="caption" className="line-clamp-2 text-text">
         {getNodeText(node)}
       </Text>
-    </button>
+    </CardButton>
   )
 }
 

@@ -7,6 +7,7 @@ export type TextVariant =
   | 'heading2'
   | 'heading3'
   | 'toolTitle'
+  | 'readerTitle'
   | 'reading'
   | 'readingLarge'
   | 'readingCompact'
@@ -30,6 +31,8 @@ const variantClass: Record<TextVariant, string> = {
   heading2: 'font-reading text-heading-2',
   heading3: 'font-reading text-heading-3',
   toolTitle: 'font-reading text-tool-title',
+  // The title of a section in the Reader. It shrinks on a phone.
+  readerTitle: 'font-reading text-reader-title',
   reading: 'font-reading text-reading',
   readingLarge: 'font-reading text-reading-large',
   readingCompact: 'font-reading text-ui',
@@ -52,6 +55,7 @@ const variantWeight: Partial<Record<TextVariant, TextWeight>> = {
   heading2: 'medium',
   heading3: 'medium',
   toolTitle: 'normal',
+  readerTitle: 'normal',
   label: 'semibold',
   groupLabel: 'semibold',
 }
@@ -68,6 +72,7 @@ const defaultElement: Record<TextVariant, ElementType> = {
   heading2: 'h2',
   heading3: 'h3',
   toolTitle: 'h1',
+  readerTitle: 'h2',
   reading: 'p',
   readingLarge: 'p',
   readingCompact: 'p',

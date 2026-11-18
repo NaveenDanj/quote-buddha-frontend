@@ -31,12 +31,15 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant
   size?: ButtonSize
   leadingIcon?: IconName
+  // For a button that goes forward, such as a next arrow.
+  trailingIcon?: IconName
 }
 
 export function Button({
   variant = 'primary',
   size = 'medium',
   leadingIcon,
+  trailingIcon,
   className,
   type = 'button',
   children,
@@ -58,6 +61,7 @@ export function Button({
     >
       {leadingIcon ? <Icon name={leadingIcon} size="small" /> : null}
       {children}
+      {trailingIcon ? <Icon name={trailingIcon} size="small" /> : null}
     </button>
   )
 }

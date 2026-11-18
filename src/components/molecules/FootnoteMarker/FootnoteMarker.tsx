@@ -1,4 +1,5 @@
-import { Text, getTextClass } from '@ds/atoms/Text'
+import { LinkButton } from '@ds/atoms/LinkButton'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 
 type FootnoteMarkerProps = {
@@ -10,14 +11,17 @@ type FootnoteMarkerProps = {
 export function FootnoteMarker({ number, onOpen }: FootnoteMarkerProps) {
   return (
     <Text variant="small" className="align-super leading-none">
-      <button
-        type="button"
+      <LinkButton
+        textVariant="small"
+        weight="medium"
+        isUnderlined={false}
+        isAccent
         aria-label={`${wording.sourceLabel} ${number}`}
         onClick={() => onOpen(number)}
-        className={`relative cursor-pointer border-0 bg-transparent px-px ${getTextClass('small', 'medium')} text-accent before:absolute before:-inset-x-1 before:-inset-y-3 before:content-[''] hover:underline`}
+        className="px-px before:-inset-x-1 before:-inset-y-3"
       >
         {`[${number}]`}
-      </button>
+      </LinkButton>
     </Text>
   )
 }

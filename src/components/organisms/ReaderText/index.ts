@@ -1,0 +1,1 @@
+export { ReaderText } from './ReaderText'

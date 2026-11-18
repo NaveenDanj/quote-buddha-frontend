@@ -17,6 +17,25 @@ export {
   countDirectQuotes,
 } from './evidence'
 export { TextLanguage } from './language'
+export { ReadingView, clampSectionIndex, getSuttaLabel, toReadingView } from './reader'
+export type { ReaderParagraph, ReaderSection, Sutta } from './reader'
+export { NoteScope, countNotesByParagraph, filterNotesByScope, toNoteScope } from './readerNote'
+export type { NewReaderNote, ReaderNote } from './readerNote'
+export {
+  ReaderAction,
+  ReaderTab,
+  getAnswerNoteText,
+  getClarificationText,
+  getTabForAction,
+  toReaderTab,
+} from './readerAssist'
+export type {
+  AskRequest,
+  ClarifyRequest,
+  Clarification,
+  PassageAnswer,
+  PassageQuestion,
+} from './readerAssist'
 export { FeedbackChoice } from './feedback'
 export { deriveEvidenceMatrix, getMatrixCellState, getSourceEvidenceState } from './evidenceMatrix'
 export type { EvidenceMatrixTable, EvidenceMatrixRow } from './evidenceMatrix'

@@ -21,6 +21,14 @@ export {
   processSummaryText,
   sectionPositionText,
   versionPositionText,
+  clarifyingText,
+  onParagraphText,
+  searchingText,
+  selectedContextText,
+  paragraphNotesText,
+  readerParagraphLabel,
+  sectionOptionText,
+  sectionsOutlineHeading,
   wording,
 } from './wording'
 export type { Wording } from './wording'

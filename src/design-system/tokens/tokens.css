@@ -30,6 +30,8 @@
   --text-heading-1--line-height: 1.2;
   --text-tool-title: clamp(26px, 4vw, 34px);
   --text-tool-title--line-height: 1.2;
+  --text-reader-title: clamp(24px, 3vw, 30px);
+  --text-reader-title--line-height: 1.2;
   --text-heading-2: 26px;
   --text-heading-2--line-height: 1.2;
   --text-heading-3: 21px;
@@ -163,6 +165,10 @@
   --layout-composer: 760px;
   --composer-text-min-height: 56px;
   --layout-compare-column: 260px;
+  --layout-reader-select: 260px;
+  --reader-paragraph-id-width: 56px;
+  --reader-selected-rule: 3px;
+  --reader-text-gutter: clamp(16px, 3.5vw, 48px);
   --layout-message-user: min(var(--layout-dialog-small), 88%);
   --layout-dialog-small: 560px;
   --layout-dialog-palette: 620px;

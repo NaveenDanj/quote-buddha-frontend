@@ -28,10 +28,12 @@ export const railToolDefinitions: RailToolDefinition[] = [
   { id: ToolId.checkDocument, label: wording.navCheckLabel, icon: 'checkDocument' },
 ]
 
-// Only the tools that have a page yet. The others open nothing for now.
 export function getToolPath(toolId: ToolId): string | undefined {
   if (toolId === ToolId.checkDocument) {
     return AppPath.checkDocument
+  }
+  if (toolId === ToolId.reader) {
+    return AppPath.reader
   }
   if (toolId === ToolId.verify) {
     return AppPath.verifyQuote

@@ -1,5 +1,7 @@
 import { useId, type ReactNode } from 'react'
-import { Text, getTextClass } from '@ds/atoms/Text'
+import { CardButton } from '@ds/atoms/CardButton'
+import { LinkButton } from '@ds/atoms/LinkButton'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 import { SuggestionChips } from '@components/molecules/SuggestionChips'
 
@@ -30,11 +32,10 @@ function ToolCards({ tools }: { tools: HeroTool[] }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(var(--layout-tool-card),1fr))] gap-block">
       {tools.map((tool) => (
-        <button
+        <CardButton
           key={tool.title}
-          type="button"
           onClick={tool.onOpen}
-          className="grid cursor-pointer gap-related rounded border border-border bg-transparent px-card py-card-tight text-left text-text hover:border-text"
+          className="gap-related border-border bg-transparent px-card py-card-tight text-text hover:border-text"
         >
           <Text variant="ui" weight="medium" as="span">
             {tool.title}
@@ -42,7 +43,7 @@ function ToolCards({ tools }: { tools: HeroTool[] }) {
           <Text variant="caption" isMuted>
             {tool.description}
           </Text>
-        </button>
+        </CardButton>
       ))}
     </div>
   )
@@ -63,13 +64,9 @@ function RecentChats({ chats }: { chats: HeroChat[] }) {
       <ul className="grid list-none gap-related">
         {chats.map((chat) => (
           <li key={chat.id}>
-            <button
-              type="button"
-              onClick={chat.onOpen}
-              className={`w-full cursor-pointer border-0 bg-transparent px-0 py-group text-left ${getTextClass('ui')} text-text underline decoration-1 underline-offset-4 hover:text-accent`}
-            >
+            <LinkButton onClick={chat.onOpen} className="w-full py-group">
               {chat.title}
-            </button>
+            </LinkButton>
           </li>
         ))}
       </ul>

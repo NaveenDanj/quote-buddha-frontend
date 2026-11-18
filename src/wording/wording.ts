@@ -230,6 +230,51 @@ const fromFrontend = {
   verifyResultLabel: 'Result of the quote check',
   yourQuoteLabel: 'Your quote',
   closestPassageLabel: 'Closest passage',
+  chooseTextLabel: 'Choose a text',
+  readingViewLabel: 'Reading view',
+  viewBothLabel: 'Both',
+  viewPaliLabel: 'Pali',
+  viewEnglishLabel: 'English',
+  textSizeLabel: 'Text size',
+  sectionsListLabel: 'Sections list',
+  sectionSelectLabel: 'Section',
+  sectionsInSuttaLabel: 'Sections in this sutta',
+  sectionTitlesAreSamples: 'section titles are layout samples',
+  copyLinkLabel: 'Copy link',
+  paragraphsLabel: 'Paragraphs',
+  noSectionsText: 'This text is not in the database yet.',
+  notesPaneLabel: 'Notes pane',
+  hidePaneLabel: 'Hide this pane',
+  noteBoxLabel: 'New note',
+  notePlaceholder: 'Write a note about this passage',
+  enhanceWithAiLabel: 'Enhance with AI',
+  enhancingLabel: 'Enhancing…',
+  saveNoteLabel: 'Save note',
+  noteScopeLabel: 'Notes to show',
+  noteScopeSectionLabel: 'This section',
+  noteScopeAllLabel: 'All',
+  yourNotesLabel: 'Your notes',
+  noNotesInScopeText: 'No notes here yet.',
+  clarifyTabLabel: 'Clarify',
+  askTabLabel: 'Ask',
+  clarifyThisLabel: 'Clarify this',
+  clarifyingLabel: 'Clarifying…',
+  plainMeaningHeading: 'Plain meaning',
+  keyTermsHeading: 'Key terms',
+  inContextHeading: 'In context',
+  doesNotSayHeading: 'What this does not say',
+  basedOnLabel: 'Based on',
+  saveAsNoteLabel: 'Save as a note',
+  copyExplanationLabel: 'Copy explanation',
+  clarifyEmptyText: 'Choose a paragraph, then ask for its meaning.',
+  askBarLabel: 'Ask about this passage',
+  askBarPlaceholder: 'Ask about this passage, or select text to quote it',
+  suggestedQuestionsLabel: 'Suggested questions',
+  suggestedQuestionMeaning: 'What does this passage mean?',
+  suggestedQuestionTerms: 'Which terms matter here?',
+  suggestedQuestionWhole: 'How does this fit the whole sutta?',
+  foundInTextsLabel: 'Found in the included texts',
+  askThreadLabel: 'Questions about this passage',
   trustTitle: 'Why should I trust this?',
   sampleMarker: 'Layout sample',
 }
@@ -359,4 +404,36 @@ export function closeParaphraseCountText(count: number): string {
 
 export function notFoundCountText(count: number): string {
   return `${count} not found in the included texts`
+}
+
+export function sectionsOutlineHeading(workRef: string): string {
+  return `${workRef} · sections`
+}
+
+export function sectionOptionText(sectionNumber: number, paliTitle: string): string {
+  return `${sectionNumber} · ${paliTitle}`
+}
+
+export function readerParagraphLabel(paragraphId: string): string {
+  return `Paragraph ${paragraphId}`
+}
+
+export function onParagraphText(paragraphId: string): string {
+  return `On ${paragraphId}`
+}
+
+export function paragraphNotesText(count: number): string {
+  return pluralize(count, 'note', 'notes')
+}
+
+export function clarifyingText(paragraphId: string): string {
+  return `Reading ${paragraphId} in context`
+}
+
+export function searchingText(paragraphId: string): string {
+  return `Searching DN 1 around ${paragraphId}`
+}
+
+export function selectedContextText(paragraphId: string, selectedText: string): string {
+  return `On ${paragraphId} · “${selectedText}”`
 }

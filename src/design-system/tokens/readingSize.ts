@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useSyncExternalStore } from 'react'
 
 export const ReadingSize = {
   small: 'small',
@@ -37,17 +37,39 @@ export function applyReadingSize(size: ReadingSize) {
   document.documentElement.style.setProperty('--reading-scale', String(scaleByReadingSize[size]))
 }
 
+// One reading size for the whole app, so the Settings dialog and the Reader's text size button always agree.
+let currentReadingSize: ReadingSize = readSavedReadingSize()
+const listeners = new Set<() => void>()
+
+function subscribeToReadingSize(listener: () => void) {
+  listeners.add(listener)
+  return () => listeners.delete(listener)
+}
+
+function getReadingSize(): ReadingSize {
+  return currentReadingSize
+}
+
+export function setReadingSize(size: ReadingSize) {
+  currentReadingSize = size
+  saveReadingSize(size)
+  applyReadingSize(size)
+  listeners.forEach((listener) => listener())
+}
+
+// Small, then medium, then large, then back to small.
+export function getNextReadingSize(size: ReadingSize): ReadingSize {
+  const sizes = Object.values(ReadingSize)
+  const nextPosition = (sizes.indexOf(size) + 1) % sizes.length
+  return sizes[nextPosition] ?? ReadingSize.medium
+}
+
 export function useReadingSize() {
-  const [readingSize, setReadingSizeState] = useState<ReadingSize>(readSavedReadingSize)
+  const readingSize = useSyncExternalStore(subscribeToReadingSize, getReadingSize)
 
   useEffect(() => {
     applyReadingSize(readingSize)
   }, [readingSize])
-
-  function setReadingSize(size: ReadingSize) {
-    setReadingSizeState(size)
-    saveReadingSize(size)
-  }
 
   return { readingSize, setReadingSize }
 }

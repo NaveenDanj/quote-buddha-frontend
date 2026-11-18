@@ -1,4 +1,4 @@
-import { getTextClass } from '@ds/atoms/Text'
+import { LinkButton } from '@ds/atoms/LinkButton'
 
 type CiteLinkProps = {
   citationId: string
@@ -6,15 +6,15 @@ type CiteLinkProps = {
   onOpen: (citationId: string) => void
 }
 
-// The pseudo-element makes the clickable area taller than the line of text, which is too small to hit on a phone.
 export function CiteLink({ citationId, label, onOpen }: CiteLinkProps) {
   return (
-    <button
-      type="button"
+    <LinkButton
+      textVariant="code"
+      weight="medium"
+      className="whitespace-nowrap"
       onClick={() => onOpen(citationId)}
-      className={`relative cursor-pointer border-0 bg-transparent ${getTextClass('code', 'medium')} whitespace-nowrap text-text underline decoration-1 underline-offset-4 transition-colors duration-(--motion-fast) before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] hover:text-accent`}
     >
       {label}
-    </button>
+    </LinkButton>
   )
 }

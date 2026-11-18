@@ -1,10 +1,11 @@
 import { useId } from 'react'
 import { Button } from '@ds/atoms/Button'
+import { FieldButton } from '@ds/atoms/FieldButton'
 import { Icon, type IconName } from '@ds/atoms/Icon'
 import type { MenuItem } from '@ds/atoms/Menu'
 import { SelectableRow } from '@ds/atoms/SelectableRow'
 import { Surface, SurfaceRows, SurfaceSpace } from '@ds/atoms/Surface'
-import { Text, getTextClass } from '@ds/atoms/Text'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 import { ChatHistory, type ChatHistoryGroup } from '@components/organisms/ChatHistory'
 
@@ -51,19 +52,6 @@ function ToolLinks({ tools }: { tools: RailTool[] }) {
   )
 }
 
-// Looks like a text field, but it opens the search. It is a button, so it says what it does.
-function SearchButton({ onSearch }: { onSearch: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onSearch}
-      className={`w-full cursor-pointer rounded border border-text-muted bg-page px-card-tight py-group text-left ${getTextClass('nav')} text-text-muted hover:border-text`}
-    >
-      {wording.searchChatsLabel}
-    </button>
-  )
-}
-
 // The left column: new chat, search, past chats, research tools, settings and the corpus line.
 export function Rail({
   id,
@@ -92,7 +80,7 @@ export function Rail({
         <Button leadingIcon="add" onClick={onNewChat}>
           {wording.newChatLabel}
         </Button>
-        <SearchButton onSearch={onSearch} />
+        <FieldButton onClick={onSearch}>{wording.searchChatsLabel}</FieldButton>
       </Surface>
 
       <Surface isScrollArea className="px-card pb-card">
