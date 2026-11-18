@@ -1,9 +1,12 @@
 import type { NewReaderNote, ReaderNote } from '@domain'
 
 // Notes live in memory until the backend has accounts. Reloading the page starts again from the samples.
+const sampleDateInMilliseconds = Date.UTC(2026, 10, 16)
+
 const sampleNotes: ReaderNote[] = [
   {
     id: 'sample-1',
+    createdAtInMilliseconds: sampleDateInMilliseconds,
     suttaId: 'dn-1',
     sectionIndex: 0,
     paragraphId: '1.1',
@@ -13,6 +16,7 @@ const sampleNotes: ReaderNote[] = [
   },
   {
     id: 'sample-2',
+    createdAtInMilliseconds: sampleDateInMilliseconds,
     suttaId: 'dn-1',
     sectionIndex: 0,
     paragraphId: '1.2',
@@ -35,7 +39,11 @@ export function getNotes(): ReaderNote[] {
 }
 
 export function addNote(newNote: NewReaderNote): ReaderNote {
-  const note: ReaderNote = { ...newNote, id: crypto.randomUUID() }
+  const note: ReaderNote = {
+    ...newNote,
+    id: crypto.randomUUID(),
+    createdAtInMilliseconds: Date.now(),
+  }
   notes = [...notes, note]
   tellListeners()
   return note

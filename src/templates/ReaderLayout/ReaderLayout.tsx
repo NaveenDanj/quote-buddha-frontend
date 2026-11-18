@@ -4,15 +4,11 @@ import { Surface, SurfaceRows } from '@ds/atoms/Surface'
 
 type ReaderLayoutProps = {
   toolbar: ReactNode
-  // The list of sections. It shows beside the text on a wide window and is left out on a narrow one.
   outline: ReactNode
   isOutlineOpen: boolean
-  // The notes and questions. It shows beside the text on a wide window and as a drawer on a narrow one.
   side: ReactNode
   isSideOpen: boolean
-  // The question box along the bottom.
   askBar: ReactNode
-  // Changing this puts the text back at the top, for example when the section changes.
   scrollResetKey: string
   children: ReactNode
 }
@@ -33,7 +29,6 @@ function getColumnsClass(isOutlineOpen: boolean, isSideOpen: boolean): string {
 const drawerClass =
   'max-lg:fixed max-lg:inset-y-0 max-lg:right-0 max-lg:z-(--z-panel) max-lg:w-full max-lg:max-w-(--layout-reader-side)'
 
-// The toolbar stays on top. Under it the outline, the text and the side pane each scroll on their own, never the page.
 export function ReaderLayout({
   toolbar,
   outline,

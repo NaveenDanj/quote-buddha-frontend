@@ -11,7 +11,6 @@ type AskBarProps = {
   onSubmit: () => void
 }
 
-// The one-line question box under the Reader. The label says which passage the question is about.
 export function AskBar({ contextLabel, value, onValueChange, onSubmit }: AskBarProps) {
   function submitQuestion(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -24,7 +23,10 @@ export function AskBar({ contextLabel, value, onValueChange, onSubmit }: AskBarP
       onSubmit={submitQuestion}
       className="flex items-center gap-group border-t border-border bg-page px-(--gutter) py-card-tight"
     >
-      <PassageContext label={contextLabel} />
+      <div className="flex items-center">
+        <PassageContext label={contextLabel} />
+      </div>
+
       <div className="min-w-0 flex-1">
         <Input
           label={wording.askBarLabel}
@@ -34,13 +36,15 @@ export function AskBar({ contextLabel, value, onValueChange, onSubmit }: AskBarP
           onChange={(event) => onValueChange(event.target.value)}
         />
       </div>
-      <IconButton
-        icon="send"
-        type="submit"
-        look={IconButtonLook.solid}
-        label={wording.askLabel}
-        disabled={value.trim().length === 0}
-      />
+      <div className="flex items-center gap-group">
+        <IconButton
+          icon="send"
+          type="submit"
+          look={IconButtonLook.solid}
+          label={wording.askLabel}
+          disabled={value.trim().length === 0}
+        />
+      </div>
     </form>
   )
 }

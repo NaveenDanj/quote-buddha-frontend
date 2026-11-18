@@ -4,6 +4,7 @@ export const AppPath = {
   checkDocument: '/check-document',
   verifyQuote: '/verify-quote',
   reader: '/reader',
+  notebook: '/notebook',
 } as const
 
 export function getChatPath(chatId: string): string {

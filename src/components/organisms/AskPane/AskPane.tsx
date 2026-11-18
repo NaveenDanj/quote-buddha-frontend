@@ -17,7 +17,6 @@ const suggestedQuestions = [
   wording.suggestedQuestionWhole,
 ]
 
-// The Ask tab of the Reader: the questions asked about passages so far. Suggestions show until the first question.
 export function AskPane({ turns, onChooseSuggestion, onSaveAsNote, onOpenPassage }: AskPaneProps) {
   return (
     <div className="grid content-start gap-page">

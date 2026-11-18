@@ -6,6 +6,7 @@ export type NoteScope = (typeof NoteScope)[keyof typeof NoteScope]
 
 export type ReaderNote = {
   id: string
+  createdAtInMilliseconds: number
   suttaId: string
   sectionIndex: number
   paragraphId: string
@@ -16,7 +17,7 @@ export type ReaderNote = {
   originalText?: string
 }
 
-export type NewReaderNote = Omit<ReaderNote, 'id'>
+export type NewReaderNote = Omit<ReaderNote, 'id' | 'createdAtInMilliseconds'>
 
 export function toNoteScope(value: string): NoteScope {
   return value === NoteScope.all ? NoteScope.all : NoteScope.section

@@ -4,12 +4,14 @@ import { Surface } from '@ds/atoms/Surface'
 export const ToolPageWidth = {
   narrow: 'narrow',
   wide: 'wide',
+  broad: 'broad',
 } as const
 export type ToolPageWidth = (typeof ToolPageWidth)[keyof typeof ToolPageWidth]
 
 const widthClass: Record<ToolPageWidth, string> = {
   narrow: 'max-w-(--layout-tool-narrow)',
   wide: 'max-w-(--layout-hero-column)',
+  broad: 'max-w-(--layout-tool-broad)',
 }
 
 type ToolPageLayoutProps = {

@@ -21,6 +21,8 @@ export { ReadingView, clampSectionIndex, getSuttaLabel, toReadingView } from './
 export type { ReaderParagraph, ReaderSection, Sutta } from './reader'
 export { NoteScope, countNotesByParagraph, filterNotesByScope, toNoteScope } from './readerNote'
 export type { NewReaderNote, ReaderNote } from './readerNote'
+export { formatNoteDate, getSourcesUsed, sortNewestFirst } from './notebook'
+export type { NotebookEntry, NotebookPassage, SourceUse } from './notebook'
 export {
   ReaderAction,
   ReaderTab,

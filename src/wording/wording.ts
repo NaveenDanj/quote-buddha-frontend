@@ -275,6 +275,21 @@ const fromFrontend = {
   suggestedQuestionWhole: 'How does this fit the whole sutta?',
   foundInTextsLabel: 'Found in the included texts',
   askThreadLabel: 'Questions about this passage',
+  sampleNotebookTitle: 'Views and speculation in DN 1',
+  exportMarkdownLabel: 'Export Markdown',
+  exportBibtexLabel: 'Export BibTeX',
+  newNoteLabel: 'New note',
+  writeNotePlaceholder: 'Write a note.',
+  sourcesUsedLabel: 'Sources used',
+  notebookExportNote: 'Exports include references, edition details and the corpus version.',
+  noEntriesText: 'No notes yet.',
+  noEntriesHintText: 'Notes written in the Reader appear here.',
+  noSourcesUsedYetText: 'No sources used yet.',
+  notebookNotesLabel: 'Notes in this notebook',
+  aiEnhancedExportMarker: 'AI-enhanced. Written by the system; check it against the passage.',
+  corpusVersionName: 'v0.1',
+  corpusScopeName: 'DN 1 only',
+  editionName: 'Pali with Sinhala translation, pitaka.lk',
   trustTitle: 'Why should I trust this?',
   sampleMarker: 'Layout sample',
 }
@@ -436,4 +451,24 @@ export function searchingText(paragraphId: string): string {
 
 export function selectedContextText(paragraphId: string, selectedText: string): string {
   return `On ${paragraphId} · “${selectedText}”`
+}
+
+export function noteDateText(date: string): string {
+  return `Note · ${date}`
+}
+
+export function usedTimesText(count: number): string {
+  return pluralize(count, 'use', 'uses')
+}
+
+export function notebookExportTitle(notebookTitle: string): string {
+  return `Notes: ${notebookTitle}`
+}
+
+export function notebookExportFooter(date: string): string {
+  return `Generated ${date} from corpus ${fromFrontend.corpusVersionName} (${fromFrontend.corpusScopeName}).`
+}
+
+export function notebookExportReference(passageLabel: string, citationId: string): string {
+  return `Reference: ${passageLabel}, ${fromFrontend.editionName} (${citationId})`
 }

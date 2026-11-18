@@ -5,6 +5,7 @@ import { NotesPane } from './NotesPane'
 
 const ownNote: ReaderNote = {
   id: '1',
+  createdAtInMilliseconds: 0,
   suttaId: 'dn-1',
   sectionIndex: 0,
   paragraphId: '1.1',

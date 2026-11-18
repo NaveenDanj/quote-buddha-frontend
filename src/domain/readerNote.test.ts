@@ -10,6 +10,7 @@ import {
 function buildNote(id: string, sectionIndex: number, paragraphId: string): ReaderNote {
   return {
     id,
+    createdAtInMilliseconds: 0,
     suttaId: 'dn-1',
     sectionIndex,
     paragraphId,

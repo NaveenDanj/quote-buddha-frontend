@@ -32,6 +32,9 @@ export function getToolPath(toolId: ToolId): string | undefined {
   if (toolId === ToolId.checkDocument) {
     return AppPath.checkDocument
   }
+  if (toolId === ToolId.notebook) {
+    return AppPath.notebook
+  }
   if (toolId === ToolId.reader) {
     return AppPath.reader
   }

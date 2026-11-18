@@ -17,7 +17,6 @@ type AskTurnProps = {
 
 const copyKey = 'answer'
 
-// One question and its answer. Until the answer arrives, the turn says what is being searched.
 export function AskTurn({ turn, onSaveAsNote, onOpenPassage }: AskTurnProps) {
   const { copiedKey, copy } = useCopyFeedback()
   const { answer } = turn
@@ -31,6 +30,7 @@ export function AskTurn({ turn, onSaveAsNote, onOpenPassage }: AskTurnProps) {
       >
         <Text variant="readingCompact">{turn.question}</Text>
       </Surface>
+
       {answer ? (
         <div className="grid gap-group">
           <MessageHeader>
@@ -38,10 +38,12 @@ export function AskTurn({ turn, onSaveAsNote, onOpenPassage }: AskTurnProps) {
               {wording.foundInTextsLabel}
             </Tag>
           </MessageHeader>
+
           <Text variant="readingCompact">
             {answer.text}
             <FootnoteMarker number={1} onOpen={() => onOpenPassage(answer.citationId)} />
           </Text>
+
           <div className="flex flex-wrap items-center gap-group">
             <Text variant="small" isMuted>
               {wording.sourcesLabel}
@@ -52,6 +54,7 @@ export function AskTurn({ turn, onSaveAsNote, onOpenPassage }: AskTurnProps) {
               onOpen={() => onOpenPassage(answer.citationId)}
             />
           </div>
+
           <div className="flex gap-group">
             <IconButton
               icon="add"
