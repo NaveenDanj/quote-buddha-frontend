@@ -4,7 +4,7 @@ import { Icon, type IconName } from '@ds/atoms/Icon'
 import type { MenuItem } from '@ds/atoms/Menu'
 import { SelectableRow } from '@ds/atoms/SelectableRow'
 import { Surface, SurfaceRows, SurfaceSpace } from '@ds/atoms/Surface'
-import { Text } from '@ds/atoms/Text'
+import { Text, getTextClass } from '@ds/atoms/Text'
 import { wording } from '@wording'
 import { ChatHistory, type ChatHistoryGroup } from '@components/organisms/ChatHistory'
 
@@ -57,7 +57,7 @@ function SearchButton({ onSearch }: { onSearch: () => void }) {
     <button
       type="button"
       onClick={onSearch}
-      className="w-full cursor-pointer rounded border border-text-muted bg-page px-card-tight py-group text-left font-ui text-nav text-text-muted hover:border-text"
+      className={`w-full cursor-pointer rounded border border-text-muted bg-page px-card-tight py-group text-left ${getTextClass('nav')} text-text-muted hover:border-text`}
     >
       {wording.searchChatsLabel}
     </button>
@@ -116,7 +116,9 @@ export function Rail({
               {wording.settingsLabel}
             </Button>
           </div>
-          <p className="font-ui text-stamp text-text-muted">{footerText}</p>
+          <Text variant="small" as="p" isMuted>
+            {footerText}
+          </Text>
         </div>
       </Surface>
     </Surface>

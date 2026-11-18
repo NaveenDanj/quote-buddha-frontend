@@ -9,7 +9,6 @@ type TagProps = {
   children: ReactNode
 }
 
-// The words always say the state. The square is a second cue, never the only one.
 export function Tag({ glyph = TagGlyph.plain, children }: TagProps) {
   return (
     <span className="inline-flex items-center gap-2 font-ui text-label font-medium whitespace-nowrap text-text">

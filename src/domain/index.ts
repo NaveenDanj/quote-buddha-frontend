@@ -33,10 +33,22 @@ export { ChatGroupId, getChatTitleFromQuestion, groupChatsByDay, isCreatedToday 
 export type { Chat, ChatGroup } from './chat'
 export { getAnswerFromStream, isStreamFinished } from './turn'
 export type { Turn } from './turn'
-export { SayingOutcome, countOutcomes, getEvidenceStateFromOutcome } from './documentCheck'
+export {
+  SayingOutcome,
+  countOutcomes,
+  getEvidenceShapeFromOutcome,
+  getEvidenceStateFromOutcome,
+} from './documentCheck'
 export type {
   DocumentCheckRequest,
   DocumentCheckResult,
   DocumentSaying,
   OutcomeCounts,
 } from './documentCheck'
+export {
+  QuoteOutcome,
+  getEvidenceShapeFromQuoteOutcome,
+  getEvidenceStateFromQuoteOutcome,
+  toQuoteOutcome,
+} from './verifyQuote'
+export type { QuoteCheckRequest, QuoteCheckResult, QuotePassage, TextPart } from './verifyQuote'

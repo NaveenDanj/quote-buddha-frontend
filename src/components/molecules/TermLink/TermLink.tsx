@@ -6,9 +6,7 @@ import { TextLanguage } from '@domain'
 type TermLinkProps = {
   pali: string
   gloss: string
-  // A real address, because the preview card cannot be opened by touch. The link is how touch reaches the term.
   href: string
-  // When given, a click opens the term in place instead of following the address.
   onOpen?: (pali: string) => void
   children: ReactNode
 }

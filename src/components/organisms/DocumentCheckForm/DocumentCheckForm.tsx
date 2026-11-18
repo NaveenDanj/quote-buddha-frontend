@@ -1,9 +1,7 @@
 import { DropZone } from '@ds/atoms/DropZone'
-import { Button } from '@ds/atoms/Button'
-import { Surface, SurfaceLook } from '@ds/atoms/Surface'
-import { Text } from '@ds/atoms/Text'
-import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
+import { Surface } from '@ds/atoms/Surface'
 import { documentFileChosenText, wording } from '@wording'
+import { CheckTextBox } from '@components/molecules/CheckTextBox'
 
 type DocumentCheckFormProps = {
   chosenFileName?: string
@@ -43,26 +41,18 @@ export function DocumentCheckForm({
         accept={acceptedFileTypes}
         onFilesChosen={chooseFile}
       />
-      <Surface look={SurfaceLook.outlined} className="relative focus-within:border-accent">
-        <label>
-          <VisuallyHidden>{wording.documentTextLabel}</VisuallyHidden>
-          <textarea
-            value={pastedText}
-            rows={pastedTextRowCount}
-            placeholder={wording.documentTextPlaceholder}
-            onChange={(event) => onPastedTextChange(event.target.value)}
-            className="min-h-(--composer-text-min-height) w-full resize-none border-0 bg-transparent px-card pt-card-tight pb-group font-reading text-input text-text placeholder:text-text-muted focus-visible:outline-0"
-          />
-        </label>
-        <div className="flex flex-wrap items-center justify-between gap-group pt-group pr-card-tight pb-card-tight pl-card">
-          <Text variant="caption" isMuted>
-            {wording.documentSearchScope}
-          </Text>
-          <Button size="small" disabled={!canCheck || isChecking} onClick={onCheck}>
-            {isChecking ? wording.checkingQuotesLabel : wording.checkQuotesLabel}
-          </Button>
-        </div>
-      </Surface>
+      <CheckTextBox
+        label={wording.documentTextLabel}
+        placeholder={wording.documentTextPlaceholder}
+        value={pastedText}
+        onValueChange={onPastedTextChange}
+        rowCount={pastedTextRowCount}
+        scopeText={wording.documentSearchScope}
+        buttonLabel={wording.checkQuotesLabel}
+        canCheck={canCheck}
+        isChecking={isChecking}
+        onCheck={onCheck}
+      />
     </Surface>
   )
 }

@@ -1,5 +1,5 @@
 import { useId, type ReactNode } from 'react'
-import { Text } from '@ds/atoms/Text'
+import { Text, getTextClass } from '@ds/atoms/Text'
 import { wording } from '@wording'
 import { SuggestionChips } from '@components/molecules/SuggestionChips'
 
@@ -36,8 +36,12 @@ function ToolCards({ tools }: { tools: HeroTool[] }) {
           onClick={tool.onOpen}
           className="grid cursor-pointer gap-related rounded border border-border bg-transparent px-card py-card-tight text-left text-text hover:border-text"
         >
-          <span className="font-ui text-ui font-medium">{tool.title}</span>
-          <span className="font-ui text-caption text-text-muted">{tool.description}</span>
+          <Text variant="ui" weight="medium" as="span">
+            {tool.title}
+          </Text>
+          <Text variant="caption" isMuted>
+            {tool.description}
+          </Text>
         </button>
       ))}
     </div>
@@ -62,7 +66,7 @@ function RecentChats({ chats }: { chats: HeroChat[] }) {
             <button
               type="button"
               onClick={chat.onOpen}
-              className="w-full cursor-pointer border-0 bg-transparent px-0 py-group text-left font-ui text-ui text-text underline decoration-1 underline-offset-4 hover:text-accent"
+              className={`w-full cursor-pointer border-0 bg-transparent px-0 py-group text-left ${getTextClass('ui')} text-text underline decoration-1 underline-offset-4 hover:text-accent`}
             >
               {chat.title}
             </button>

@@ -1,5 +1,6 @@
 import { Disclosure } from '@ds/atoms/Disclosure'
 import { Tag, TagGlyph } from '@ds/atoms/Tag'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 import { ActionBar, type ActionBarAction } from '@components/molecules/ActionBar'
 import { CiteLink } from '@components/molecules/CiteLink'
@@ -25,18 +26,24 @@ export function NoteCard(props: NoteCardProps) {
       aria-label={passageLabel}
       className="grid gap-group border-t border-border pt-card-tight"
     >
-      <div className="flex flex-wrap items-center gap-block font-ui text-caption text-text-muted">
+      <Text variant="caption" as="div" isMuted className="flex flex-wrap items-center gap-block">
         <CiteLink citationId={citationId} label={passageLabel} onOpen={onOpenPassage} />
         {props.isAiEnhanced ? <Tag glyph={TagGlyph.hatched}>{wording.aiEnhancedTag}</Tag> : null}
         {actions ? <ActionBar label={actionsLabel} actions={actions} /> : null}
-      </div>
-      <p className="font-reading text-ui whitespace-pre-wrap text-text">{text}</p>
+      </Text>
+      <Text variant="readingCompact" className="whitespace-pre-wrap text-text">
+        {text}
+      </Text>
       {props.isAiEnhanced ? (
-        <p className="font-ui text-caption text-text-muted">{wording.systemLabel}</p>
+        <Text variant="caption" as="p" isMuted>
+          {wording.systemLabel}
+        </Text>
       ) : null}
       {props.isAiEnhanced && props.originalText.length > 0 ? (
         <Disclosure summary={wording.originalNote}>
-          <p className="font-reading text-ui whitespace-pre-wrap">{props.originalText}</p>
+          <Text variant="readingCompact" className="whitespace-pre-wrap">
+            {props.originalText}
+          </Text>
         </Disclosure>
       ) : null}
     </article>

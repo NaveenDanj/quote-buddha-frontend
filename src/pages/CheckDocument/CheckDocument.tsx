@@ -1,5 +1,5 @@
-import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
+import { ToolPageHeading } from '@components/molecules/ToolPageHeading'
 import { DocumentCheckForm } from '@components/organisms/DocumentCheckForm'
 import { DocumentCheckResult } from '@components/organisms/DocumentCheckResult'
 import { doNothingYet } from '@pages/doNothingYet'
@@ -14,14 +14,7 @@ export function CheckDocument() {
   return (
     <WorkspaceFrame title={wording.navCheckLabel} currentToolId={ToolId.checkDocument}>
       <ToolPageLayout>
-        <div className="grid gap-group">
-          <Text variant="heading1" as="h1">
-            {wording.navCheckLabel}
-          </Text>
-          <Text variant="ui" as="p" isMuted className="max-w-(--measure-reading)">
-            {wording.checkDocumentIntro}
-          </Text>
-        </div>
+        <ToolPageHeading title={wording.navCheckLabel} intro={wording.checkDocumentIntro} />
         <DocumentCheckForm
           chosenFileName={documentCheck.chosenFile?.name}
           onFileChosen={documentCheck.setChosenFile}
@@ -31,13 +24,11 @@ export function CheckDocument() {
           isChecking={documentCheck.isChecking}
           onCheck={documentCheck.check}
         />
-        {documentCheck.result ? (
-          <DocumentCheckResult
-            sayings={documentCheck.result.sayings}
-            onOpenPassage={doNothingYet}
-            onExportReport={doNothingYet}
-          />
-        ) : null}
+        <DocumentCheckResult
+          sayings={documentCheck.result.sayings}
+          onOpenPassage={doNothingYet}
+          onExportReport={doNothingYet}
+        />
       </ToolPageLayout>
     </WorkspaceFrame>
   )

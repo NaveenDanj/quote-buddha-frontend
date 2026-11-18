@@ -28,6 +28,8 @@
   --text-display--line-height: 1.15;
   --text-heading-1: 34px;
   --text-heading-1--line-height: 1.2;
+  --text-tool-title: clamp(26px, 4vw, 34px);
+  --text-tool-title--line-height: 1.2;
   --text-heading-2: 26px;
   --text-heading-2--line-height: 1.2;
   --text-heading-3: 21px;
@@ -155,16 +157,19 @@
   --layout-chat-column: 920px;
   --layout-tool-card: 160px;
   --layout-hero-column: 860px;
+  --layout-tool-narrow: 720px;
   --layout-drawer-max: 88vw;
   --layout-graph-height: 520px;
   --layout-composer: 760px;
   --composer-text-min-height: 56px;
+  --layout-compare-column: 260px;
   --layout-message-user: min(var(--layout-dialog-small), 88%);
   --layout-dialog-small: 560px;
   --layout-dialog-palette: 620px;
   --layout-dialog-graph: 1280px;
   --measure-reading: 62ch;
   --measure-wide: 110ch;
+  --measure-short: 50ch;
 
   /* Disabled controls fade to this opacity */
   --opacity-disabled: 0.35;
@@ -203,6 +208,7 @@
 
   /* A data table never gets narrower than this; below it the table scrolls sideways */
   --table-min-width: 460px;
+  --table-min-width-wide: 560px;
 
   /* One square in the coverage strip */
   --coverage-square-size: 12px;

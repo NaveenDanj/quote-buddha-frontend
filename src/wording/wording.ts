@@ -214,6 +214,22 @@ const fromFrontend = {
   outcomeCloseParaphraseLabel: 'Close paraphrase',
   outcomeNotFoundLabel: 'Not found in the included texts',
   noClosestPassageText: 'None in DN 1',
+  verifyPageIntro:
+    'Paste a saying attributed to the Buddha. We check whether it appears in the included texts.',
+  verifyTextLabel: 'Quote',
+  verifyPlaceholder: 'Paste the saying you want to check.',
+  verifyScope: 'Searches the included texts only.',
+  checkQuoteLabel: 'Check quote',
+  quoteTabsLabel: 'Result states (preview only)',
+  quoteTabFoundLabel: 'Found verbatim',
+  quoteTabCloseLabel: 'Close paraphrase',
+  quoteTabNoneLabel: 'Not found in the included texts',
+  verifySampleQuote: 'Sample quote pasted by the reader appears here.',
+  documentSampleText:
+    'Sample paragraph from an article. The author attributes "sample saying one" to the Buddha, and later adds "sample saying two" without a source.',
+  verifyResultLabel: 'Result of the quote check',
+  yourQuoteLabel: 'Your quote',
+  closestPassageLabel: 'Closest passage',
   trustTitle: 'Why should I trust this?',
   sampleMarker: 'Layout sample',
 }

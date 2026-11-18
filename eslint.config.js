@@ -70,6 +70,22 @@ function makeLayerConfig(rule) {
   }
 }
 
+// A text style (font family or size) is chosen in the Text atom and nowhere else, so a theme change in one place reaches every text.
+const textStylePattern =
+  '(^| )(font-(ui|reading|code)|text-(ui|nav|caption|stamp|label|input|code|reading|reading-large|pali|display|tool-title|heading-[123]))( |$)'
+const noTextStyleClasses = [
+  {
+    selector: `Literal[value=/${textStylePattern}/]`,
+    message:
+      'Use the Text component, or getTextClass for a button or a text box. Do not write font or size classes here.',
+  },
+  {
+    selector: `TemplateElement[value.raw=/${textStylePattern}/]`,
+    message:
+      'Use the Text component, or getTextClass for a button or a text box. Do not write font or size classes here.',
+  },
+]
+
 const crypticNames = [
   'e',
   'evt',
@@ -144,6 +160,14 @@ export default defineConfig([
           patterns: [noParentImports],
         },
       ],
+    },
+  },
+  {
+    // Only the Text atom and the other atoms may name a font or a size. Everything above them asks the Text atom.
+    files: ['src/components/**/*.tsx', 'src/pages/**/*.tsx', 'src/templates/**/*.tsx'],
+    ignores: ['**/*.stories.tsx', '**/*.test.tsx'],
+    rules: {
+      'no-restricted-syntax': ['error', ...noTextStyleClasses],
     },
   },
   ...layerRules.map(makeLayerConfig),

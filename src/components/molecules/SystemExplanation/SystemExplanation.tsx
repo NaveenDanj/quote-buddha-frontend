@@ -30,8 +30,12 @@ export function SystemExplanation({
       <Text variant="label" as={headingElement} id={headingId}>
         {heading}
       </Text>
-      <div className="font-reading text-reading text-text">{children}</div>
-      <p className="font-ui text-caption text-text-muted">{label}</p>
+      <Text variant="reading" as="div" className="text-text">
+        {children}
+      </Text>
+      <Text variant="caption" as="p" isMuted>
+        {label}
+      </Text>
     </Surface>
   )
 }

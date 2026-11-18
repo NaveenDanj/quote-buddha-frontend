@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Textarea } from './Textarea'
+import { Textarea, TextareaLook } from './Textarea'
 
 const meta = {
   title: 'Design System/Atoms/Textarea',
@@ -25,5 +25,16 @@ export const WithHint: Story = { args: { hint: 'Notes are private to you.' } }
 export const WithError: Story = { args: { errorText: 'A note cannot be empty.' } }
 
 export const Disabled: Story = { args: { disabled: true } }
+
+export const Bare: Story = {
+  args: { look: TextareaLook.bare, isLabelHidden: true, rows: 2 },
+  decorators: [
+    (Story) => (
+      <div className="rounded border border-text">
+        <Story />
+      </div>
+    ),
+  ],
+}
 
 export const LabelHidden: Story = { args: { isLabelHidden: true, rows: 2 } }

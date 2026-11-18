@@ -4,6 +4,7 @@ import { IconButton, IconButtonLook } from '@ds/atoms/IconButton'
 import { SegmentedControl } from '@ds/atoms/SegmentedControl'
 import { Surface, SurfaceLook } from '@ds/atoms/Surface'
 import { Tag } from '@ds/atoms/Tag'
+import { Textarea, TextareaLook } from '@ds/atoms/Textarea'
 import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
 import { AnswerDepth, type SlashCommand } from '@domain'
 import { Key } from '@keyboard'
@@ -38,8 +39,8 @@ type ComposerProps = {
 
 const promptRowCount = 2
 
-const focusRingWhileTyping =
-  'relative focus-within:outline-(length:--focus-ring-width) focus-within:outline-offset-(--focus-ring-offset) focus-within:outline-focus focus-within:outline-solid'
+// While typing, the border turns to the accent color. The textarea itself shows no outline of its own.
+const focusBorderWhileTyping = 'relative focus-within:border-accent'
 
 // On a phone keyboard the Enter key is for a new line. Sending is the Ask button.
 const touchScreenQuery = '(pointer: coarse)'
@@ -91,22 +92,21 @@ function PromptBox({
   highlightedId,
 }: PromptBoxProps) {
   return (
-    <label>
-      <VisuallyHidden>{wording.composerLabel}</VisuallyHidden>
-      <textarea
-        ref={textareaRef}
-        value={value}
-        rows={promptRowCount}
-        placeholder={wording.composerPlaceholder}
-        onChange={(event) => onValueChange(event.target.value)}
-        onKeyDown={onKeyDown}
-        aria-describedby={hintId}
-        aria-autocomplete="list"
-        aria-controls={isMenuOpen ? listId : undefined}
-        aria-activedescendant={highlightedId}
-        className="w-full resize-none border-0 bg-transparent px-card pt-card-tight pb-group font-reading text-input text-text placeholder:text-text-muted focus-visible:outline-0"
-      />
-    </label>
+    <Textarea
+      ref={textareaRef}
+      look={TextareaLook.bare}
+      label={wording.composerLabel}
+      isLabelHidden
+      value={value}
+      rows={promptRowCount}
+      placeholder={wording.composerPlaceholder}
+      onChange={(event) => onValueChange(event.target.value)}
+      onKeyDown={onKeyDown}
+      describedById={hintId}
+      aria-autocomplete="list"
+      aria-controls={isMenuOpen ? listId : undefined}
+      aria-activedescendant={highlightedId}
+    />
   )
 }
 
@@ -275,7 +275,7 @@ export function Composer(props: ComposerProps) {
     : undefined
 
   return (
-    <Surface look={SurfaceLook.outlined} className={focusRingWhileTyping}>
+    <Surface look={SurfaceLook.outlined} className={focusBorderWhileTyping}>
       {slashMenu.isOpen ? (
         <SlashMenu
           listId={listId}

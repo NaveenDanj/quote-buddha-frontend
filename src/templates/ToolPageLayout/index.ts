@@ -1,1 +1,1 @@
-export { ToolPageLayout } from './ToolPageLayout'
+export { ToolPageLayout, ToolPageWidth } from './ToolPageLayout'

@@ -1,4 +1,5 @@
 import { Chip } from '@ds/atoms/Chip'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 
 type SourceChipProps = {
@@ -23,7 +24,10 @@ export function SourceChip({
       onClick={() => onOpen(number)}
       unavailableReason={isIncluded ? undefined : wording.notYetIncluded}
     >
-      <span className="font-code text-stamp text-accent">{number}</span> {label}
+      <Text variant="codeSmall" className="text-accent">
+        {number}
+      </Text>{' '}
+      {label}
     </Chip>
   )
 }

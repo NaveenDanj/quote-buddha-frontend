@@ -1,0 +1,1 @@
+export { ToolPageHeading } from './ToolPageHeading'

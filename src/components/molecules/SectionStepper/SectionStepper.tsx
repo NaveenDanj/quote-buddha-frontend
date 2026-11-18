@@ -1,4 +1,5 @@
 import { IconButton } from '@ds/atoms/IconButton'
+import { Text } from '@ds/atoms/Text'
 import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
 import { sectionPositionText, wording } from '@wording'
 
@@ -30,10 +31,12 @@ export function SectionStepper({
         onClick={isFirst ? undefined : onPrevious}
       />
       <div role="status" className="grid min-w-0 text-center">
-        <span className="truncate font-ui text-label font-medium text-text">{title}</span>
-        <span aria-hidden="true" className="font-code text-stamp text-text-muted">
+        <Text variant="label" weight="medium" className="truncate text-text">
+          {title}
+        </Text>
+        <Text variant="codeSmall" isMuted aria-hidden="true">
           {`${sectionNumber} / ${sectionCount}`}
-        </span>
+        </Text>
         <VisuallyHidden>{sectionPositionText(sectionNumber, sectionCount)}</VisuallyHidden>
       </div>
       <IconButton

@@ -1,4 +1,5 @@
 import { Chip } from '@ds/atoms/Chip'
+import { Text } from '@ds/atoms/Text'
 import { getCitationLabel, getSourceNumber, type AnswerSource } from '@domain'
 import { wording } from '@wording'
 import { SourceChip } from '@components/molecules/SourceChip'
@@ -16,13 +17,15 @@ export function SourceRow({ sources, onOpenSource, onOpenGraph }: SourceRowProps
     <div
       role="group"
       aria-label={wording.sourcesLabel}
-      className="flex flex-wrap items-center gap-group font-ui"
+      className="flex flex-wrap items-center gap-group"
     >
-      <span aria-hidden="true" className="text-caption text-text-muted">
+      <Text variant="caption" isMuted aria-hidden="true">
         {wording.sourcesLabel}
-      </span>
+      </Text>
       {usedSources.length === 0 ? (
-        <span className="text-caption text-text-muted">{wording.noSourcesUsed}</span>
+        <Text variant="caption" isMuted>
+          {wording.noSourcesUsed}
+        </Text>
       ) : null}
       {usedSources.map((source) => (
         <SourceChip

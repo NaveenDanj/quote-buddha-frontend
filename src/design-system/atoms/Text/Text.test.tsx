@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { axe } from 'vitest-axe'
 import { describe, expect, it } from 'vitest'
-import { Text } from './Text'
+import { Text, getTextClass } from './Text'
 
 describe('Text', () => {
   it('uses a heading element for heading variants', () => {
@@ -36,5 +36,18 @@ describe('Text', () => {
       </>,
     )
     expect(await axe(container)).toHaveNoViolations()
+  })
+
+  it('gives a button the same classes as the Text component', () => {
+    render(<Text variant="code">sample</Text>)
+    for (const className of getTextClass('code').split(' ')) {
+      expect(screen.getByText('sample')).toHaveClass(className)
+    }
+  })
+
+  it('lets a weight replace the weight of the variant', () => {
+    expect(getTextClass('label')).toContain('font-semibold')
+    expect(getTextClass('label', 'medium')).toContain('font-medium')
+    expect(getTextClass('label', 'medium')).not.toContain('font-semibold')
   })
 })

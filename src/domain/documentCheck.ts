@@ -1,4 +1,4 @@
-import { EvidenceState } from './evidence'
+import { EvidenceShape, EvidenceState, getEvidenceShape } from './evidence'
 
 export const SayingOutcome = {
   verbatim: 'verbatim',
@@ -45,4 +45,8 @@ export function getEvidenceStateFromOutcome(outcome: SayingOutcome): EvidenceSta
     case SayingOutcome.notFound:
       return EvidenceState.notEstablished
   }
+}
+
+export function getEvidenceShapeFromOutcome(outcome: SayingOutcome): EvidenceShape {
+  return getEvidenceShape(getEvidenceStateFromOutcome(outcome))
 }

@@ -1,4 +1,5 @@
 import { IconButton } from '@ds/atoms/IconButton'
+import { Text } from '@ds/atoms/Text'
 import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
 import { versionPositionText, wording } from '@wording'
 
@@ -23,10 +24,13 @@ export function VersionSwitcher({
   const isLast = currentVersion >= versionCount
 
   return (
-    <div
+    <Text
+      as="div"
+      variant="codeSmall"
+      isMuted
       role="group"
       aria-label={wording.versionsLabel}
-      className="inline-flex items-center gap-related font-code text-stamp text-text-muted"
+      className="inline-flex items-center gap-related"
     >
       <IconButton
         icon="previous"
@@ -46,6 +50,6 @@ export function VersionSwitcher({
         aria-disabled={isLast ? true : undefined}
         onClick={isLast ? undefined : onNext}
       />
-    </div>
+    </Text>
   )
 }

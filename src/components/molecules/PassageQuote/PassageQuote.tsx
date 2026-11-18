@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Text } from '@ds/atoms/Text'
 import type { TextLanguage } from '@domain'
 
 type PassageQuoteProps = {
@@ -12,13 +13,18 @@ type PassageQuoteProps = {
 export function PassageQuote({ quote, language, source }: PassageQuoteProps) {
   return (
     <figure className="grid max-w-(--measure-reading) gap-block border-l-2 border-accent pl-page forced-colors:border-l-4">
-      <blockquote lang={language} className="font-reading text-reading-large text-text">
+      <Text variant="readingLarge" as="blockquote" lang={language} className="text-text">
         {quote}
-      </blockquote>
+      </Text>
       {source ? (
-        <figcaption className="flex flex-wrap items-center gap-section font-ui text-caption text-text-muted">
+        <Text
+          variant="caption"
+          as="figcaption"
+          isMuted
+          className="flex flex-wrap items-center gap-section"
+        >
           {source}
-        </figcaption>
+        </Text>
       ) : null}
     </figure>
   )

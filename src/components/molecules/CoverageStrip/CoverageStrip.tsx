@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 
 type CoverageStripProps = {
@@ -23,10 +24,14 @@ export function CoverageStrip({ title, summary, includedCount, totalCount }: Cov
   const squarePositions = Array.from({ length: totalCount }, (_, position) => position)
 
   return (
-    <div className="grid gap-group font-ui">
+    <div className="grid gap-group">
       <div className="flex items-baseline justify-between gap-block">
-        <span className="text-caption text-text">{title}</span>
-        <span className="font-code text-stamp text-text-muted">{summary}</span>
+        <Text variant="caption" className="text-text">
+          {title}
+        </Text>
+        <Text variant="codeSmall" isMuted>
+          {summary}
+        </Text>
       </div>
       <div aria-hidden="true" className="flex flex-wrap gap-related">
         {squarePositions.map((position) => (
@@ -40,7 +45,9 @@ export function CoverageStrip({ title, summary, includedCount, totalCount }: Cov
         ))}
       </div>
       {notYetIncludedCount > 0 ? (
-        <p className="text-stamp text-text-muted">{`${notYetIncludedCount} ${wording.notYetIncluded}`}</p>
+        <Text variant="small" as="p" isMuted>
+          {`${notYetIncludedCount} ${wording.notYetIncluded}`}
+        </Text>
       ) : null}
     </div>
   )

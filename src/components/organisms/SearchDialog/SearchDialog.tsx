@@ -1,6 +1,6 @@
 import { useId, useState, type KeyboardEvent } from 'react'
 import { Dialog } from '@ds/atoms/Dialog'
-import { Text } from '@ds/atoms/Text'
+import { Text, getTextClass } from '@ds/atoms/Text'
 import { Key } from '@keyboard'
 import { searchResultsText, wording } from '@wording'
 import { CommandItem } from '@components/molecules/CommandItem'
@@ -113,7 +113,7 @@ function SearchBox({ items }: { items: SearchItem[] }) {
           placeholder={wording.searchPlaceholder}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={handleKeyDown}
-          className="w-full border-0 border-b border-border bg-page p-card font-ui text-input text-text focus-ring-inset placeholder:text-text-muted"
+          className={`w-full border-0 border-b border-border bg-page p-card ${getTextClass('input')} text-text focus-ring-inset placeholder:text-text-muted`}
         />
       </label>
       <span role="status" className="sr-only">

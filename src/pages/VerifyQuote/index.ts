@@ -1,0 +1,1 @@
+export { VerifyQuote } from './VerifyQuote'

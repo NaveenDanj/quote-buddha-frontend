@@ -1,4 +1,5 @@
 import { LiveDot } from '@ds/atoms/LiveDot'
+import { Text } from '@ds/atoms/Text'
 import type { StreamStep } from '@domain'
 import { wording } from '@wording'
 
@@ -12,17 +13,22 @@ export function StreamingSteps({ steps, isStreaming }: StreamingStepsProps) {
   const lastPosition = steps.length - 1
 
   return (
-    <ol
+    <Text
+      as="ol"
+      variant="caption"
+      isMuted
       aria-label={wording.stepsLabel}
-      className="grid list-none gap-group font-ui text-caption text-text-muted"
+      className="grid list-none gap-group"
     >
       {steps.map((step, position) => (
         <li key={`${step.kind}-${position}`} className="flex gap-block">
-          <span className="w-6 flex-none font-code text-stamp">{position + 1}</span>
+          <Text variant="codeSmall" className="w-6 flex-none">
+            {position + 1}
+          </Text>
           <span>
             {step.text}
             {step.count !== undefined ? (
-              <span className="font-code text-stamp">{` · ${step.count}`}</span>
+              <Text variant="codeSmall">{` · ${step.count}`}</Text>
             ) : null}
             {isStreaming && position === lastPosition ? (
               <span className="ml-group">
@@ -32,6 +38,6 @@ export function StreamingSteps({ steps, isStreaming }: StreamingStepsProps) {
           </span>
         </li>
       ))}
-    </ol>
+    </Text>
   )
 }

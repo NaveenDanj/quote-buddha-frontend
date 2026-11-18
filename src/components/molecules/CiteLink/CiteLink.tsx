@@ -1,3 +1,5 @@
+import { getTextClass } from '@ds/atoms/Text'
+
 type CiteLinkProps = {
   citationId: string
   label: string
@@ -10,7 +12,7 @@ export function CiteLink({ citationId, label, onOpen }: CiteLinkProps) {
     <button
       type="button"
       onClick={() => onOpen(citationId)}
-      className="relative cursor-pointer border-0 bg-transparent font-code text-code font-medium whitespace-nowrap text-text underline decoration-1 underline-offset-4 transition-colors duration-(--motion-fast) before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] hover:text-accent"
+      className={`relative cursor-pointer border-0 bg-transparent ${getTextClass('code', 'medium')} whitespace-nowrap text-text underline decoration-1 underline-offset-4 transition-colors duration-(--motion-fast) before:absolute before:inset-x-0 before:-inset-y-2 before:content-[''] hover:text-accent`}
     >
       {label}
     </button>

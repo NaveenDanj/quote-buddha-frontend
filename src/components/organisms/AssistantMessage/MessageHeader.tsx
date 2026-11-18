@@ -1,11 +1,14 @@
 import type { ReactNode } from 'react'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 
 export function MessageHeader({ children }: { children?: ReactNode }) {
   return (
-    <div className="flex flex-wrap items-center gap-block font-ui text-caption text-text-muted">
-      <b className="font-semibold text-text">{wording.productName}</b>
+    <Text variant="caption" as="div" isMuted className="flex flex-wrap items-center gap-block">
+      <Text variant="caption" as="b" weight="semibold" className="text-text">
+        {wording.productName}
+      </Text>
       {children}
-    </div>
+    </Text>
   )
 }

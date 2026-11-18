@@ -1,5 +1,6 @@
 import { IconButton } from '@ds/atoms/IconButton'
 import { Surface, SurfaceLook, SurfaceSpace } from '@ds/atoms/Surface'
+import { Text } from '@ds/atoms/Text'
 import { VisuallyHidden } from '@ds/atoms/VisuallyHidden'
 import { wording } from '@wording'
 import { VersionSwitcher } from '@components/molecules/VersionSwitcher'
@@ -30,15 +31,11 @@ export function UserMessage({
       gap={SurfaceSpace.small}
       className="group max-w-(--layout-message-user) justify-items-end justify-self-end"
     >
-      <Surface
-        look={SurfaceLook.subtle}
-        padding={SurfaceSpace.small}
-        className="font-reading text-reading text-text"
-      >
-        <span>
+      <Surface look={SurfaceLook.subtle} padding={SurfaceSpace.small}>
+        <Text variant="reading" as="span" className="text-text">
           <VisuallyHidden>{`${wording.youLabel}: `}</VisuallyHidden>
           {text}
-        </span>
+        </Text>
       </Surface>
       <div className="flex items-center gap-block">
         <span className={editVisibilityClass}>

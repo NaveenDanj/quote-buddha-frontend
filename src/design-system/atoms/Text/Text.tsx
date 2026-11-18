@@ -6,56 +6,99 @@ export type TextVariant =
   | 'heading1'
   | 'heading2'
   | 'heading3'
+  | 'toolTitle'
   | 'reading'
   | 'readingLarge'
+  | 'readingCompact'
   | 'pali'
   | 'ui'
+  | 'nav'
   | 'label'
   | 'groupLabel'
   | 'caption'
+  | 'small'
   | 'code'
+  | 'codeSmall'
+  | 'input'
+  | 'readingInput'
+
+export type TextWeight = 'normal' | 'medium' | 'semibold'
 
 const variantClass: Record<TextVariant, string> = {
-  display: 'font-reading text-display font-normal',
-  heading1: 'font-reading text-heading-1 font-normal',
-  heading2: 'font-reading text-heading-2 font-medium',
-  heading3: 'font-reading text-heading-3 font-medium',
+  display: 'font-reading text-display',
+  heading1: 'font-reading text-heading-1',
+  heading2: 'font-reading text-heading-2',
+  heading3: 'font-reading text-heading-3',
+  toolTitle: 'font-reading text-tool-title',
   reading: 'font-reading text-reading',
   readingLarge: 'font-reading text-reading-large',
+  readingCompact: 'font-reading text-ui',
   pali: 'font-reading text-pali',
   ui: 'font-ui text-ui',
-  label: 'font-ui text-label font-semibold',
-  groupLabel: 'font-ui text-stamp font-semibold uppercase tracking-group',
+  nav: 'font-ui text-nav',
+  label: 'font-ui text-label',
+  groupLabel: 'font-ui text-stamp uppercase tracking-group',
   caption: 'font-ui text-caption',
+  small: 'font-ui text-stamp',
   code: 'font-code text-code',
+  codeSmall: 'font-code text-stamp',
+  input: 'font-ui text-input',
+  readingInput: 'font-reading text-input',
 }
 
-// The element each variant uses unless the page needs a different heading level.
+const variantWeight: Partial<Record<TextVariant, TextWeight>> = {
+  display: 'normal',
+  heading1: 'normal',
+  heading2: 'medium',
+  heading3: 'medium',
+  toolTitle: 'normal',
+  label: 'semibold',
+  groupLabel: 'semibold',
+}
+
+const weightClass: Record<TextWeight, string> = {
+  normal: 'font-normal',
+  medium: 'font-medium',
+  semibold: 'font-semibold',
+}
+
 const defaultElement: Record<TextVariant, ElementType> = {
   display: 'h1',
   heading1: 'h1',
   heading2: 'h2',
   heading3: 'h3',
+  toolTitle: 'h1',
   reading: 'p',
   readingLarge: 'p',
+  readingCompact: 'p',
   pali: 'p',
   ui: 'p',
+  nav: 'span',
   label: 'span',
   groupLabel: 'span',
   caption: 'span',
+  small: 'span',
   code: 'code',
+  codeSmall: 'span',
+  input: 'span',
+  readingInput: 'span',
+}
+
+export function getTextClass(variant: TextVariant, weight?: TextWeight): string {
+  const chosenWeight = weight ?? variantWeight[variant]
+  return clsx(variantClass[variant], chosenWeight && weightClass[chosenWeight])
 }
 
 type TextProps = HTMLAttributes<HTMLElement> & {
   variant?: TextVariant
-  // Pick the element that fits the page outline, for example a heading2 look on an h3.
+  weight?: TextWeight
   as?: ElementType
-  // Quiet text, for example a note under a field.
   isMuted?: boolean
 }
 
 export function Text({
   variant = 'ui',
+  weight,
   as,
   isMuted = false,
   className,
@@ -63,13 +106,12 @@ export function Text({
   ...elementProps
 }: TextProps) {
   const Element = as ?? defaultElement[variant]
-  // Pali text is marked with its language so screen readers pronounce it and the browser picks the right font.
   const language = variant === 'pali' ? 'pi' : undefined
 
   return (
     <Element
       lang={language}
-      className={clsx(variantClass[variant], isMuted && 'text-text-muted', className)}
+      className={clsx(getTextClass(variant, weight), isMuted && 'text-text-muted', className)}
       {...elementProps}
     >
       {children}

@@ -2,6 +2,7 @@ import { useId, type ReactNode } from 'react'
 import { Button } from '@ds/atoms/Button'
 import { Surface, SurfaceLook, SurfaceSpace } from '@ds/atoms/Surface'
 import { Tag, TagGlyph } from '@ds/atoms/Tag'
+import { Text } from '@ds/atoms/Text'
 import { wording } from '@wording'
 
 type SuggestionBlockProps = {
@@ -24,8 +25,12 @@ export function SuggestionBlock({ onUse, onDiscard, children }: SuggestionBlockP
       <span id={tagId}>
         <Tag glyph={TagGlyph.hatched}>{wording.suggestionLabel}</Tag>
       </span>
-      <div className="font-reading text-ui text-text">{children}</div>
-      <p className="font-ui text-stamp text-text-muted">{wording.systemLabel}</p>
+      <Text variant="readingCompact" as="div" className="text-text">
+        {children}
+      </Text>
+      <Text variant="small" as="p" isMuted>
+        {wording.systemLabel}
+      </Text>
       <div className="flex flex-wrap gap-group">
         <Button size="small" onClick={onUse}>
           {wording.useSuggestionLabel}

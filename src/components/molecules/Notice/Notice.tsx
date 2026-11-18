@@ -38,9 +38,9 @@ export function Notice({
         {title}
       </Text>
       {isAbstention ? (
-        <p className="max-w-(--measure-reading) font-ui text-caption text-text-muted">
+        <Text variant="caption" as="p" isMuted className="max-w-(--measure-reading)">
           {wording.abstentionScope}
-        </p>
+        </Text>
       ) : null}
       {children}
     </Surface>

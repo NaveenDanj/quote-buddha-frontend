@@ -1,4 +1,5 @@
 import { Surface } from '@ds/atoms/Surface'
+import { Text } from '@ds/atoms/Text'
 import type { EvidenceState } from '@domain'
 import { EvidenceTag } from '@components/molecules/EvidenceTag'
 import { SourceDetails } from '@components/organisms/SourceDetails'
@@ -28,10 +29,15 @@ export function SourceItem({
 }: SourceItemProps) {
   return (
     <details open={isOpenAtStart} className="border-t border-border pt-card-tight">
-      <summary className="flex cursor-pointer list-none items-center justify-between gap-block font-ui text-ui font-medium text-text [&::-webkit-details-marker]:hidden">
+      <Text
+        as="summary"
+        variant="ui"
+        weight="medium"
+        className="flex cursor-pointer list-none items-center justify-between gap-block text-text [&::-webkit-details-marker]:hidden"
+      >
         <span>{`[${number}] ${label}`}</span>
         <EvidenceTag state={state} />
-      </summary>
+      </Text>
       <Surface className="pt-card-tight">
         <SourceDetails
           source={source}

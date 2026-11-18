@@ -1,4 +1,5 @@
 import clsx from 'clsx'
+import { Text } from '@ds/atoms/Text'
 import {
   EvidenceState,
   GraphNodeKind,
@@ -142,11 +143,13 @@ function GraphBox({ node, isSelected, onSelect }: GraphBoxProps) {
         getBoxClass(node, isSelected),
       )}
     >
-      <span className="flex items-center gap-related font-code text-stamp text-text-muted">
+      <Text variant="codeSmall" isMuted className="flex items-center gap-related">
         {node.state ? <EvidenceGlyph state={node.state} /> : null}
         {`${getKindLabel(node)}${stateText}`}
-      </span>
-      <span className="line-clamp-2 font-ui text-caption text-text">{getNodeText(node)}</span>
+      </Text>
+      <Text variant="caption" className="line-clamp-2 text-text">
+        {getNodeText(node)}
+      </Text>
     </button>
   )
 }

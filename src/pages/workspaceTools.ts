@@ -33,6 +33,9 @@ export function getToolPath(toolId: ToolId): string | undefined {
   if (toolId === ToolId.checkDocument) {
     return AppPath.checkDocument
   }
+  if (toolId === ToolId.verify) {
+    return AppPath.verifyQuote
+  }
   return undefined
 }
 

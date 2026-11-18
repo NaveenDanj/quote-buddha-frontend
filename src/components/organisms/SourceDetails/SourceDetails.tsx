@@ -24,7 +24,11 @@ function getFacts(source: AnswerSource): Fact[] {
     { label: wording.translatorLabel, value: source.translator ?? wording.notRecordedInSource },
     {
       label: wording.checksumLabel,
-      value: <span className="font-code text-stamp text-text-muted">{source.checksum}</span>,
+      value: (
+        <Text variant="codeSmall" isMuted>
+          {source.checksum}
+        </Text>
+      ),
     },
   ]
 }
