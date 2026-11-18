@@ -5,11 +5,11 @@ export type Crumb = {
   href?: string
 }
 
-export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
+export function Breadcrumbs({ crumbs, label = 'Breadcrumb' }: { crumbs: Crumb[]; label?: string }) {
   const lastIndex = crumbs.length - 1
 
   return (
-    <nav aria-label="Breadcrumb">
+    <nav aria-label={label}>
       <ol className="m-0 flex list-none flex-wrap gap-2 p-0 font-ui text-caption text-text-muted">
         {crumbs.map((crumb, position) => {
           const isCurrent = position === lastIndex

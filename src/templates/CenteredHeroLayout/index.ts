@@ -1,0 +1,1 @@
+export { CenteredHeroLayout } from './CenteredHeroLayout'

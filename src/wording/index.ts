@@ -9,6 +9,7 @@ export {
   graphShowingText,
   matchedByText,
   chatOptionsText,
+  coverageSummaryText,
   removeFileText,
   slashMenuStatusText,
   removedClaimsText,

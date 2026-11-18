@@ -44,7 +44,7 @@ Imports go one way only: atoms import tokens; molecules import atoms; organisms 
 - **Few comments.** Let names and small functions explain the code. Comment only when the reason is not visible in the code (a quirk, a backend or evidence rule, a trade-off). Skill: `simple-code-conventions`.
 - One responsibility per component. No duplicated logic: search before writing.
 - Server data comes through `src/api` only. Types mirror the backend (`docs/references/api-contract.md`, skill `api-contract-mirroring`). All fixed copy for answers, abstention and labels comes from `src/wording`.
-- Every component ships with a Storybook story. Test files are only for atoms, hooks and plain logic; molecules, organisms, templates and pages have none (use a `play` function in the story when behaviour matters). Skills: `storybook-stories`, `component-testing`, `react-typescript-practices`.
+- Every component ships with a Storybook story. Test files are only for atoms, hooks and plain logic; molecules, organisms and templates have none (use a `play` function in the story when behaviour matters). Pages get neither a story nor a test file. Skills: `storybook-stories`, `component-testing`, `react-typescript-practices`.
 
 ## Skills (in `.claude/skills/`)
 `simple-code-conventions` (read first, applies to all code), `design-tokens`, `atomic-design-conventions`, `storybook-stories`, `react-typescript-practices`, `tailwind-v4-theming`, `component-testing`, `api-contract-mirroring`, `evidence-ui-integrity`, `reader-and-notes-ux`.

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import type { HTMLAttributes } from 'react'
+import type { HTMLAttributes, Ref } from 'react'
 
 export const SurfaceLook = {
   plain: 'plain',
@@ -45,6 +45,7 @@ const gapClass: Record<SurfaceSpace, string> = {
 }
 
 type SurfaceProps = HTMLAttributes<HTMLElement> & {
+  ref?: Ref<HTMLDivElement>
   as?: SurfaceElement
   look?: SurfaceLook
   padding?: SurfaceSpace
@@ -66,7 +67,7 @@ export function Surface({
   return (
     <Element
       className={clsx(
-        'grid min-w-0',
+        'grid min-w-0 grid-cols-[minmax(0,1fr)]',
         lookClass[look],
         paddingClass[padding],
         gapClass[gap],

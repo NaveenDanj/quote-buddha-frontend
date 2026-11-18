@@ -1,5 +1,13 @@
 import { Text } from '@ds/atoms/Text'
-import { GraphNodeKind, findSource, type Answer, type GraphNode, type SourceGraph } from '@domain'
+import {
+  GraphNodeKind,
+  findSource,
+  getCitationLabel,
+  type Answer,
+  type AnswerSource,
+  type GraphNode,
+  type SourceGraph,
+} from '@domain'
 import { removedClaimsText, wording } from '@wording'
 import { ClaimList } from '@components/organisms/ClaimList'
 import { SourceDetails } from '@components/organisms/SourceDetails'
@@ -52,6 +60,23 @@ function ClaimDetails({ claimPosition, answer, graph, onSelectNode }: ClaimDetai
   )
 }
 
+type CitationDetailsProps = {
+  source: AnswerSource | undefined
+  onOpenInReader?: (citationId: string) => void
+}
+
+function CitationDetails({ source, onOpenInReader }: CitationDetailsProps) {
+  if (!source) {
+    return null
+  }
+  return (
+    <>
+      <DetailsHeading>{getCitationLabel(source)}</DetailsHeading>
+      <SourceDetails source={source} onOpenInReader={onOpenInReader} />
+    </>
+  )
+}
+
 // What the box that was chosen stands for.
 export function GraphNodeDetails({
   answer,
@@ -69,10 +94,13 @@ export function GraphNodeDetails({
   }
 
   switch (selectedNode.kind) {
-    case GraphNodeKind.citation: {
-      const source = findSource(answer.sources, selectedNode.citationId)
-      return source ? <SourceDetails source={source} onOpenInReader={onOpenInReader} /> : null
-    }
+    case GraphNodeKind.citation:
+      return (
+        <CitationDetails
+          source={findSource(answer.sources, selectedNode.citationId)}
+          onOpenInReader={onOpenInReader}
+        />
+      )
     case GraphNodeKind.claim:
       return (
         <ClaimDetails

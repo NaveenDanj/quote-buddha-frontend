@@ -26,6 +26,17 @@ export function getMatrixCellState(claim: VerifiedClaim, source: AnswerSource): 
   return EvidenceState.notVerified
 }
 
+// A source that no claim used is "not used". Otherwise it is a direct quote if any claim quotes it word for word.
+export function getSourceEvidenceState(answer: Answer, source: AnswerSource): EvidenceState {
+  if (!source.used) {
+    return EvidenceState.notUsed
+  }
+  const isQuotedWordForWord = answer.claims.some(
+    (claim) => getMatrixCellState(claim, source) === EvidenceState.directQuote,
+  )
+  return isQuotedWordForWord ? EvidenceState.directQuote : EvidenceState.notVerified
+}
+
 export function deriveEvidenceMatrix(answer: Answer): EvidenceMatrixTable {
   const rows = answer.claims.map((claim) => ({
     claim,

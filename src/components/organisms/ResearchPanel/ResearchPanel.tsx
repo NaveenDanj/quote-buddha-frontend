@@ -1,14 +1,13 @@
-import clsx from 'clsx'
 import type { ReactNode } from 'react'
 import { IconButton } from '@ds/atoms/IconButton'
-import { Surface, SurfaceSpace } from '@ds/atoms/Surface'
+import { Surface } from '@ds/atoms/Surface'
 import { Tabs, type TabItem } from '@ds/atoms/Tabs'
 import { Text } from '@ds/atoms/Text'
-import type { Answer } from '@domain'
+import { getCitationLabel, getSourceEvidenceState, type Answer } from '@domain'
 import { wording } from '@wording'
 import { GlossChip } from '@components/molecules/GlossChip'
 import { EvidenceMatrix } from '@components/organisms/EvidenceMatrix'
-import { SourceDetails } from '@components/organisms/SourceDetails'
+import { SourceItem } from './SourceItem'
 
 export const ResearchTab = {
   sources: 'sources',
@@ -29,30 +28,44 @@ type ResearchPanelProps = {
   onClose: () => void
   selectedCitationId?: string
   onOpenInReader: (citationId: string) => void
+  onCompare?: (citationId: string) => void
+  onSave?: (citationId: string) => void
   onOpenTerm: (pali: string) => void
   // The notes for this answer, built by the page.
   notes: ReactNode
 }
 
-type SourcesTabProps = Pick<ResearchPanelProps, 'answer' | 'selectedCitationId' | 'onOpenInReader'>
+type SourcesTabProps = Pick<
+  ResearchPanelProps,
+  'answer' | 'selectedCitationId' | 'onOpenInReader' | 'onCompare' | 'onSave'
+>
 
-function SourcesTab({ answer, selectedCitationId, onOpenInReader }: SourcesTabProps) {
+// The chosen source is open. With none chosen, the first one is.
+function isOpenAtStart(position: number, citationId: string, selectedCitationId?: string): boolean {
+  return selectedCitationId === undefined ? position === 0 : citationId === selectedCitationId
+}
+
+function SourcesTab({ answer, selectedCitationId, ...actions }: SourcesTabProps) {
   return (
     <ol className="m-0 grid list-none gap-4 p-0">
-      {answer.sources.map((source) => (
-        <li
-          key={source.citationId}
-          aria-current={source.citationId === selectedCitationId ? 'true' : undefined}
-          className={clsx(
-            'border-l-(length:--border-selected) pl-3 forced-colors:border-l-8',
-            source.citationId === selectedCitationId
-              ? 'border-l-accent bg-surface-subtle'
-              : 'border-l-transparent',
-          )}
-        >
-          <SourceDetails source={source} onOpenInReader={onOpenInReader} />
-        </li>
-      ))}
+      {answer.sources.map((source, position) => {
+        const isOpen = isOpenAtStart(position, source.citationId, selectedCitationId)
+        return (
+          <li
+            key={`${source.citationId}-${isOpen}`}
+            aria-current={source.citationId === selectedCitationId ? 'true' : undefined}
+          >
+            <SourceItem
+              source={source}
+              number={position + 1}
+              label={getCitationLabel(source)}
+              state={getSourceEvidenceState(answer, source)}
+              isOpenAtStart={isOpen}
+              {...actions}
+            />
+          </li>
+        )
+      })}
     </ol>
   )
 }
@@ -74,18 +87,9 @@ function TermsTab({ answer, onOpenTerm }: Pick<ResearchPanelProps, 'answer' | 'o
   )
 }
 
-// The side panel for one answer: its sources, the evidence matrix, its terms, and notes.
-export function ResearchPanel({
-  answer,
-  activeTab,
-  onTabChange,
-  onClose,
-  selectedCitationId,
-  onOpenInReader,
-  onOpenTerm,
-  notes,
-}: ResearchPanelProps) {
-  const tabs: TabItem[] = [
+function getTabs(props: ResearchPanelProps): TabItem[] {
+  const { answer, selectedCitationId, onOpenInReader, onCompare, onSave, onOpenTerm, notes } = props
+  return [
     {
       value: ResearchTab.sources,
       label: wording.sourcesLabel,
@@ -94,6 +98,8 @@ export function ResearchPanel({
           answer={answer}
           selectedCitationId={selectedCitationId}
           onOpenInReader={onOpenInReader}
+          onCompare={onCompare}
+          onSave={onSave}
         />
       ),
     },
@@ -109,25 +115,33 @@ export function ResearchPanel({
     },
     { value: ResearchTab.notes, label: wording.notesTabLabel, panel: notes },
   ]
+}
+
+// The side panel for one answer. The title and the tabs stay in place, and only the content scrolls.
+export function ResearchPanel(props: ResearchPanelProps) {
+  const { activeTab, onTabChange, onClose } = props
 
   return (
     <Surface
       as="aside"
       aria-label={wording.researchPanelLabel}
-      padding={SurfaceSpace.medium}
-      gap={SurfaceSpace.medium}
+      className="h-full grid-rows-[auto_minmax(0,1fr)]"
     >
-      <div className="flex items-center justify-between gap-3">
-        <Text variant="heading3" as="h2">
-          {wording.researchPanelLabel}
+      <div className="flex items-center justify-between gap-3 pt-3 pr-4 pb-2 pl-4">
+        <Text variant="label" as="h2" className="tracking-[0.02em]">
+          {wording.researchPanelLabel}{' '}
+          <span className="font-normal text-text-muted">{wording.latestAnswerNote}</span>
         </Text>
         <IconButton icon="close" label={wording.closePanelLabel} size="small" onClick={onClose} />
       </div>
       <Tabs
         label={wording.researchTabsLabel}
-        tabs={tabs}
+        tabs={getTabs(props)}
         value={activeTab}
         onValueChange={(value) => onTabChange(toResearchTab(value))}
+        className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)]"
+        listClassName="px-4"
+        contentClassName="overflow-y-auto px-4 pb-6"
       />
     </Surface>
   )

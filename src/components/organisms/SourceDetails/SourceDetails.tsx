@@ -1,35 +1,31 @@
+import { Breadcrumbs, type Crumb } from '@ds/atoms/Breadcrumbs'
 import { Button } from '@ds/atoms/Button'
 import { FactList, type Fact } from '@ds/atoms/FactList'
-import { Surface, SurfaceLook, SurfaceSpace } from '@ds/atoms/Surface'
+import { Surface, SurfaceSpace } from '@ds/atoms/Surface'
 import { Text } from '@ds/atoms/Text'
-import { EvidenceState, TextLanguage, getCitationLabel, type AnswerSource } from '@domain'
-import { matchedByText, wording } from '@wording'
-import { EvidenceTag } from '@components/molecules/EvidenceTag'
-
-const percentScale = 100
-const locationSeparator = ' › '
+import { TextLanguage, type AnswerSource } from '@domain'
+import { wording } from '@wording'
 
 type SourceDetailsProps = {
   source: AnswerSource
   onOpenInReader?: (citationId: string) => void
+  onCompare?: (citationId: string) => void
+  onSave?: (citationId: string) => void
+}
+
+function getCrumbs(source: AnswerSource): Crumb[] {
+  const { collection, nikaya, work } = source.location
+  return [{ label: collection }, { label: nikaya }, { label: work }]
 }
 
 function getFacts(source: AnswerSource): Fact[] {
-  const { location } = source
-  const place = [location.collection, location.nikaya, location.work, location.section]
-    .filter(Boolean)
-    .join(locationSeparator)
-  const similarity = `${Math.round(source.similarity * percentScale)}%`
-
   return [
-    { label: wording.editionLabel, value: source.edition },
+    { label: wording.sourceLabel, value: source.edition },
     { label: wording.translatorLabel, value: source.translator ?? wording.notRecordedInSource },
     {
       label: wording.checksumLabel,
-      value: <span className="font-code text-code">{source.checksum}</span>,
+      value: <span className="font-code text-stamp text-text-muted">{source.checksum}</span>,
     },
-    { label: wording.locationLabel, value: place },
-    { label: wording.matchLabel, value: `${matchedByText[source.matchedBy]} · ${similarity}` },
   ]
 }
 
@@ -44,26 +40,45 @@ function PassageRow({ label, text, language }: PassageRowProps) {
 
   return (
     <div className="grid gap-1">
-      <Text variant="caption" className="text-text-muted">
+      <Text variant="label" as="span">
         {label}
       </Text>
-      <Text variant={isPali ? 'pali' : 'reading'} as="p" lang={language} className="text-text">
+      <Text variant={isPali ? 'readingLarge' : 'reading'} as="p" lang={language}>
         {text}
       </Text>
     </div>
   )
 }
 
-// The stored passage, where it comes from, and what is not known about it. Gaps are written out.
-export function SourceDetails({ source, onOpenInReader }: SourceDetailsProps) {
+type SourceActionsProps = Omit<SourceDetailsProps, 'source'> & { citationId: string }
+
+function SourceActions({ citationId, onOpenInReader, onCompare, onSave }: SourceActionsProps) {
   return (
-    <Surface look={SurfaceLook.framed} padding={SurfaceSpace.medium} gap={SurfaceSpace.medium}>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <Text variant="heading3" as="h3">
-          {getCitationLabel(source)}
-        </Text>
-        {source.used ? null : <EvidenceTag state={EvidenceState.notUsed} />}
-      </div>
+    <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+      {onOpenInReader ? (
+        <Button variant="secondary" size="small" onClick={() => onOpenInReader(citationId)}>
+          {wording.openInReaderLabel}
+        </Button>
+      ) : null}
+      {onCompare ? (
+        <Button variant="text" size="small" onClick={() => onCompare(citationId)}>
+          {wording.compareLabel}
+        </Button>
+      ) : null}
+      {onSave ? (
+        <Button variant="text" size="small" onClick={() => onSave(citationId)}>
+          {wording.saveLabel}
+        </Button>
+      ) : null}
+    </div>
+  )
+}
+
+// What is known about one passage: where it sits, its words, and where they come from. Gaps are written out.
+export function SourceDetails({ source, onOpenInReader, onCompare, onSave }: SourceDetailsProps) {
+  return (
+    <Surface gap={SurfaceSpace.medium}>
+      <Breadcrumbs label={wording.locationInCanonLabel} crumbs={getCrumbs(source)} />
       <PassageRow label={wording.paliLabel} text={source.paliText} language={TextLanguage.pali} />
       <PassageRow
         label={wording.sinhalaLabel}
@@ -71,16 +86,12 @@ export function SourceDetails({ source, onOpenInReader }: SourceDetailsProps) {
         language={TextLanguage.sinhala}
       />
       <FactList facts={getFacts(source)} />
-      <Text variant="caption" as="p" className="text-text-muted">
-        {wording.parallelsNotChecked}
-      </Text>
-      {onOpenInReader ? (
-        <div>
-          <Button variant="text" onClick={() => onOpenInReader(source.citationId)}>
-            {wording.openInReaderLabel}
-          </Button>
-        </div>
-      ) : null}
+      <SourceActions
+        citationId={source.citationId}
+        onOpenInReader={onOpenInReader}
+        onCompare={onCompare}
+        onSave={onSave}
+      />
     </Surface>
   )
 }

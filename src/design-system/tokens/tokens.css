@@ -139,6 +139,7 @@
   --layout-chat-column: 920px;
   --layout-tool-card: 160px;
   --layout-hero-column: 860px;
+  --layout-drawer-max: 88vw;
   --layout-graph-height: 520px;
   --layout-composer: 760px;
   --layout-message-user: min(var(--layout-dialog-small), 88%);
@@ -234,10 +235,22 @@
 }
 
 /* Global rules */
+/* A focused item must not hide under the sticky top bar. */
+html {
+  scroll-padding-top: var(--layout-topbar);
+}
+
 body {
   background: var(--color-page);
   color: var(--color-text);
   font-family: var(--font-ui);
+  overflow-wrap: anywhere;
+}
+
+/* Safety net: the page itself never scrolls sideways. Clip does not make a scroll container, so sticky still works. */
+html,
+body {
+  overflow-x: clip;
 }
 
 [hidden] {

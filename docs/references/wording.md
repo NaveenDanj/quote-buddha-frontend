@@ -65,6 +65,7 @@ System-written text (notes, suggestions, clarifications) uses the hatched square
 | Key | Text |
 |---|---|
 | `productName` | Quote Buddha |
+| `skipToMainLabel`, `conversationLabel` | Skip to main content, Conversation |
 | `composerLabel`, `composerPlaceholder`, `askLabel`, `stopLabel`, `attachLabel` | Ask a question, Ask about the early texts. Type / for tools., Ask, Stop, Attach a file |
 | `depthLabel`, `depthQuickLabel`, `depthDeepLabel`, `earlyTextsLabel`, `commentariesLabel`, `slashMenuLabel` | Answer depth, Quick, Deep research, Early texts, Commentaries, Commands |
 | `chatsLabel`, `searchShortcutText`, `answerWritingText`, `composerHintText` | Chats, Ctrl K, The answer is being written., Enter sends. Shift and Enter adds a line. Type / for commands. |

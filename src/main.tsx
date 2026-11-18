@@ -13,8 +13,23 @@ if (rootElement === null) {
   throw new Error('The page has no element with id "root".')
 }
 
-createRoot(rootElement).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const appRoot = createRoot(rootElement)
+
+// The backend has no /ask yet, so while developing, a mock answers it with the sample answer.
+async function startMockBackend() {
+  const { worker } = await import('@api/mocks/browser')
+  await worker.start({ onUnhandledFrame: 'bypass' })
+}
+
+async function startApp() {
+  if (import.meta.env.DEV) {
+    await startMockBackend()
+  }
+  appRoot.render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+}
+
+startApp()

@@ -16,6 +16,10 @@ type TabsProps = {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
+  // For a parent that keeps the tab row fixed and scrolls only the content under it.
+  className?: string
+  listClassName?: string
+  contentClassName?: string
 }
 
 // Which tab shows first when the parent does not control the choice.
@@ -35,12 +39,29 @@ const tabClass = clsx(
   'enabled:hover:text-text disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)',
 )
 
-export function Tabs({ label, tabs, value, defaultValue, onValueChange }: TabsProps) {
+export function Tabs({
+  label,
+  tabs,
+  value,
+  defaultValue,
+  onValueChange,
+  className,
+  listClassName,
+  contentClassName,
+}: TabsProps) {
   const startValue = value === undefined ? getStartTab(tabs, defaultValue) : undefined
 
   return (
-    <RadixTabs.Root value={value} defaultValue={startValue} onValueChange={onValueChange}>
-      <RadixTabs.List aria-label={label} className="flex flex-wrap gap-5 border-b border-border">
+    <RadixTabs.Root
+      value={value}
+      defaultValue={startValue}
+      onValueChange={onValueChange}
+      className={className}
+    >
+      <RadixTabs.List
+        aria-label={label}
+        className={clsx('flex flex-wrap gap-4 border-b border-border', listClassName)}
+      >
         {tabs.map((tab) => (
           <RadixTabs.Trigger key={tab.value} value={tab.value} className={tabClass}>
             {tab.icon ? <Icon name={tab.icon} size="small" /> : null}
@@ -49,7 +70,11 @@ export function Tabs({ label, tabs, value, defaultValue, onValueChange }: TabsPr
         ))}
       </RadixTabs.List>
       {tabs.map((tab) => (
-        <RadixTabs.Content key={tab.value} value={tab.value} className="pt-4">
+        <RadixTabs.Content
+          key={tab.value}
+          value={tab.value}
+          className={clsx('pt-4', contentClassName)}
+        >
           {tab.panel}
         </RadixTabs.Content>
       ))}

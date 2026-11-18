@@ -45,6 +45,8 @@ const fromFrontend = {
   stepsLabel: 'Steps so far',
   askFailedText: 'Something went wrong while answering. Please try again.',
   productName: 'Quote Buddha',
+  skipToMainLabel: 'Skip to main content',
+  conversationLabel: 'Conversation',
   composerLabel: 'Ask a question',
   composerPlaceholder: 'Ask about the early texts. Type / for tools.',
   askLabel: 'Ask',
@@ -78,7 +80,15 @@ const fromFrontend = {
   todayLabel: 'Today',
   earlierLabel: 'Earlier',
   pinnedLabel: 'Pinned',
+  pinChatLabel: 'Pin chat',
+  unpinChatLabel: 'Unpin chat',
+  deleteChatLabel: 'Delete chat',
+  noNotesText: 'No notes on this answer yet.',
   researchPanelLabel: 'Research panel',
+  latestAnswerNote: '· latest answer',
+  compareLabel: 'Compare',
+  saveLabel: 'Save',
+  locationInCanonLabel: 'Location in the canon',
   researchTabsLabel: 'Research tabs',
   graphDetailsLabel: 'Details',
   closePanelLabel: 'Close research panel',
@@ -102,6 +112,10 @@ const fromFrontend = {
   browseIncludedLabel: 'Browse included texts',
   noSupportedAnswerText: 'No supported answer found in the included texts.',
   newChatHeading: 'What would you like to research?',
+  suggestionSelfQuestion: "What is the Buddha's view on speculation about the self?",
+  suggestionWrongViewsQuestion: 'How does DN 1 classify wrong views?',
+  corpusFooterText: 'Corpus v0.1',
+  dighaNikayaLabel: 'Dīgha Nikāya',
   sourcesLabel: 'Sources',
   noSourcesUsed: 'None used',
   sourceGraphLabel: 'Source graph',
@@ -222,6 +236,10 @@ export function graphRelationText(fromLabel: string, toLabel: string, stateText:
 
 export function slashMenuStatusText(commandCount: number): string {
   return `${pluralize(commandCount, 'command', 'commands')}. Use the up and down arrows.`
+}
+
+export function coverageSummaryText(includedCount: number, totalCount: number): string {
+  return `${includedCount} of ${totalCount} suttas`
 }
 
 export function chatOptionsText(chatTitle: string): string {

@@ -5,7 +5,7 @@ description: How to write Storybook 9 stories for this project (CSF3, controls, 
 
 # Storybook stories
 
-Every component ships with a story file next to it: `Component.stories.tsx`.
+Every atom, molecule, organism and template ships with a story file next to it: `Component.stories.tsx`. Pages get no story (the user's rule), and no test file either; the hooks written for a page need none.
 
 ## Format
 - CSF3 with `satisfies Meta<typeof Component>`. A `Default` story plus one story per state.

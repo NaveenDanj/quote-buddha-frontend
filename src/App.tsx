@@ -1,8 +1,16 @@
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { Conversation } from '@pages/Conversation'
+import { NewChat } from '@pages/NewChat'
+import { AppPath } from '@pages/routes'
+
 export function App() {
   return (
-    <main>
-      <h1>Quote Buddha</h1>
-      <p>The project is set up. Next: design tokens (docs/plans/02-tokens-and-foundations.md).</p>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path={AppPath.newChat} element={<NewChat />} />
+        <Route path={AppPath.chat} element={<Conversation />} />
+        <Route path="*" element={<Navigate to={AppPath.newChat} replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
