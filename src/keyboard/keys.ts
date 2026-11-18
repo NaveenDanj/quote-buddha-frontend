@@ -4,5 +4,6 @@ export const Key = {
   enter: 'Enter',
   tab: 'Tab',
   escape: 'Escape',
+  letterK: 'k',
 } as const
 export type Key = (typeof Key)[keyof typeof Key]

@@ -8,6 +8,8 @@ import { doNothingYet } from '@pages/doNothingYet'
 import { AppPath, getChatPath } from '@pages/routes'
 import { openTool, railToolDefinitions } from '@pages/workspaceTools'
 import { useRailChats } from './useRailChats'
+import { useWorkspaceDialogs } from './useWorkspaceDialogs'
+import { WorkspaceDialogs } from './WorkspaceDialogs'
 
 type WorkspaceFrameProps = {
   title: string
@@ -34,6 +36,7 @@ export function WorkspaceFrame({
   const [openedAtInMilliseconds] = useState(() => Date.now())
 
   const railChats = useRailChats(selectedChatId, openedAtInMilliseconds)
+  const dialogs = useWorkspaceDialogs()
   const railTools: RailTool[] = railToolDefinitions.map((tool) => ({
     ...tool,
     isCurrent: false,
@@ -59,10 +62,10 @@ export function WorkspaceFrame({
           tools={railTools}
           footerText={wording.corpusFooterText}
           onNewChat={() => goTo(AppPath.newChat)}
-          onSearch={doNothingYet}
+          onSearch={() => dialogs.setIsSearchOpen(true)}
           onOpenChat={(chatId) => goTo(getChatPath(chatId))}
           getChatMenuItems={railChats.getChatMenuItems}
-          onOpenSettings={doNothingYet}
+          onOpenSettings={() => dialogs.setIsSettingsOpen(true)}
         />
       }
       topBar={
@@ -71,7 +74,7 @@ export function WorkspaceFrame({
           railId={railId}
           isRailOpen={isRailOpen}
           onToggleRail={() => setIsRailOpen(!isRailOpen)}
-          onOpenSearch={doNothingYet}
+          onOpenSearch={() => dialogs.setIsSearchOpen(true)}
           isPanelOpen={panel !== undefined}
           onTogglePanel={onTogglePanel}
           onShare={doNothingYet}
@@ -79,6 +82,7 @@ export function WorkspaceFrame({
       }
     >
       {children}
+      <WorkspaceDialogs dialogs={dialogs} goTo={goTo} />
     </AppShell>
   )
 }

@@ -20,7 +20,32 @@ type DialogProps = {
   description?: string
   size?: DialogSize
   closeLabel?: string
+  // A flush dialog has no visible title bar or close button and no padding, and sits near the top.
+  // The title is still there for screen readers, and Escape still closes it.
+  isFlush?: boolean
   children: ReactNode
+}
+
+type DialogHeaderProps = Pick<DialogProps, 'title' | 'description' | 'closeLabel'>
+
+function DialogHeader({ title, description, closeLabel }: DialogHeaderProps) {
+  return (
+    <>
+      <div className="flex items-start justify-between gap-3">
+        <RadixDialog.Title className="font-reading text-heading-3 font-medium">
+          {title}
+        </RadixDialog.Title>
+        <RadixDialog.Close asChild>
+          <IconButton icon="close" label={closeLabel ?? defaultCloseLabel} size="small" />
+        </RadixDialog.Close>
+      </div>
+      {description ? (
+        <RadixDialog.Description className="pt-2 font-ui text-caption text-text-muted">
+          {description}
+        </RadixDialog.Description>
+      ) : null}
+    </>
+  )
 }
 
 export function Dialog({
@@ -29,7 +54,8 @@ export function Dialog({
   title,
   description,
   size = 'small',
-  closeLabel = defaultCloseLabel,
+  closeLabel,
+  isFlush = false,
   children,
 }: DialogProps) {
   // This dialog is opened by the parent (isOpen), so Radix does not know which button opened it.
@@ -54,30 +80,28 @@ export function Dialog({
   return (
     <RadixDialog.Root open={isOpen} onOpenChange={onOpenChange}>
       <RadixDialog.Portal>
-        <RadixDialog.Overlay className="fixed inset-0 z-(--z-dialog) grid place-items-center overflow-y-auto bg-scrim p-(--gutter)">
+        <RadixDialog.Overlay
+          className={clsx(
+            'fixed inset-0 z-(--z-dialog) grid overflow-y-auto bg-scrim p-(--gutter)',
+            isFlush ? 'place-items-start justify-items-center pt-7' : 'place-items-center',
+          )}
+        >
           <RadixDialog.Content
             {...descriptionProps}
             onOpenAutoFocus={rememberOpener}
             onCloseAutoFocus={returnFocusToOpener}
             className={clsx(
-              'relative w-full rounded border border-text-muted bg-page p-5 text-text',
+              'relative w-full rounded border border-text-muted bg-page text-text',
+              isFlush ? 'p-0' : 'p-5',
               sizeClass[size],
             )}
           >
-            <div className="flex items-start justify-between gap-3">
-              <RadixDialog.Title className="font-reading text-heading-3 font-medium">
-                {title}
-              </RadixDialog.Title>
-              <RadixDialog.Close asChild>
-                <IconButton icon="close" label={closeLabel} size="small" />
-              </RadixDialog.Close>
-            </div>
-            {description ? (
-              <RadixDialog.Description className="pt-2 font-ui text-caption text-text-muted">
-                {description}
-              </RadixDialog.Description>
-            ) : null}
-            <div className="pt-4">{children}</div>
+            {isFlush ? (
+              <RadixDialog.Title className="sr-only">{title}</RadixDialog.Title>
+            ) : (
+              <DialogHeader title={title} description={description} closeLabel={closeLabel} />
+            )}
+            <div className={isFlush ? undefined : 'pt-4'}>{children}</div>
           </RadixDialog.Content>
         </RadixDialog.Overlay>
       </RadixDialog.Portal>

@@ -11,7 +11,7 @@ type ChatLayoutProps = {
 export function ChatLayout({ children, composer }: ChatLayoutProps) {
   return (
     <Surface className="min-h-0 grid-rows-[minmax(0,1fr)_auto]">
-      <Surface className="min-h-0 overflow-y-auto">
+      <Surface className="relative min-h-0 overflow-y-auto">
         <Surface
           as="section"
           aria-label={wording.conversationLabel}

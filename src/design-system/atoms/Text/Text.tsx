@@ -11,6 +11,7 @@ export type TextVariant =
   | 'pali'
   | 'ui'
   | 'label'
+  | 'groupLabel'
   | 'caption'
   | 'code'
 
@@ -24,6 +25,7 @@ const variantClass: Record<TextVariant, string> = {
   pali: 'font-reading text-pali',
   ui: 'font-ui text-ui',
   label: 'font-ui text-label font-semibold',
+  groupLabel: 'font-ui text-stamp font-semibold uppercase tracking-[0.04em]',
   caption: 'font-ui text-caption',
   code: 'font-code text-code',
 }
@@ -39,6 +41,7 @@ const defaultElement: Record<TextVariant, ElementType> = {
   pali: 'p',
   ui: 'p',
   label: 'span',
+  groupLabel: 'span',
   caption: 'span',
   code: 'code',
 }

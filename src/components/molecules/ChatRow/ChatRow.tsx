@@ -18,17 +18,17 @@ const optionsVisibilityClass = clsx(
 
 export function ChatRow({ title, isSelected = false, onOpen, menuLabel, menuItems }: ChatRowProps) {
   return (
-    <li className="group grid grid-cols-[minmax(0,1fr)_auto] items-center border-b border-border">
+    <li className="group grid grid-cols-[minmax(0,1fr)_auto] items-center">
       <button
         type="button"
         onClick={onOpen}
         aria-current={isSelected ? 'page' : undefined}
         className={clsx(
-          'min-w-0 cursor-pointer truncate border-y-0 border-r-0 border-l-2 bg-transparent px-3 py-3 text-left font-ui text-ui text-text',
-          'transition-colors duration-(--motion-fast) hover:bg-surface-subtle',
+          'min-w-0 cursor-pointer border-y-0 border-r-0 border-l-2 bg-transparent py-(--nav-row-padding-y) pr-0 pl-3 text-left font-ui text-nav',
+          'transition-colors duration-(--motion-fast)',
           isSelected
-            ? 'border-l-text bg-surface-subtle forced-colors:border-l-4'
-            : 'border-l-transparent',
+            ? 'border-l-text font-medium text-text forced-colors:border-l-4'
+            : 'border-l-transparent text-text-muted hover:text-text',
         )}
       >
         {title}

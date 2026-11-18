@@ -141,7 +141,7 @@ export function ResearchPanel(props: ResearchPanelProps) {
         onValueChange={(value) => onTabChange(toResearchTab(value))}
         className="grid min-h-0 grid-rows-[auto_minmax(0,1fr)]"
         listClassName="px-4"
-        contentClassName="overflow-y-auto px-4 pb-6"
+        contentClassName="relative overflow-y-auto px-4 pb-6"
       />
     </Surface>
   )

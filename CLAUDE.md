@@ -34,6 +34,8 @@ Imports go one way only: atoms import tokens; molecules import atoms; organisms 
 - Anything the system wrote itself (simple answers, clarifications, AI-enhanced notes) is visibly labelled as the system's own wording.
 - Abstention ("not established") is a finding, not an error: dashed outline, calm copy, never red.
 - A box that holds a group (a gray panel, a dashed notice, a framed card) uses the `Surface` atom, not a styled `div`. Raw `div`s are for plain layout only.
+- **Layout never scrolls as a page.** The app fills the window (`#root` is `100dvh`, `overflow: hidden`, `position: relative`). Only named areas scroll: the chat messages, the research panel content, the rail. The composer, the top bar, the panel header and tabs sit outside every scroll area. Every scroll area is `relative`, because visually hidden text (`sr-only`) is absolutely positioned and otherwise escapes the clip and scrolls the whole page. Never use `min-h-screen` or `h-screen` for the shell, and check long content, an open panel and phone width before saying a layout is done.
+- **Tailwind only makes a utility if its value is a token.** Spacing steps are named (`--spacing-0` to `--spacing-8`). A class like `p-12` or `top-2.5` is silently not generated, and nothing warns you. After adding classes, search the built CSS (`npm run build`, then `dist/assets/*.css`) for them. A missing `min-w-0`, `inset-0` or `translate-x-0` looks like a layout bug, not a missing class.
 - Everything must work by keyboard and at phone width (about 400px) with no horizontal page scroll.
 
 ## Naming and code rules (strict, apply to every file)

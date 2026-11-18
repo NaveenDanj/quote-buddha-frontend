@@ -12,3 +12,14 @@
 
 /* Design tokens: primitives, semantic tokens, dark theme, Tailwind theme mapping, global rules. */
 @import './design-system/tokens/tokens.css';
+
+/*
+  The app fills the window and never scrolls as a page. Only the areas inside it scroll.
+  The root is also the positioned parent of visually hidden text (screen reader headings and live regions),
+  which is absolutely positioned. Without it, that text escapes the clip and makes the whole page scroll.
+*/
+#root {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+}

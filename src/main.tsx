@@ -1,11 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { App } from './App'
+import { applyReadingSize, readSavedReadingSize } from '@ds/tokens/readingSize'
 import { applyTheme, readSavedTheme } from '@ds/tokens/theme'
 import './index.css'
 
 // Apply the saved theme before the first paint so the page does not flash the wrong colors.
 applyTheme(readSavedTheme())
+applyReadingSize(readSavedReadingSize())
 
 const rootElement = document.getElementById('root')
 

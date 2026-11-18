@@ -11,6 +11,7 @@ export {
   chatOptionsText,
   coverageSummaryText,
   removeFileText,
+  searchResultsText,
   slashMenuStatusText,
   removedClaimsText,
   processSummaryText,

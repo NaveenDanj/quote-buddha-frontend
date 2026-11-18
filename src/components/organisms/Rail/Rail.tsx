@@ -33,8 +33,8 @@ function ToolLinks({ tools }: { tools: RailTool[] }) {
   const headingId = useId()
 
   return (
-    <nav aria-labelledby={headingId} className="grid gap-2">
-      <Text variant="label" as="h2" id={headingId} className="uppercase text-text-muted">
+    <nav aria-labelledby={headingId} className="mt-2 grid gap-1">
+      <Text variant="groupLabel" as="h2" id={headingId} className="text-text-muted">
         {wording.toolsGroupLabel}
       </Text>
       <ul className="m-0 grid list-none gap-px p-0">
@@ -45,7 +45,7 @@ function ToolLinks({ tools }: { tools: RailTool[] }) {
               onClick={tool.onOpen}
               aria-current={tool.isCurrent ? 'page' : undefined}
               className={clsx(
-                'flex w-full cursor-pointer items-center gap-3 border-y-0 border-r-0 border-l-2 bg-transparent px-3 py-2 text-left font-ui text-ui',
+                'flex w-full cursor-pointer items-center gap-3 border-y-0 border-r-0 border-l-2 bg-transparent py-(--nav-row-padding-y) pr-0 pl-3 text-left font-ui text-nav',
                 tool.isCurrent
                   ? 'border-l-text font-medium text-text forced-colors:border-l-4'
                   : 'border-l-transparent text-text-muted hover:text-text',
@@ -58,6 +58,19 @@ function ToolLinks({ tools }: { tools: RailTool[] }) {
         ))}
       </ul>
     </nav>
+  )
+}
+
+// Looks like a text field, but it opens the search. It is a button, so it says what it does.
+function SearchButton({ onSearch }: { onSearch: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onSearch}
+      className="w-full cursor-pointer rounded border border-text-muted bg-page px-3 py-2 text-left font-ui text-nav text-text-muted hover:border-text"
+    >
+      {wording.searchChatsLabel}
+    </button>
   )
 }
 
@@ -78,7 +91,7 @@ export function Rail({
     <aside
       id={id}
       aria-label={wording.workspaceLabel}
-      className="grid gap-4 p-4 h-full content-start overflow-y-auto border-r border-border bg-page"
+      className="relative grid h-full content-start gap-4 overflow-y-auto border-r border-border bg-page p-4"
     >
       <Text variant="heading3" as="p">
         {wording.productName}
@@ -86,9 +99,7 @@ export function Rail({
       <Button leadingIcon="add" onClick={onNewChat}>
         {wording.newChatLabel}
       </Button>
-      <Button variant="secondary" leadingIcon="search" onClick={onSearch}>
-        {wording.searchChatsLabel}
-      </Button>
+      <SearchButton onSearch={onSearch} />
       <ChatHistory
         groups={groups}
         selectedChatId={selectedChatId}
@@ -102,9 +113,7 @@ export function Rail({
             {wording.settingsLabel}
           </Button>
         </div>
-        <Text variant="caption" as="p" className="text-text-muted">
-          {footerText}
-        </Text>
+        <p className="m-0 font-ui text-stamp text-text-muted">{footerText}</p>
       </div>
     </aside>
   )

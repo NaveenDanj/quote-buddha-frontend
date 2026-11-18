@@ -31,11 +31,11 @@ function ChatGroup({ group, selectedChatId, onOpenChat, getMenuItems }: ChatGrou
   const labelId = useId()
 
   return (
-    <div className="grid gap-1">
-      <Text variant="label" as="p" id={labelId} className="uppercase text-text-muted">
+    <div className="mt-2 grid gap-1">
+      <Text variant="groupLabel" as="p" id={labelId} className="text-text-muted">
         {group.label}
       </Text>
-      <ul aria-labelledby={labelId} className="m-0 list-none border-t border-border p-0">
+      <ul aria-labelledby={labelId} className="m-0 grid list-none gap-px p-0">
         {group.chats.map((chat) => (
           <ChatRow
             key={chat.id}
@@ -56,7 +56,7 @@ export function ChatHistory({ groups, ...groupProps }: ChatHistoryProps) {
   const visibleGroups = groups.filter((group) => group.chats.length > 0)
 
   return (
-    <div className="grid gap-4">
+    <div className="grid gap-1">
       <Text variant="ui" as="h2" className="sr-only">
         {wording.chatsLabel}
       </Text>

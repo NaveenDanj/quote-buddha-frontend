@@ -18,7 +18,7 @@ export function readSavedTheme(): ThemeChoice {
       return saved
     }
   } catch {
-    // Storage can be blocked (private window, site data off). Fall back to the system setting.
+
   }
   return 'system'
 }
@@ -31,11 +31,10 @@ function saveTheme(choice: ThemeChoice) {
       localStorage.setItem(storageKey, choice)
     }
   } catch {
-    // The theme still changes for this visit. It just will not be remembered.
+
   }
 }
 
-// "system" removes the attribute, so the browser setting decides.
 export function applyTheme(choice: ThemeChoice) {
   const root = document.documentElement
   if (choice === 'system') {
@@ -48,7 +47,6 @@ export function applyTheme(choice: ThemeChoice) {
 export function useTheme() {
   const [theme, setThemeState] = useState<ThemeChoice>(readSavedTheme)
 
-  // Puts the saved choice on the page when the app starts, and keeps the page in step after that.
   useEffect(() => {
     applyTheme(theme)
   }, [theme])

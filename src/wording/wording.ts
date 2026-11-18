@@ -65,6 +65,27 @@ const fromFrontend = {
   composerHintText: 'Enter sends. Shift and Enter adds a line. Type / for commands.',
   newChatLabel: 'New chat',
   searchChatsLabel: 'Search chats and texts',
+  searchDialogTitle: 'Search',
+  searchPlaceholder: 'Search chats and actions',
+  searchResultsLabel: 'Results',
+  searchHintText: 'Up and Down to move, Enter to open, Esc to close',
+  noResultsText: 'Nothing matches.',
+  searchActionKind: 'Action',
+  searchChatKind: 'Chat',
+  closeSettingsLabel: 'Close settings',
+  readingSizeLabel: 'Reading text size',
+  sizeSmallLabel: 'Small',
+  sizeMediumLabel: 'Medium',
+  sizeLargeLabel: 'Large',
+  themeLabel: 'Theme',
+  themeSystemLabel: 'System',
+  themeLightLabel: 'Light',
+  themeDarkLabel: 'Dark',
+  languageLabel: 'Language',
+  englishLabel: 'English',
+  sinhalaNativeLabel: 'සිංහල',
+  soonText: 'soon',
+  settingsNote: 'Settings are saved in this browser.',
   toolsGroupLabel: 'Research tools',
   settingsLabel: 'Settings',
   chatOptionsLabel: 'Chat options',
@@ -114,7 +135,7 @@ const fromFrontend = {
   newChatHeading: 'What would you like to research?',
   suggestionSelfQuestion: "What is the Buddha's view on speculation about the self?",
   suggestionWrongViewsQuestion: 'How does DN 1 classify wrong views?',
-  corpusFooterText: 'Corpus v0.1',
+  corpusFooterText: 'Corpus v0.1 · DN 1 only',
   dighaNikayaLabel: 'Dīgha Nikāya',
   sourcesLabel: 'Sources',
   noSourcesUsed: 'None used',
@@ -232,6 +253,10 @@ export function graphShowingText(nodeName: string): string {
 
 export function graphRelationText(fromLabel: string, toLabel: string, stateText: string): string {
   return `${fromLabel} to ${toLabel}: ${stateText}`
+}
+
+export function searchResultsText(resultCount: number): string {
+  return pluralize(resultCount, 'result', 'results')
 }
 
 export function slashMenuStatusText(commandCount: number): string {

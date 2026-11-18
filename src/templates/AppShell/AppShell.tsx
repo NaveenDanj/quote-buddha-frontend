@@ -7,10 +7,8 @@ import { useDrawerFocus } from './useDrawerFocus'
 import { useEscapeKey } from './useEscapeKey'
 
 type AppShellProps = {
-  // The rail, the top bar and the research panel are built by the page. The shell only places them.
   rail: ReactNode
   topBar: ReactNode
-  // Give a panel to dock it on the right. Leave it out when the panel is closed.
   panel?: ReactNode
   isRailOpen: boolean
   onCloseRail: () => void
@@ -20,15 +18,12 @@ type AppShellProps = {
 
 const mainId = 'main'
 
-// A drawer on narrow screens, a column on wide ones. It scrolls inside, so the page never does.
 const panelClass =
-  'fixed inset-y-0 right-0 z-(--z-panel) w-full max-w-(--layout-panel) overflow-hidden border-l border-text bg-page lg:static lg:h-full lg:max-w-none'
+  'fixed inset-y-0 right-0 z-(--z-panel) grid-rows-[minmax(0,1fr)] w-full max-w-(--layout-panel) overflow-hidden border-l border-text bg-page lg:static lg:h-full lg:max-w-none'
 
-// On a wide screen the rail is a column. On a narrow one it is a drawer, and while it is closed it is
-// invisible, so its buttons are not reachable by keyboard.
 function getRailClass(isRailOpen: boolean): string {
   return clsx(
-    'fixed inset-y-0 left-0 z-(--z-panel) min-h-0 w-(--layout-rail) max-w-(--layout-drawer-max) bg-page',
+    'fixed inset-y-0 left-0 z-(--z-panel) min-h-0 w-(--layout-rail) grid-rows-[minmax(0,1fr)] max-w-(--layout-drawer-max) bg-page',
     'transition-transform duration-(--motion-base)',
     'lg:visible lg:static lg:z-(--z-rail) lg:h-full lg:max-w-none lg:translate-x-0',
     isRailOpen ? 'visible translate-x-0' : 'invisible -translate-x-full',
@@ -48,7 +43,6 @@ export function AppShell({
   const railRef = useRef<HTMLDivElement>(null)
   useDrawerFocus(isRailOpen, railRef)
 
-  // Escape closes the drawer first, and then the panel.
   function closeTopmost() {
     if (isRailOpen) {
       onCloseRail()
@@ -62,7 +56,7 @@ export function AppShell({
     <Surface
       ref={shellRef}
       className={clsx(
-        'h-dvh grid-rows-[minmax(0,1fr)] overflow-hidden bg-page text-text',
+        'relative h-dvh grid-rows-[minmax(0,1fr)] overflow-hidden bg-page text-text',
         panel
           ? 'lg:grid-cols-[var(--layout-rail)_minmax(0,1fr)_var(--layout-panel)]'
           : 'lg:grid-cols-[var(--layout-rail)_minmax(0,1fr)]',
