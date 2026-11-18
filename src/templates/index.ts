@@ -1,6 +1,7 @@
 export { AppShell } from './AppShell'
 export { CenteredHeroLayout } from './CenteredHeroLayout'
 export { ChatLayout } from './ChatLayout'
+export { ListDetailLayout } from './ListDetailLayout'
 export { ReaderLayout } from './ReaderLayout'
 export { ToolPageLayout } from './ToolPageLayout'
 export { TwoColumnLayout } from './TwoColumnLayout'

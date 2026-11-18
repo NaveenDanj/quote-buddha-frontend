@@ -32,6 +32,12 @@ export function getToolPath(toolId: ToolId): string | undefined {
   if (toolId === ToolId.checkDocument) {
     return AppPath.checkDocument
   }
+  if (toolId === ToolId.compare) {
+    return AppPath.compare
+  }
+  if (toolId === ToolId.terms) {
+    return AppPath.terms
+  }
   if (toolId === ToolId.notebook) {
     return AppPath.notebook
   }
@@ -63,13 +69,17 @@ export const slashCommands: SlashCommand[] = toolCardDefinitions.map((tool) => (
   label: tool.title,
 }))
 
-export function openTool(toolId: ToolId) {
-  void toolId
+// A tool with a page opens that page. A tool without one does nothing yet.
+export function openTool(toolId: ToolId, goTo: (path: string) => void) {
+  const path = getToolPath(toolId)
+  if (path) {
+    goTo(path)
+  }
 }
 
-export function openToolFromCommand(command: SlashCommand) {
+export function openToolFromCommand(command: SlashCommand, goTo: (path: string) => void) {
   const tool = toolCardDefinitions.find((definition) => definition.id === command.id)
   if (tool) {
-    openTool(tool.id)
+    openTool(tool.id, goTo)
   }
 }

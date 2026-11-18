@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router'
 import { Composer } from '@components/organisms/Composer'
 import { doNothingYet } from '@pages/doNothingYet'
 import type { useComposerDraft } from '@pages/useComposerDraft'
@@ -16,6 +17,8 @@ export function ConversationComposer({
   onSend,
   onStop,
 }: ConversationComposerProps) {
+  const navigate = useNavigate()
+
   return (
     <Composer
       value={draft.question}
@@ -32,7 +35,7 @@ export function ConversationComposer({
       commands={slashCommands}
       onRunCommand={(command) => {
         draft.setQuestion('')
-        openToolFromCommand(command)
+        openToolFromCommand(command, navigate)
       }}
     />
   )

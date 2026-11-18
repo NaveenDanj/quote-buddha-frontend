@@ -22,11 +22,11 @@ import { useNewQuestion } from './useNewQuestion'
 const recentChatCount = 3
 const suggestedQuestions = [wording.suggestionSelfQuestion, wording.suggestionWrongViewsQuestion]
 
-function toHeroTools(): HeroTool[] {
+function toHeroTools(goTo: (path: string) => void): HeroTool[] {
   return toolCardDefinitions.map((tool) => ({
     title: tool.title,
     description: tool.description,
-    onOpen: () => openTool(tool.id),
+    onOpen: () => openTool(tool.id, goTo),
   }))
 }
 
@@ -45,7 +45,7 @@ export function NewChat() {
   const { data: coverage } = useGetCoverageQuery()
   const newQuestion = useNewQuestion()
 
-  const tools = toHeroTools()
+  const tools = toHeroTools(navigate)
   const recentChats = toRecentChats(chats ?? [], (chatId) => navigate(getChatPath(chatId)))
 
   return (
@@ -74,7 +74,7 @@ export function NewChat() {
               commands={slashCommands}
               onRunCommand={(command) => {
                 newQuestion.setQuestion('')
-                openToolFromCommand(command)
+                openToolFromCommand(command, navigate)
               }}
             />
           }

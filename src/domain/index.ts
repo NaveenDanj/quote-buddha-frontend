@@ -23,6 +23,10 @@ export { NoteScope, countNotesByParagraph, filterNotesByScope, toNoteScope } fro
 export type { NewReaderNote, ReaderNote } from './readerNote'
 export { formatNoteDate, getSourcesUsed, sortNewestFirst } from './notebook'
 export type { NotebookEntry, NotebookPassage, SourceUse } from './notebook'
+export { filterTerms, getLargestOccurrenceCount, normalizeForSearch } from './term'
+export type { TermEntry, TermOccurrence, TermPassage, TermSummary } from './term'
+export { compareTerms, markTerms } from './compare'
+export type { ComparableOption, ComparablePassage, MarkedPart, TermComparison } from './compare'
 export {
   ReaderAction,
   ReaderTab,

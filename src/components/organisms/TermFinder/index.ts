@@ -1,0 +1,1 @@
+export { TermFinder } from './TermFinder'

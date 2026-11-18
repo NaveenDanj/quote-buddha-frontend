@@ -8,6 +8,7 @@ export type TextVariant =
   | 'heading3'
   | 'toolTitle'
   | 'readerTitle'
+  | 'termTitle'
   | 'reading'
   | 'readingLarge'
   | 'readingCompact'
@@ -33,6 +34,8 @@ const variantClass: Record<TextVariant, string> = {
   toolTitle: 'font-reading text-tool-title',
   // The title of a section in the Reader. It shrinks on a phone.
   readerTitle: 'font-reading text-reader-title',
+  // The name of a Pali term when it is the subject of the page.
+  termTitle: 'font-reading text-term-title',
   reading: 'font-reading text-reading',
   readingLarge: 'font-reading text-reading-large',
   readingCompact: 'font-reading text-ui',
@@ -56,6 +59,7 @@ const variantWeight: Partial<Record<TextVariant, TextWeight>> = {
   heading3: 'medium',
   toolTitle: 'normal',
   readerTitle: 'normal',
+  termTitle: 'normal',
   label: 'semibold',
   groupLabel: 'semibold',
 }
@@ -73,6 +77,7 @@ const defaultElement: Record<TextVariant, ElementType> = {
   heading3: 'h3',
   toolTitle: 'h1',
   readerTitle: 'h2',
+  termTitle: 'h2',
   reading: 'p',
   readingLarge: 'p',
   readingCompact: 'p',

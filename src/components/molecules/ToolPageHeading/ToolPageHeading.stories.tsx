@@ -13,3 +13,5 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {}
+
+export const Inline: Story = { args: { isInline: true } }

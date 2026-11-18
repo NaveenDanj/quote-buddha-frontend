@@ -290,6 +290,27 @@ const fromFrontend = {
   corpusVersionName: 'v0.1',
   corpusScopeName: 'DN 1 only',
   editionName: 'Pali with Sinhala translation, pitaka.lk',
+  termsIntro: 'Pali terms in the included texts, with glosses and where they occur',
+  findTermLabel: 'Find a term',
+  findTermPlaceholder: 'diṭṭhi, attā…',
+  termListLabel: 'Terms',
+  glossesLabel: 'Glosses',
+  variantsLabel: 'Variants',
+  termNoteLabel: 'Note',
+  occurrencesHeading: 'Occurrences by text (sample data)',
+  onlyIncludedCounted: 'Only included texts are counted.',
+  termInContextHeading: 'In context',
+  askAboutTermLabel: 'Ask about this term',
+  compareTitle: 'Compare passages',
+  compareIntro: 'Parallels across texts arrive as more texts are added.',
+  passageALabel: 'Passage A',
+  passageBLabel: 'Passage B',
+  sharedTermsLabel: 'Shared terms',
+  onlyInALabel: 'Only in A',
+  onlyInBLabel: 'Only in B',
+  noTermsLabel: 'None',
+  addToNotebookLabel: 'Add to notebook',
+  askAboutDifferenceLabel: 'Ask about the difference',
   trustTitle: 'Why should I trust this?',
   sampleMarker: 'Layout sample',
 }
@@ -471,4 +492,26 @@ export function notebookExportFooter(date: string): string {
 
 export function notebookExportReference(passageLabel: string, citationId: string): string {
   return `Reference: ${passageLabel}, ${fromFrontend.editionName} (${citationId})`
+}
+
+export function askAboutTermQuestion(pali: string): string {
+  return `What does ${pali} mean in the early texts?`
+}
+
+export function occurrenceCountLabel(textLabel: string): string {
+  return `Occurrences in ${textLabel}`
+}
+
+export function compareNoteText(
+  firstLabel: string,
+  secondLabel: string,
+  sharedTerms: string[],
+): string {
+  const terms =
+    sharedTerms.length > 0 ? sharedTerms.join(', ') : fromFrontend.noTermsLabel.toLowerCase()
+  return `Compared ${firstLabel} and ${secondLabel}. Shared terms: ${terms}.`
+}
+
+export function askAboutDifferenceQuestion(firstLabel: string, secondLabel: string): string {
+  return `What is the difference between ${firstLabel} and ${secondLabel}?`
 }

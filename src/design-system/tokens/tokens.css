@@ -30,6 +30,8 @@
   --text-heading-1--line-height: 1.2;
   --text-tool-title: clamp(26px, 4vw, 34px);
   --text-tool-title--line-height: 1.2;
+  --text-term-title: 36px;
+  --text-term-title--line-height: 1.2;
   --text-reader-title: clamp(24px, 3vw, 30px);
   --text-reader-title--line-height: 1.2;
   --text-heading-2: 26px;
@@ -161,6 +163,9 @@
   --layout-hero-column: 860px;
   --layout-tool-narrow: 720px;
   --layout-tool-broad: 1000px;
+  --layout-list-column: 200px;
+  --occurrence-label-width: 90px;
+  --occurrence-count-width: 36px;
   --layout-drawer-max: 88vw;
   --layout-graph-height: 520px;
   --layout-composer: 760px;

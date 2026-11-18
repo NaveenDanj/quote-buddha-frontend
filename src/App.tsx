@@ -1,9 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import { CheckDocument } from '@pages/CheckDocument'
+import { Compare } from '@pages/Compare'
 import { Conversation } from '@pages/Conversation'
 import { NewChat } from '@pages/NewChat'
 import { Notebook } from '@pages/Notebook'
 import { Reader } from '@pages/Reader'
+import { Terms } from '@pages/Terms'
 import { VerifyQuote } from '@pages/VerifyQuote'
 import { AppPath } from '@pages/routes'
 
@@ -17,6 +19,8 @@ export function App() {
         <Route path={AppPath.verifyQuote} element={<VerifyQuote />} />
         <Route path={AppPath.reader} element={<Reader />} />
         <Route path={AppPath.notebook} element={<Notebook />} />
+        <Route path={AppPath.terms} element={<Terms />} />
+        <Route path={AppPath.compare} element={<Compare />} />
         <Route path="*" element={<Navigate to={AppPath.newChat} replace />} />
       </Routes>
     </BrowserRouter>
