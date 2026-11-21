@@ -26,7 +26,6 @@ function Section({ heading, children }: { heading: string; children: ReactNode }
   )
 }
 
-// The system's explanation of a passage. It is labelled as the system's wording and says what it is based on.
 export function ClarificationView({
   clarification,
   onSaveAsNote,

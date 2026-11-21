@@ -17,7 +17,6 @@ function listTerms(terms: string[]) {
   return <span lang="pi">{terms.length > 0 ? terms.join(', ') : wording.noTermsLabel}</span>
 }
 
-// Two passages side by side, with the terms they share underlined, and a list of what is shared and what is not.
 export function CompareView({
   options,
   firstCitationId,

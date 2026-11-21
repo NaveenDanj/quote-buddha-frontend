@@ -6,13 +6,10 @@ const viewportLabel = 'Notifications'
 type ToastProps = {
   isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
-  // A short status message such as "Link copied". Screen readers announce it when it appears.
   message: string
-  // How long it stays, in milliseconds.
   durationInMilliseconds?: number
 }
 
-// A short status message at the bottom centre. It has no buttons, so there is nothing to focus.
 export function Toast({
   isOpen,
   onOpenChange,

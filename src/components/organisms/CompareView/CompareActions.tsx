@@ -6,7 +6,6 @@ type CompareActionsProps = {
   onAskAboutDifference: () => void
 }
 
-// What to do with a comparison: keep it in the notebook, or ask about how the passages differ.
 export function CompareActions({ onAddToNotebook, onAskAboutDifference }: CompareActionsProps) {
   return (
     <div className="flex flex-wrap items-center gap-block">

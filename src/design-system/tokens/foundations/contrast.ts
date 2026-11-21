@@ -1,4 +1,3 @@
-// The numbers below come from the WCAG 2 definition of relative luminance and contrast ratio.
 const maxChannelValue = 255
 const darkChannelLimit = 0.03928
 const darkChannelDivisor = 12.92
@@ -12,8 +11,6 @@ const glareAllowance = 0.05
 
 export type RgbColor = { red: number; green: number; blue: number }
 
-// Reads the color text that getComputedStyle returns: three numbers, commas or spaces between them.
-// Only the red-green-blue form is supported. The alpha number, if any, is ignored.
 export function parseRgb(text: string): RgbColor | null {
   const numbers = text.match(/[\d.]+/g)
   if (!numbers || numbers.length < 3) {
@@ -43,7 +40,6 @@ function channelBrightness(channel: number): number {
   return Math.pow((fraction + brightChannelOffset) / brightChannelDivisor, brightChannelPower)
 }
 
-// WCAG relative luminance.
 function brightness(color: RgbColor): number {
   const red = channelBrightness(color.red)
   const green = channelBrightness(color.green)
@@ -51,7 +47,6 @@ function brightness(color: RgbColor): number {
   return redWeight * red + greenWeight * green + blueWeight * blue
 }
 
-// WCAG contrast ratio, from 1 (same) to 21 (black on white).
 export function contrastRatio(first: RgbColor, second: RgbColor): number {
   const firstBrightness = brightness(first)
   const secondBrightness = brightness(second)

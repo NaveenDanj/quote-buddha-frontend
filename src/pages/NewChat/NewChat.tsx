@@ -40,6 +40,7 @@ function toRecentChats(chats: Chat[], onOpenChat: (chatId: string) => void): Her
 }
 
 export function NewChat() {
+
   const navigate = useNavigate()
   const { data: chats } = useGetChatsQuery()
   const { data: coverage } = useGetCoverageQuery()

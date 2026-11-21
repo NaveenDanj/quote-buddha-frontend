@@ -1,7 +1,6 @@
 import type { Chat } from '@domain'
 import { removeTurns } from './turnStore'
 
-// Chats live in memory until the backend has accounts. Reloading the page starts empty.
 let chats: Chat[] = []
 const listeners = new Set<() => void>()
 

@@ -3,7 +3,6 @@ import { Surface, SurfaceRows, SurfaceSpace } from '@ds/atoms/Surface'
 import { wording } from '@wording'
 
 type ChatLayoutProps = {
-  // The messages. They scroll. The composer under them does not.
   children: ReactNode
   composer: ReactNode
 }

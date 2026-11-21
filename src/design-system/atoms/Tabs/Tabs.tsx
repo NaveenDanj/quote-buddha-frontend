@@ -16,13 +16,11 @@ type TabsProps = {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
-  // For a parent that keeps the tab row fixed and scrolls only the content under it.
   className?: string
   listClassName?: string
   contentClassName?: string
 }
 
-// Which tab shows first when the parent does not control the choice.
 function getStartTab(tabs: TabItem[], defaultValue: string | undefined): string | undefined {
   if (defaultValue !== undefined) {
     return defaultValue
@@ -34,7 +32,6 @@ const tabClass = clsx(
   '-mb-px inline-flex cursor-pointer items-center gap-2 border-0 border-b-2 border-transparent bg-transparent py-2',
   'font-ui text-ui font-medium text-text-muted',
   'data-[state=active]:border-text data-[state=active]:text-text',
-  // In Windows high contrast mode colors are replaced, so the active tab gets a thicker line.
   'forced-colors:data-[state=active]:border-b-4',
   'enabled:hover:text-text disabled:cursor-not-allowed disabled:opacity-(--opacity-disabled)',
 )

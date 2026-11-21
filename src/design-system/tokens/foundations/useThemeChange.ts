@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 
-// Returns a number that goes up whenever the theme changes (toolbar, toggle, or the system setting),
-// so a docs page that reads live token values draws itself again.
 export function useThemeChange(): number {
   const [changeCount, setChangeCount] = useState(0)
 

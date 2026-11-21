@@ -6,7 +6,6 @@ type ListDetailLayoutProps = {
   detail: ReactNode
 }
 
-// A narrow list and the details of the chosen item. On a narrow window the details go under the list.
 export function ListDetailLayout({ list, detail }: ListDetailLayoutProps) {
   return (
     <Surface className="gap-area md:grid-cols-[var(--layout-list-column)_minmax(0,1fr)]">

@@ -9,11 +9,9 @@ type ComparePassageColumnProps = {
   selectedCitationId?: string
   onChoosePassage: (citationId: string) => void
   passage?: ComparablePassage
-  // The terms to underline in the Pali, for example the ones both passages share.
   markedTerms: string[]
 }
 
-// One of the two passages: a list to choose it from, its Pali with the shared terms underlined, and the translation.
 export function ComparePassageColumn({
   label,
   options,
@@ -22,6 +20,7 @@ export function ComparePassageColumn({
   passage,
   markedTerms,
 }: ComparePassageColumnProps) {
+  
   const paliParts = passage ? markTerms(passage.paliText, markedTerms) : []
 
   return (

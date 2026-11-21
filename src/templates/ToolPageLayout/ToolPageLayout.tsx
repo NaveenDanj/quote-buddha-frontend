@@ -19,7 +19,6 @@ type ToolPageLayoutProps = {
   children: ReactNode
 }
 
-// The page of a research tool: a column on the left, scrolling inside the window, never the page.
 export function ToolPageLayout({ width = ToolPageWidth.wide, children }: ToolPageLayoutProps) {
   return (
     <Surface isScrollArea>
